@@ -39,10 +39,6 @@ def universe_size
   end
 end
 
-# p thirds_combined
-p fifth_min, fifth_max
-p universe_size
-
 def thirds_check(third)
   thirds_combined.each do |e|
     ring = e.map do |i|
@@ -79,9 +75,13 @@ def good_find
 end
 
 def run
+  # p thirds_combined
+  p fifth_min, fifth_max
+  p universe_size
   good = good_find
-  p good.length
-  10.times do |i|
+  good_length = good.length
+  p good_length
+  [good_length, 10].min.times do |i|
     fifth = good.at i
     p fifth
     p thirds_build fifth
