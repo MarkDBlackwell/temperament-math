@@ -76,15 +76,14 @@ end
 
 def run
   # p thirds_combined
-  p fifth_min, fifth_max
+  p "#{fifth_min} #{fifth_max}"
   p universe_size
   good = good_find
   good_length = good.length
   p good_length
   [good_length, 10].min.times do |i|
     fifth = good.at i
-    p fifth
-    p thirds_build fifth
+    p "#{fifth} #{thirds_build fifth}"
   end
 end
 
