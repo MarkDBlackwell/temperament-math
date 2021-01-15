@@ -1,25 +1,49 @@
-octave_size = 12
-third_major_size = 4
-ring = (octave_size.div third_major_size).times.map do |e|
-  third_major_size * e
+def octave_size
+  12
 end
-thirds_combined = third_major_size.times.map do |offset|
-  ring.map do |e|
-    offset + e
+
+def third_major_size
+  4
+end
+
+def thirds_combined
+  @thirds_combined ||= begin
+    ring = (octave_size.div third_major_size).times.map do |e|
+      third_major_size * e
+    end
+    third_major_size.times.map do |offset|
+      ring.map do |e|
+        offset + e
+      end
+    end
   end
 end
-# p ring, thirds_combined
 
-max = 1
-min = -2
-p min, max
+def fifth_max
+  1
+end
 
-radix = max - min + 1
-universe_size = radix ** octave_size
-# universe_size = 2
+def fifth_min
+  -2
+end
+
+def radix
+  @radix ||= begin
+    fifth_max - fifth_min + 1
+  end
+end
+
+def universe_size
+  @universe_size ||= begin
+    radix ** octave_size
+  end
+end
+
+# p thirds_combined
+p fifth_min, fifth_max
 p universe_size
 
-def thirds_check(third, thirds_combined)
+def thirds_check(third)
   thirds_combined.each do |e|
     ring = e.map do |i|
       third.at i
@@ -29,24 +53,39 @@ def thirds_check(third, thirds_combined)
   true
 end
 
-good = universe_size.times.map do |e|
-  fifth = octave_size.times.map do
-    element = e % radix + min
-    e = e.div radix
-    element
-  end
-  next unless 0 == fifth.sum
-
-  third = octave_size.times.map do |step|
+def thirds_build(fifth)
+  octave_size.times.map do |step|
     third_major_size.times.map do |offset|
       index = (step - offset) % octave_size
       fifth.at index
     end.sum
   end
-  next unless thirds_check third, thirds_combined
-  fifth
-end.compact
-p good.length
-10.times do |i|
-  p good.at i
 end
+
+def good_find
+  @good_find ||= begin
+    universe_size.times.map do |e|
+      fifth = octave_size.times.map do
+        element = e % radix + fifth_min
+        e = e.div radix
+        element
+      end
+      next unless 0 == fifth.sum
+      third = thirds_build fifth
+      next unless thirds_check third
+      fifth
+    end.compact
+  end
+end
+
+def run
+  good = good_find
+  p good.length
+  10.times do |i|
+    fifth = good.at i
+    p fifth
+    p thirds_build fifth
+  end
+end
+
+run
