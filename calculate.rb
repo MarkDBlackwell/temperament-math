@@ -39,21 +39,21 @@ def universe_size
   end
 end
 
-def thirds_check(third)
+def thirds_match_octave?(thirds)
   thirds_combined.each do |e|
     ring = e.map do |i|
-      third.at i
+      thirds.at i
     end
     return false unless 0 == ring.sum
   end
   true
 end
 
-def thirds_build(fifth)
+def thirds_build(fifths)
   octave_size.times.map do |step|
     third_major_size.times.map do |offset|
       index = (step - offset) % octave_size
-      fifth.at index
+      fifths.at index
     end.sum
   end
 end
@@ -61,15 +61,16 @@ end
 def good_find
   @good_find ||= begin
     universe_size.times.map do |e|
-      fifth = octave_size.times.map do
+      fifths = octave_size.times.map do
         element = e % radix + fifth_min
         e = e.div radix
         element
       end
-      next unless 0 == fifth.sum
-      third = thirds_build fifth
-      next unless thirds_check third
-      fifth
+      next unless 0 == fifths.sum
+      thirds = thirds_build fifths
+      next unless thirds_match_octave? thirds
+      next unless thirds.uniq.length == thirds.length
+      fifths
     end.compact
   end
 end
@@ -82,8 +83,8 @@ def run
   good_length = good.length
   p good_length
   [good_length, 10].min.times do |i|
-    fifth = good.at i
-    p "#{fifth} #{thirds_build fifth}"
+    fifths = good.at i
+    p "#{fifths} #{thirds_build fifths}"
   end
 end
 
