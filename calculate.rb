@@ -19,10 +19,10 @@ universe_size = radix ** octave_size
 # universe_size = 2
 p universe_size
 
-def thirds_check(fifth, thirds_combined)
+def thirds_check(third, thirds_combined)
   thirds_combined.each do |e|
     ring = e.map do |i|
-      fifth.at i
+      third.at i
     end
     return false unless 0 == ring.sum
   end
@@ -36,8 +36,17 @@ good = universe_size.times.map do |e|
     element
   end
   next unless 0 == fifth.sum
-  next unless thirds_check fifth, thirds_combined
+
+  third = octave_size.times.map do |step|
+    third_major_size.times.map do |offset|
+      index = (step - offset) % octave_size
+      fifth.at index
+    end.sum
+  end
+  next unless thirds_check third, thirds_combined
   fifth
 end.compact
 p good.length
-p good.first
+10.times do |i|
+  p good.at i
+end
