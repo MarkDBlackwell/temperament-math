@@ -10,9 +10,9 @@ def good_find
   @good_find ||= begin
     universe_size.times.map do |e|
       fifths = octave_size.times.map do
-        element = e % radix + fifth_min
+        old_e = e
         e = e.div radix
-        element
+        old_e % radix + fifth_min
       end
       next unless 0 == fifths.sum
       thirds = thirds_build fifths
@@ -28,9 +28,7 @@ def octave_size
 end
 
 def radix
-  @radix ||= begin
-    fifth_max - fifth_min + 1
-  end
+  @radix ||= fifth_max - fifth_min + 1
 end
 
 def run
@@ -83,9 +81,7 @@ def thirds_match_octave?(thirds)
 end
 
 def universe_size
-  @universe_size ||= begin
-    radix ** octave_size
-  end
+  @universe_size ||= radix ** octave_size
 end
 
 run
