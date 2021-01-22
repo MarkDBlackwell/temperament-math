@@ -44,6 +44,12 @@ module TemperamentMath
     @@radix_old ||= fifth_span + 1
   end
 
+  def run
+    third_sets = third_sets_build
+    p third_sets.length
+    p third_sets
+  end
+
   def run_old
     # p thirds_combined_old
     p "#{fifth_min} #{fifth_max}"
@@ -58,6 +64,65 @@ module TemperamentMath
 
   def third_major_size
     4
+  end
+
+  def third_max
+    @@third_max ||= fifth_max * third_major_size
+  end
+
+  def third_min
+    @@third_min ||= fifth_min * third_major_size
+  end
+
+  def third_sets_build
+# Walk disjointedly from both ends.
+    result = []
+    @@third_4 = third_min
+    @@third_10 = third_max
+
+    done_level_1 = false
+    until done_level_1
+#     p 'in level 1'
+      catch :level_1 do
+        throw :level_1
+      end
+#     p 'caught 1 okay'
+      done_level_1 = true
+
+      done_level_2 = false
+      until done_level_2
+#       p 'in level 2'
+        catch :level_2 do
+          throw :level_2
+        end
+#       p 'caught 2 okay'
+        done_level_2 = true
+
+        done_level_3 = false
+        until done_level_3
+#         p 'in level 3'
+          catch :level_3 do
+            throw :level_3
+          end
+#         p 'caught 3 okay'
+          done_level_3 = true
+
+          done_level_4 = false
+          until done_level_4
+#           p 'in level 4'
+            catch :level_4 do
+              throw :level_4
+            end
+#           p 'caught 4 okay'
+            result << [@@third_4, @@third_10]
+            result << [@@third_4, @@third_10]
+            result << [@@third_4, @@third_10]
+            done_level_4 = true
+          end
+        end
+      end
+    end
+    result
   end
 
   def thirds_build_old(fifths)
@@ -97,4 +162,4 @@ module TemperamentMath
   end
 end
 
-TemperamentMath::run_old
+TemperamentMath::run
