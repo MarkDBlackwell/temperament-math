@@ -15,6 +15,10 @@ module TemperamentMath
     -1
   end
 
+  def fifth_span
+    @@fifth_span ||= fifth_max - fifth_min
+  end
+
   def good_find
     @@good_find ||= begin
       universe_size.times.map do |e|
@@ -37,7 +41,7 @@ module TemperamentMath
   end
 
   def radix
-    @@radix ||= fifth_max - fifth_min + 1
+    @@radix ||= fifth_span + 1
   end
 
   def run
@@ -45,9 +49,8 @@ module TemperamentMath
     p "#{fifth_min} #{fifth_max}"
     p universe_size
     good = good_find
-    good_length = good.length
-    p good_length
-    [good_length, 10].min.times do |i|
+    p good.length
+    [good.length, 10].min.times do |i|
       fifths = good.at i
       p "#{fifths} #{thirds_build fifths}"
     end
