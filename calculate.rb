@@ -1,3 +1,9 @@
+=begin
+Author: Mark D. Blackwell
+Dates:
+2021-Jan-14: created (mdb)
+=end
+
 module TemperamentMath
   extend self
 
