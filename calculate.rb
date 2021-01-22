@@ -19,17 +19,17 @@ module TemperamentMath
     @@fifth_span ||= fifth_max - fifth_min
   end
 
-  def good_find
-    @@good_find ||= begin
-      universe_size.times.map do |e|
+  def good_find_old
+    @@good_find_old ||= begin
+      universe_size_old.times.map do |e|
         fifths = octave_size.times.map do
           old_e = e
-          e = e.div radix
-          old_e % radix + fifth_min
+          e = e.div radix_old
+          old_e % radix_old + fifth_min
         end
         next unless 0 == fifths.sum
-        thirds = thirds_build fifths
-        next unless thirds_match_octave? thirds
+        thirds = thirds_build_old fifths
+        next unless thirds_match_octave_old? thirds
         next unless thirds.uniq.length == thirds.length
         fifths
       end.compact
@@ -40,19 +40,19 @@ module TemperamentMath
     12
   end
 
-  def radix
-    @@radix ||= fifth_span + 1
+  def radix_old
+    @@radix_old ||= fifth_span + 1
   end
 
-  def run
-    # p thirds_combined
+  def run_old
+    # p thirds_combined_old
     p "#{fifth_min} #{fifth_max}"
-    p universe_size
-    good = good_find
+    p universe_size_old
+    good = good_find_old
     p good.length
     [good.length, 10].min.times do |i|
       fifths = good.at i
-      p "#{fifths} #{thirds_build fifths}"
+      p "#{fifths} #{thirds_build_old fifths}"
     end
   end
 
@@ -60,7 +60,7 @@ module TemperamentMath
     4
   end
 
-  def thirds_build(fifths)
+  def thirds_build_old(fifths)
     octave_size.times.map do |step|
       third_major_size.times.map do |offset|
         index = (step - offset) % octave_size
@@ -69,8 +69,8 @@ module TemperamentMath
     end
   end
 
-  def thirds_combined
-    @@thirds_combined ||= begin
+  def thirds_combined_old
+    @@thirds_combined_old ||= begin
       ring = (octave_size.div third_major_size).times.map do |e|
         third_major_size * e
       end
@@ -82,8 +82,8 @@ module TemperamentMath
     end
   end
 
-  def thirds_match_octave?(thirds)
-    thirds_combined.each do |e|
+  def thirds_match_octave_old?(thirds)
+    thirds_combined_old.each do |e|
       ring = e.map do |i|
         thirds.at i
       end
@@ -92,9 +92,9 @@ module TemperamentMath
     true
   end
 
-  def universe_size
-    @@universe_size ||= radix ** octave_size
+  def universe_size_old
+    @@universe_size_old ||= radix_old ** octave_size
   end
 end
 
-TemperamentMath::run
+TemperamentMath::run_old
