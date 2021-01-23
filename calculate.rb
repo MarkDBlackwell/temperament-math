@@ -67,28 +67,28 @@ module TemperamentMath
           state = :small
           @@third_4,  third_edge_4  = third_min, third_min
           @@third_10, third_edge_10 = third_max, third_max
-          unless wide_enough_1
+          unless valid_1?
             throw :level_1
           end
         when :small
           @@third_4 += 1
-          unless wide_enough_1
+          unless valid_1?
             state = :large
             @@third_4 = third_edge_4
             third_edge_10 -= 1
             @@third_10 = third_edge_10
-            unless wide_enough_1
+            unless valid_1?
               throw :level_1
             end
           end
         when :large
           @@third_10 -= 1
-          unless wide_enough_1
+          unless valid_1?
             state = :small
             @@third_10 = third_edge_10
             third_edge_4 += 1
             @@third_4 = third_edge_4
-            unless wide_enough_1
+            unless valid_1?
               throw :level_1
             end
           end
@@ -108,28 +108,28 @@ module TemperamentMath
           state = :small
           @@third_5,  third_edge_5  = @@third_4  + 1, @@third_4  + 1
           @@third_11, third_edge_11 = @@third_10 - 1, @@third_10 - 1
-          unless wide_enough_2
+          unless valid_2?
             throw :level_2
           end
         when :small
           @@third_5 += 1
-          unless wide_enough_2
+          unless valid_2?
             state = :large
             @@third_5 = third_edge_5
             third_edge_11 -= 1
             @@third_11 = third_edge_11
-            unless wide_enough_2
+            unless valid_2?
               throw :level_2
             end
           end
         when :large
           @@third_11 -= 1
-          unless wide_enough_2
+          unless valid_2?
             state = :small
             @@third_11 = third_edge_11
             third_edge_5 += 1
             @@third_5 = third_edge_5
-            unless wide_enough_2
+            unless valid_2?
               throw :level_2
             end
           end
@@ -149,28 +149,28 @@ module TemperamentMath
           state = :small
           @@third_3, third_edge_3 = @@third_5  + 1, @@third_5  + 1
           @@third_9, third_edge_9 = @@third_11 - 1, @@third_11 - 1
-          unless wide_enough_3
+          unless valid_3?
             throw :level_3
           end
         when :small
           @@third_3 += 1
-          unless wide_enough_3
+          unless valid_3?
             state = :large
             @@third_3 = third_edge_3
             third_edge_9 -= 1
             @@third_9 = third_edge_9
-            unless wide_enough_3
+            unless valid_3?
               throw :level_3
             end
           end
         when :large
           @@third_9 -= 1
-          unless wide_enough_3
+          unless valid_3?
             state = :small
             @@third_9 = third_edge_9
             third_edge_3 += 1
             @@third_3 = third_edge_3
-            unless wide_enough_3
+            unless valid_3?
               throw :level_3
             end
           end
@@ -190,28 +190,28 @@ module TemperamentMath
           state = :small
           @@third_6,  third_edge_6  = @@third_3 + 1, @@third_3 + 1
           @@third_12, third_edge_12 = @@third_9 - 1, @@third_9 - 1
-          unless wide_enough_4
+          unless valid_4?
             throw :level_4
           end
         when :small
           @@third_6 += 1
-          unless wide_enough_4
+          unless valid_4?
             state = :large
             @@third_6 = third_edge_6
             third_edge_12 -= 1
             @@third_12 = third_edge_12
-            unless wide_enough_4
+            unless valid_4?
               throw :level_4
             end
           end
         when :large
           @@third_12 -= 1
-          unless wide_enough_4
+          unless valid_4?
             state = :small
             @@third_12 = third_edge_12
             third_edge_6 += 1
             @@third_6 = third_edge_6
-            unless wide_enough_4
+            unless valid_4?
               throw :level_4
             end
           end
@@ -243,19 +243,19 @@ module TemperamentMath
     nil
   end
 
-  def wide_enough_1
+  def valid_1?
     @@third_10 - @@third_4 >= octave_size - 1
   end
 
-  def wide_enough_2
+  def valid_2?
     @@third_11 - @@third_5 >= octave_size - 3
   end
 
-  def wide_enough_3
+  def valid_3?
     @@third_9 - @@third_3 >= octave_size - 5
   end
 
-  def wide_enough_4
+  def valid_4?
     @@third_12 - @@third_6 >= octave_size - 7
   end
 end
