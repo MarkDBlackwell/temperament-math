@@ -12,7 +12,7 @@ module TemperamentMath
   end
 
   def fifth_min
-    -1
+    -2
   end
 
   def fifth_span
@@ -45,9 +45,9 @@ module TemperamentMath
   end
 
   def run
-    third_sets = third_sets_build
+    third_sets = third_sets_build.sort
     p third_sets.length
-    p third_sets
+    third_sets.each{|e| p e}
     nil
   end
 
@@ -90,8 +90,8 @@ module TemperamentMath
         case state
         when :initial
           state = :small
-          @@third_4,  third_finished_4  = third_min, third_min - 1
-          @@third_10, third_finished_10 = third_max, third_max + 1
+          @@third_4,  third_edge_4  = third_min, third_min
+          @@third_10, third_edge_10 = third_max, third_max
           unless wide_enough_1
             throw :level_1
           end
@@ -99,9 +99,9 @@ module TemperamentMath
           @@third_4 += 1
           unless wide_enough_1
             state = :large
-            third_finished_4 += 1
-            @@third_4 = third_finished_4
-            @@third_10 = third_finished_10 - 1
+            @@third_4 = third_edge_4
+            third_edge_10 -= 1
+            @@third_10 = third_edge_10
             unless wide_enough_1
               throw :level_1
             end
@@ -110,9 +110,9 @@ module TemperamentMath
           @@third_10 -= 1
           unless wide_enough_1
             state = :small
-            third_finished_10 -= 1
-            @@third_10 = third_finished_10
-            @@third_4 = third_finished_4 + 1
+            @@third_10 = third_edge_10
+            third_edge_4 += 1
+            @@third_4 = third_edge_4
             unless wide_enough_1
               throw :level_1
             end
@@ -129,8 +129,8 @@ module TemperamentMath
     until :done == state
       case state
       when :initial
-        @@third_5, third_finished_5 = @@third_4 + 1, @@third_4 + 1
-        @@third_11, third_finished_11 = @@third_10 - 1, @@third_10 - 1
+        @@third_5,  third_edge_5  = @@third_4  + 1, @@third_4  + 1
+        @@third_11, third_edge_11 = @@third_10 - 1, @@third_10 - 1
         state = :small
 =end
     @@third_5 = @@third_4 + 1
