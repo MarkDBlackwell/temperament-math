@@ -1,4 +1,12 @@
+# coding: utf-8
+
 =begin
+Copyright (C) 2021 Mark D. Blackwell.
+   All rights reserved.
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
 Author: Mark D. Blackwell
 Dates:
 2021-Jan-14: created (mdb)
