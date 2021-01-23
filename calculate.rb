@@ -114,9 +114,37 @@ module TemperamentMath
               throw :level_4
             end
 #           p 'caught 4 okay'
-            result << [@@third_4, @@third_10]
-            result << [@@third_4, @@third_10]
-            result << [@@third_4, @@third_10]
+
+            @@third_5 = @@third_4 + 1
+            @@third_3 = @@third_5 + 1
+            @@third_6 = @@third_3 + 1
+            @@third_2 = @@third_6 + 1
+            @@third_7 = @@third_2 + 1
+
+            @@third_11 = @@third_10 - 1
+            @@third_9 = @@third_11 - 1
+            @@third_12 = @@third_9 - 1
+            @@third_8 = @@third_12 - 1
+            @@third_1 = @@third_8 - 1
+
+            set = [
+                @@third_4,
+                @@third_5,
+                @@third_3,
+                @@third_6,
+                @@third_2,
+                @@third_7,
+                @@third_1,
+                @@third_8,
+                @@third_12,
+                @@third_9,
+                @@third_11,
+                @@third_10,
+                ]
+# Integers are immutable.
+            result << set.map{|e| e.succ}
+            result << set
+
             done_level_4 = true
           end
         end
