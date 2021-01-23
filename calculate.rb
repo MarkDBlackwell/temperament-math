@@ -86,7 +86,7 @@ module TemperamentMath
 # Walk disjointedly from both ends.
     catch :level_1 do
       state = :initial
-      until :done == state
+      while true
         case state
         when :initial
           state = :small
@@ -126,12 +126,12 @@ module TemperamentMath
   def third_sets_build_level_2
 =begin
     state = :initial
-    until :done == state
+    while true
       case state
       when :initial
+        state = :small
         @@third_5,  third_edge_5  = @@third_4  + 1, @@third_4  + 1
         @@third_11, third_edge_11 = @@third_10 - 1, @@third_10 - 1
-        state = :small
 =end
     @@third_5 = @@third_4 + 1
     @@third_3 = @@third_5 + 1
