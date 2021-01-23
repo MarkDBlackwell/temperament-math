@@ -8,7 +8,7 @@ module TemperamentMath
   extend self
 
   def fifth_max
-    1
+    2
   end
 
   def fifth_min
@@ -48,6 +48,7 @@ module TemperamentMath
     third_sets = third_sets_build
     p third_sets.length
     p third_sets
+    nil
   end
 
   def run_old
@@ -60,6 +61,7 @@ module TemperamentMath
       fifths = good.at i
       p "#{fifths} #{thirds_build_old fifths}"
     end
+    nil
   end
 
   def third_major_size
@@ -75,82 +77,81 @@ module TemperamentMath
   end
 
   def third_sets_build
+    @@third_sets = []
+    third_sets_build_level_1
+    @@third_sets
+  end
+
+  def third_sets_build_level_1
 # Walk disjointedly from both ends.
-    result = []
-    @@third_4 = third_min
-    @@third_10 = third_max
-
-    done_level_1 = false
-    until done_level_1
-#     p 'in level 1'
-      catch :level_1 do
-        throw :level_1
-      end
-#     p 'caught 1 okay'
-      done_level_1 = true
-
-      done_level_2 = false
-      until done_level_2
-#       p 'in level 2'
-        catch :level_2 do
-          throw :level_2
-        end
-#       p 'caught 2 okay'
-        done_level_2 = true
-
-        done_level_3 = false
-        until done_level_3
-#         p 'in level 3'
-          catch :level_3 do
-            throw :level_3
+    catch :level_1 do
+      state = :initial
+      until :done == state
+        case state
+        when :initial
+          state = :small
+          @@third_4,  third_finished_4  = third_min, third_min - 1
+          @@third_10, third_finished_10 = third_max, third_max + 1
+          unless wide_enough_1
+            throw :level_1
           end
-#         p 'caught 3 okay'
-          done_level_3 = true
-
-          done_level_4 = false
-          until done_level_4
-#           p 'in level 4'
-            catch :level_4 do
-              throw :level_4
+        when :small
+          @@third_4 += 1
+          unless wide_enough_1
+            state = :large
+            third_finished_4 += 1
+            @@third_4 = third_finished_4
+            @@third_10 = third_finished_10 - 1
+            unless wide_enough_1
+              throw :level_1
             end
-#           p 'caught 4 okay'
-
-            @@third_5 = @@third_4 + 1
-            @@third_3 = @@third_5 + 1
-            @@third_6 = @@third_3 + 1
-            @@third_2 = @@third_6 + 1
-            @@third_7 = @@third_2 + 1
-
-            @@third_11 = @@third_10 - 1
-            @@third_9 = @@third_11 - 1
-            @@third_12 = @@third_9 - 1
-            @@third_8 = @@third_12 - 1
-            @@third_1 = @@third_8 - 1
-
-            set = [
-                @@third_4,
-                @@third_5,
-                @@third_3,
-                @@third_6,
-                @@third_2,
-                @@third_7,
-                @@third_1,
-                @@third_8,
-                @@third_12,
-                @@third_9,
-                @@third_11,
-                @@third_10,
-                ]
-# Integers are immutable.
-            result << set.map{|e| e.succ}
-            result << set
-
-            done_level_4 = true
+          end
+        when :large
+          @@third_10 -= 1
+          unless wide_enough_1
+            state = :small
+            third_finished_10 -= 1
+            @@third_10 = third_finished_10
+            @@third_4 = third_finished_4 + 1
+            unless wide_enough_1
+              throw :level_1
+            end
           end
         end
+        third_sets_build_level_2
       end
     end
-    result
+  end
+
+  def third_sets_build_level_2
+=begin
+    state = :initial
+    until :done == state
+      case state
+      when :initial
+        @@third_5, third_finished_5 = @@third_4 + 1, @@third_4 + 1
+        @@third_11, third_finished_11 = @@third_10 - 1, @@third_10 - 1
+        state = :small
+=end
+    @@third_5 = @@third_4 + 1
+    @@third_3 = @@third_5 + 1
+    @@third_6 = @@third_3 + 1
+    @@third_2 = @@third_6 + 1
+    @@third_7 = @@third_2 + 1
+
+    @@third_11 = @@third_10 - 1
+    @@third_9 = @@third_11 - 1
+    @@third_12 = @@third_9 - 1
+    @@third_8 = @@third_12 - 1
+    @@third_1 = @@third_8 - 1
+
+    set = [
+        @@third_4,  @@third_5, @@third_3,  @@third_6,
+        @@third_2,  @@third_7, @@third_1,  @@third_8,
+        @@third_12, @@third_9, @@third_11, @@third_10,
+        ]
+# Integers are immutable.
+    @@third_sets << set
   end
 
   def thirds_build_old(fifths)
@@ -187,6 +188,10 @@ module TemperamentMath
 
   def universe_size_old
     @@universe_size_old ||= radix_old ** octave_size
+  end
+
+  def wide_enough_1
+    @@third_10 - @@third_4 >= octave_size - 1
   end
 end
 
