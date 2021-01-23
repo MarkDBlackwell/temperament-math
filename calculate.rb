@@ -16,7 +16,7 @@ module TemperamentMath
   extend self
 
   def fifth_max
-    2
+    1
   end
 
   def fifth_min
@@ -34,8 +34,8 @@ module TemperamentMath
   def run
     third_sets = third_sets_build
     p third_sets.length
-#   third_sets.sort.each{|e| p e}
-    third_sets.each{|e| p e}
+    third_sets.sort.each{|e| p e}
+#   third_sets.each{|e| p e}
     nil
   end
 
@@ -141,9 +141,43 @@ module TemperamentMath
   end
 
   def third_sets_build_level_3
-    @@third_3 = @@third_5 + 1
-    @@third_9 = @@third_11 - 1
-    third_sets_build_level_4
+    catch :level_3 do
+      state = :initial
+      while true
+        case state
+        when :initial
+          state = :small
+          @@third_3, third_edge_3 = @@third_5  + 1, @@third_5  + 1
+          @@third_9, third_edge_9 = @@third_11 - 1, @@third_11 - 1
+          unless wide_enough_3
+            throw :level_3
+          end
+        when :small
+          @@third_3 += 1
+          unless wide_enough_3
+            state = :large
+            @@third_3 = third_edge_3
+            third_edge_9 -= 1
+            @@third_9 = third_edge_9
+            unless wide_enough_3
+              throw :level_3
+            end
+          end
+        when :large
+          @@third_9 -= 1
+          unless wide_enough_3
+            state = :small
+            @@third_9 = third_edge_9
+            third_edge_3 += 1
+            @@third_3 = third_edge_3
+            unless wide_enough_3
+              throw :level_3
+            end
+          end
+        end
+        third_sets_build_level_4
+      end
+    end
     nil
   end
 
@@ -181,6 +215,10 @@ module TemperamentMath
 
   def wide_enough_2
     @@third_11 - @@third_5 >= octave_size - 3
+  end
+
+  def wide_enough_3
+    @@third_9 - @@third_3 >= octave_size - 5
   end
 end
 
