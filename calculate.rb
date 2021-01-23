@@ -227,30 +227,20 @@ module TemperamentMath
             end
           end
         end
-        third_sets_build_level_5
+        third_sets_build_level_5_6
       end
     end
     nil
   end
 
-  def third_sets_build_level_5
-    catch :level_5 do
-      @@third_2 = - @@third_10 - @@third_6
-      @@third_8 = - @@third_4  - @@third_12
-      unless valid_5?
-        throw :level_5
-      end
-      third_sets_build_level_6
-    end
-    nil
-  end
-
-  def third_sets_build_level_6
-    catch :level_6 do
-      @@third_7 = - @@third_11 - @@third_3
-      @@third_1 = - @@third_5  - @@third_9
-      unless valid_6?
-        throw :level_6
+  def third_sets_build_level_5_6
+    catch :level_5_6 do
+      @@third_1 = - @@third_5 - @@third_9
+      @@third_2 = - @@third_6 - @@third_10
+      @@third_7 = - @@third_3 - @@third_11
+      @@third_8 = - @@third_4 - @@third_12
+      unless valid_5_6?
+        throw :level_5_6
       end
       third_set_save
     end
@@ -273,18 +263,14 @@ module TemperamentMath
     @@third_12 - @@third_6 >= octave_size - 7
   end
 
-  def valid_5?
+  def valid_5_6?
     a = @@third_8 - @@third_2 >= octave_size - 9
     b = @@third_2 >= @@third_6  + 1
     c = @@third_8 <= @@third_12 - 1
-    a && b && c
-  end
-
-  def valid_6?
-    a = @@third_1 - @@third_7 >= octave_size - 11
-    b = @@third_7 >= @@third_2 + 1
-    c = @@third_1 <= @@third_8 - 1
-    a && b && c
+    d = @@third_1 - @@third_7 >= octave_size - 11
+    e = @@third_7 >= @@third_2 + 1
+    f = @@third_1 <= @@third_8 - 1
+    a && b && c && d && e && f
   end
 end
 
