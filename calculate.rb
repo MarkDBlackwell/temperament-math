@@ -19,48 +19,14 @@ module TemperamentMath
     @@fifth_span ||= fifth_max - fifth_min
   end
 
-  def good_find_old
-    @@good_find_old ||= begin
-      universe_size_old.times.map do |e|
-        fifths = octave_size.times.map do
-          old_e = e
-          e = e.div radix_old
-          old_e % radix_old + fifth_min
-        end
-        next unless 0 == fifths.sum
-        thirds = thirds_build_old fifths
-        next unless thirds_match_octave_old? thirds
-        next unless thirds.uniq.length == thirds.length
-        fifths
-      end.compact
-    end
-  end
-
   def octave_size
     12
-  end
-
-  def radix_old
-    @@radix_old ||= fifth_span + 1
   end
 
   def run
     third_sets = third_sets_build.sort
     p third_sets.length
     third_sets.each{|e| p e}
-    nil
-  end
-
-  def run_old
-    # p thirds_combined_old
-    p "#{fifth_min} #{fifth_max}"
-    p universe_size_old
-    good = good_find_old
-    p good.length
-    [good.length, 10].min.times do |i|
-      fifths = good.at i
-      p "#{fifths} #{thirds_build_old fifths}"
-    end
     nil
   end
 
@@ -154,6 +120,47 @@ module TemperamentMath
     @@third_sets << set
   end
 
+  def wide_enough_1
+    @@third_10 - @@third_4 >= octave_size - 1
+  end
+end
+
+#-------------
+=begin
+  def good_find_old
+    @@good_find_old ||= begin
+      universe_size_old.times.map do |e|
+        fifths = octave_size.times.map do
+          old_e = e
+          e = e.div radix_old
+          old_e % radix_old + fifth_min
+        end
+        next unless 0 == fifths.sum
+        thirds = thirds_build_old fifths
+        next unless thirds_match_octave_old? thirds
+        next unless thirds.uniq.length == thirds.length
+        fifths
+      end.compact
+    end
+  end
+
+  def radix_old
+    @@radix_old ||= fifth_span + 1
+  end
+
+  def run_old
+    # p thirds_combined_old
+    p "#{fifth_min} #{fifth_max}"
+    p universe_size_old
+    good = good_find_old
+    p good.length
+    [good.length, 10].min.times do |i|
+      fifths = good.at i
+      p "#{fifths} #{thirds_build_old fifths}"
+    end
+    nil
+  end
+
   def thirds_build_old(fifths)
     octave_size.times.map do |step|
       third_major_size.times.map do |offset|
@@ -189,10 +196,6 @@ module TemperamentMath
   def universe_size_old
     @@universe_size_old ||= radix_old ** octave_size
   end
-
-  def wide_enough_1
-    @@third_10 - @@third_4 >= octave_size - 1
-  end
-end
+=end
 
 TemperamentMath::run
