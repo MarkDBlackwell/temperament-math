@@ -32,8 +32,9 @@ module TemperamentMath
   end
 
   def run
-    third_sets = third_sets_build.sort
+    third_sets = third_sets_build
     p third_sets.length
+#   third_sets.sort.each{|e| p e}
     third_sets.each{|e| p e}
     nil
   end
@@ -95,28 +96,73 @@ module TemperamentMath
         third_sets_build_level_2
       end
     end
+    nil
   end
 
   def third_sets_build_level_2
-=begin
-    state = :initial
-    while true
-      case state
-      when :initial
-        state = :small
-        @@third_5,  third_edge_5  = @@third_4  + 1, @@third_4  + 1
-        @@third_11, third_edge_11 = @@third_10 - 1, @@third_10 - 1
-=end
-    @@third_5 = @@third_4 + 1
-    @@third_3 = @@third_5 + 1
-    @@third_6 = @@third_3 + 1
-    @@third_2 = @@third_6 + 1
-    @@third_7 = @@third_2 + 1
+    catch :level_2 do
+      state = :initial
+      while true
+        case state
+        when :initial
+          state = :small
+          @@third_5,  third_edge_5  = @@third_4  + 1, @@third_4  + 1
+          @@third_11, third_edge_11 = @@third_10 - 1, @@third_10 - 1
+          unless wide_enough_2
+            throw :level_2
+          end
+        when :small
+          @@third_5 += 1
+          unless wide_enough_2
+            state = :large
+            @@third_5 = third_edge_5
+            third_edge_11 -= 1
+            @@third_11 = third_edge_11
+            unless wide_enough_2
+              throw :level_2
+            end
+          end
+        when :large
+          @@third_11 -= 1
+          unless wide_enough_2
+            state = :small
+            @@third_11 = third_edge_11
+            third_edge_5 += 1
+            @@third_5 = third_edge_5
+            unless wide_enough_2
+              throw :level_2
+            end
+          end
+        end
+        third_sets_build_level_3
+      end
+    end
+    nil
+  end
 
-    @@third_11 = @@third_10 - 1
+  def third_sets_build_level_3
+    @@third_3 = @@third_5 + 1
     @@third_9 = @@third_11 - 1
+    third_sets_build_level_4
+    nil
+  end
+
+  def third_sets_build_level_4
+    @@third_6 = @@third_3 + 1
     @@third_12 = @@third_9 - 1
+    third_sets_build_level_5
+    nil
+  end
+
+  def third_sets_build_level_5
+    @@third_2 = @@third_6 + 1
     @@third_8 = @@third_12 - 1
+    third_sets_build_level_6
+    nil
+  end
+
+  def third_sets_build_level_6
+    @@third_7 = @@third_2 + 1
     @@third_1 = @@third_8 - 1
 
     set = [
@@ -126,10 +172,15 @@ module TemperamentMath
         ]
 # Integers are immutable.
     @@third_sets << set
+    nil
   end
 
   def wide_enough_1
     @@third_10 - @@third_4 >= octave_size - 1
+  end
+
+  def wide_enough_2
+    @@third_11 - @@third_5 >= octave_size - 3
   end
 end
 
