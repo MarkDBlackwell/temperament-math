@@ -16,7 +16,7 @@ module TemperamentMath
   extend self
 
   def fifth_max
-    2
+    3
   end
 
   def fifth_min
@@ -264,13 +264,17 @@ module TemperamentMath
   end
 
   def valid_5_6?
-    a = @@third_8 - @@third_2 >= octave_size - 9
-    b = @@third_2 >= @@third_6  + 1
-    c = @@third_8 <= @@third_12 - 1
-    d = @@third_1 - @@third_7 >= octave_size - 11
-    e = @@third_7 >= @@third_2 + 1
-    f = @@third_1 <= @@third_8 - 1
-    a && b && c && d && e && f
+    a = @@third_2 >= [@@third_1  - fifth_span, @@third_6  + 1].max
+    b = @@third_8 >= [@@third_9  - fifth_span, @@third_1  + 1].max
+    c = @@third_7 >= [@@third_8  - fifth_span, @@third_2  + 1].max
+    d = @@third_1 >= [@@third_12 - fifth_span, @@third_7  + 1].max
+
+    e = @@third_2 <= [@@third_3  + fifth_span, @@third_7  - 1].min
+    f = @@third_8 <= [@@third_7  + fifth_span, @@third_12 - 1].min
+    g = @@third_7 <= [@@third_6  + fifth_span, @@third_1  - 1].min
+    h = @@third_1 <= [@@third_2  + fifth_span, @@third_8  - 1].min
+
+    a && b && c && d && e && f && g && h
   end
 end
 
