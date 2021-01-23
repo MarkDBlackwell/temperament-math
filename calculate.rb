@@ -16,7 +16,7 @@ module TemperamentMath
   extend self
 
   def fifth_max
-    1
+    2
   end
 
   def fifth_min
@@ -49,6 +49,17 @@ module TemperamentMath
 
   def third_min
     @@third_min ||= fifth_min * third_major_size
+  end
+
+  def third_set_save
+    set = [
+        @@third_4,  @@third_5, @@third_3,  @@third_6,
+        @@third_2,  @@third_7, @@third_1,  @@third_8,
+        @@third_12, @@third_9, @@third_11, @@third_10,
+        ]
+# Integers are immutable:
+    @@third_sets << set
+    nil
   end
 
   def third_sets_build
@@ -223,23 +234,26 @@ module TemperamentMath
   end
 
   def third_sets_build_level_5
-    @@third_2 = @@third_6 + 1
-    @@third_8 = @@third_12 - 1
-    third_sets_build_level_6
+    catch :level_5 do
+      @@third_2 = - @@third_10 - @@third_6
+      @@third_8 = - @@third_4  - @@third_12
+      unless valid_5?
+        throw :level_5
+      end
+      third_sets_build_level_6
+    end
     nil
   end
 
   def third_sets_build_level_6
-    @@third_7 = @@third_2 + 1
-    @@third_1 = @@third_8 - 1
-
-    set = [
-        @@third_4,  @@third_5, @@third_3,  @@third_6,
-        @@third_2,  @@third_7, @@third_1,  @@third_8,
-        @@third_12, @@third_9, @@third_11, @@third_10,
-        ]
-# Integers are immutable.
-    @@third_sets << set
+    catch :level_6 do
+      @@third_7 = - @@third_11 - @@third_3
+      @@third_1 = - @@third_5  - @@third_9
+      unless valid_6?
+        throw :level_6
+      end
+      third_set_save
+    end
     nil
   end
 
@@ -257,6 +271,20 @@ module TemperamentMath
 
   def valid_4?
     @@third_12 - @@third_6 >= octave_size - 7
+  end
+
+  def valid_5?
+    a = @@third_8 - @@third_2 >= octave_size - 9
+    b = @@third_2 >= @@third_6  + 1
+    c = @@third_8 <= @@third_12 - 1
+    a && b && c
+  end
+
+  def valid_6?
+    a = @@third_1 - @@third_7 >= octave_size - 11
+    b = @@third_7 >= @@third_2 + 1
+    c = @@third_1 <= @@third_8 - 1
+    a && b && c
   end
 end
 
