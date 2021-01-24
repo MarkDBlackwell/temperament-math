@@ -53,9 +53,9 @@ module TemperamentMath
 
   def third_set_save
     set = [
-        @@third_4,  @@third_5, @@third_3,  @@third_6,
-        @@third_2,  @@third_7, @@third_1,  @@third_8,
-        @@third_12, @@third_9, @@third_11, @@third_10,
+        @@third_1,  @@third_2,  @@third_3,  @@third_4,
+        @@third_5,  @@third_6,  @@third_7,  @@third_8,
+        @@third_9,  @@third_10, @@third_11, @@third_12,
         ]
 # Integers are immutable:
     @@third_sets << set
