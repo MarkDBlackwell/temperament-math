@@ -252,7 +252,9 @@ module TemperamentMath
   end
 
   def valid_2?
-    @@third_11 >= @@third_5 + octave_size - 3
+    true &&
+        @@third_11 >= [@@third_10 - fifth_span, @@third_5 + octave_size - 3].max  &&
+        @@third_5  <=  @@third_4  + fifth_span
   end
 
   def valid_3?
