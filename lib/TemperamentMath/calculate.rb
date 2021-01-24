@@ -248,33 +248,32 @@ module TemperamentMath
   end
 
   def valid_1?
-    @@third_10 - @@third_4 >= octave_size - 1
+    @@third_10 >= @@third_4 + octave_size - 1
   end
 
   def valid_2?
-    @@third_11 - @@third_5 >= octave_size - 3
+    @@third_11 >= @@third_5 + octave_size - 3
   end
 
   def valid_3?
-    @@third_9 - @@third_3 >= octave_size - 5
+    @@third_9  >= @@third_3 + octave_size - 5
   end
 
   def valid_4?
-    @@third_12 - @@third_6 >= octave_size - 7
+    @@third_12 >= @@third_6 + octave_size - 7
   end
 
   def valid_5_6?
-    a = @@third_2 >= [@@third_1  - fifth_span, @@third_6  + 1].max
-    b = @@third_8 >= [@@third_9  - fifth_span, @@third_1  + 1].max
-    c = @@third_7 >= [@@third_8  - fifth_span, @@third_2  + 1].max
-    d = @@third_1 >= [@@third_12 - fifth_span, @@third_7  + 1].max
+    true &&
+        @@third_2 >= [@@third_1  - fifth_span, @@third_6  + 1].max  &&
+        @@third_7 >= [@@third_8  - fifth_span, @@third_2  + 1].max  &&
+        @@third_1 >= [@@third_12 - fifth_span, @@third_7  + 1].max  &&
+        @@third_8 >= [@@third_9  - fifth_span, @@third_1  + 1].max  &&
 
-    e = @@third_2 <= [@@third_3  + fifth_span, @@third_7  - 1].min
-    f = @@third_8 <= [@@third_7  + fifth_span, @@third_12 - 1].min
-    g = @@third_7 <= [@@third_6  + fifth_span, @@third_1  - 1].min
-    h = @@third_1 <= [@@third_2  + fifth_span, @@third_8  - 1].min
-
-    a && b && c && d && e && f && g && h
+        @@third_2 <=  @@third_3  + fifth_span  &&
+        @@third_7 <=  @@third_6  + fifth_span  &&
+        @@third_1 <=  @@third_2  + fifth_span  &&
+        @@third_8 <= [@@third_7  + fifth_span, @@third_12 - 1].min
   end
 end
 
