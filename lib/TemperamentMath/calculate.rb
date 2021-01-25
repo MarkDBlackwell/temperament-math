@@ -55,9 +55,9 @@ module TemperamentMath
   def fifth_sets_build
     @@fifth_sets = []
     @@third_sets.each do |third_set|
-          @@third_1,  @@third_2,  @@third_3,  @@third_4,
-          @@third_5,  @@third_6,  @@third_7,  @@third_8,
-          @@third_9,  @@third_10, @@third_11, @@third_12 = third_set
+      @@third_1,  @@third_2,  @@third_3,  @@third_4,
+      @@third_5,  @@third_6,  @@third_7,  @@third_8,
+      @@third_9,  @@third_10, @@third_11, @@third_12 = third_set
 # Pick a fifth; calculate two other fifths:
       fifth_range.each do |f1|
         @@fifth_1 = f1
