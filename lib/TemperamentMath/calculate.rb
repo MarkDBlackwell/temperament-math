@@ -138,169 +138,169 @@ module TemperamentMath
 
   def third_sets_build_level_1
 # Walk disjointedly from both ends.
-      state = :initial
-      while true
-        case state
-        when :initial
-          state = :small
-          @@third_4,  third_edge_4  = third_min, third_min
-          @@third_10, third_edge_10 = third_max, third_max
+    state = :initial
+    while true
+      case state
+      when :initial
+        state = :small
+        @@third_4,  third_edge_4  = third_min, third_min
+        @@third_10, third_edge_10 = third_max, third_max
+        unless valid_level_1?
+          break
+        end
+      when :small
+        @@third_4 += 1
+        unless valid_level_1?
+          state = :large
+          @@third_4 = third_edge_4
+          third_edge_10 -= 1
+          @@third_10 = third_edge_10
           unless valid_level_1?
             break
           end
-        when :small
-          @@third_4 += 1
+        end
+      when :large
+        @@third_10 -= 1
+        unless valid_level_1?
+          state = :small
+          @@third_10 = third_edge_10
+          third_edge_4 += 1
+          @@third_4 = third_edge_4
           unless valid_level_1?
-            state = :large
-            @@third_4 = third_edge_4
-            third_edge_10 -= 1
-            @@third_10 = third_edge_10
-            unless valid_level_1?
-              break
-            end
-          end
-        when :large
-          @@third_10 -= 1
-          unless valid_level_1?
-            state = :small
-            @@third_10 = third_edge_10
-            third_edge_4 += 1
-            @@third_4 = third_edge_4
-            unless valid_level_1?
-              break
-            end
+            break
           end
         end
-        third_sets_build_level_2
       end
+      third_sets_build_level_2
+    end
     nil
   end
 
   def third_sets_build_level_2
-      state = :initial
-      while true
-        case state
-        when :initial
-          state = :small
-          @@third_5,  third_edge_5  = @@third_4  + 1, @@third_4  + 1
-          @@third_11, third_edge_11 = @@third_10 - 1, @@third_10 - 1
+    state = :initial
+    while true
+      case state
+      when :initial
+        state = :small
+        @@third_5,  third_edge_5  = @@third_4  + 1, @@third_4  + 1
+        @@third_11, third_edge_11 = @@third_10 - 1, @@third_10 - 1
+        unless valid_level_2?
+          break
+        end
+      when :small
+        @@third_5 += 1
+        unless valid_level_2?
+          state = :large
+          @@third_5 = third_edge_5
+          third_edge_11 -= 1
+          @@third_11 = third_edge_11
           unless valid_level_2?
             break
           end
-        when :small
-          @@third_5 += 1
+        end
+      when :large
+        @@third_11 -= 1
+        unless valid_level_2?
+          state = :small
+          @@third_11 = third_edge_11
+          third_edge_5 += 1
+          @@third_5 = third_edge_5
           unless valid_level_2?
-            state = :large
-            @@third_5 = third_edge_5
-            third_edge_11 -= 1
-            @@third_11 = third_edge_11
-            unless valid_level_2?
-              break
-            end
-          end
-        when :large
-          @@third_11 -= 1
-          unless valid_level_2?
-            state = :small
-            @@third_11 = third_edge_11
-            third_edge_5 += 1
-            @@third_5 = third_edge_5
-            unless valid_level_2?
-              break
-            end
+            break
           end
         end
-        third_sets_build_level_3
       end
+      third_sets_build_level_3
+    end
     nil
   end
 
   def third_sets_build_level_3
-      state = :initial
-      while true
-        case state
-        when :initial
-          state = :small
-          @@third_3, third_edge_3 = @@third_5  + 1, @@third_5  + 1
-          @@third_9, third_edge_9 = @@third_11 - 1, @@third_11 - 1
+    state = :initial
+    while true
+      case state
+      when :initial
+        state = :small
+        @@third_3, third_edge_3 = @@third_5  + 1, @@third_5  + 1
+        @@third_9, third_edge_9 = @@third_11 - 1, @@third_11 - 1
+        unless valid_level_3?
+          break
+        end
+      when :small
+        @@third_3 += 1
+        unless valid_level_3?
+          state = :large
+          @@third_3 = third_edge_3
+          third_edge_9 -= 1
+          @@third_9 = third_edge_9
           unless valid_level_3?
             break
           end
-        when :small
-          @@third_3 += 1
+        end
+      when :large
+        @@third_9 -= 1
+        unless valid_level_3?
+          state = :small
+          @@third_9 = third_edge_9
+          third_edge_3 += 1
+          @@third_3 = third_edge_3
           unless valid_level_3?
-            state = :large
-            @@third_3 = third_edge_3
-            third_edge_9 -= 1
-            @@third_9 = third_edge_9
-            unless valid_level_3?
-              break
-            end
-          end
-        when :large
-          @@third_9 -= 1
-          unless valid_level_3?
-            state = :small
-            @@third_9 = third_edge_9
-            third_edge_3 += 1
-            @@third_3 = third_edge_3
-            unless valid_level_3?
-              break
-            end
+            break
           end
         end
-        third_sets_build_level_4
       end
+      third_sets_build_level_4
+    end
     nil
   end
 
   def third_sets_build_level_4
-      state = :initial
-      while true
-        case state
-        when :initial
-          state = :small
-          @@third_6,  third_edge_6  = @@third_3 + 1, @@third_3 + 1
-          @@third_12, third_edge_12 = @@third_9 - 1, @@third_9 - 1
+    state = :initial
+    while true
+      case state
+      when :initial
+        state = :small
+        @@third_6,  third_edge_6  = @@third_3 + 1, @@third_3 + 1
+        @@third_12, third_edge_12 = @@third_9 - 1, @@third_9 - 1
+        unless valid_level_4?
+          break
+        end
+      when :small
+        @@third_6 += 1
+        unless valid_level_4?
+          state = :large
+          @@third_6 = third_edge_6
+          third_edge_12 -= 1
+          @@third_12 = third_edge_12
           unless valid_level_4?
             break
           end
-        when :small
-          @@third_6 += 1
+        end
+      when :large
+        @@third_12 -= 1
+        unless valid_level_4?
+          state = :small
+          @@third_12 = third_edge_12
+          third_edge_6 += 1
+          @@third_6 = third_edge_6
           unless valid_level_4?
-            state = :large
-            @@third_6 = third_edge_6
-            third_edge_12 -= 1
-            @@third_12 = third_edge_12
-            unless valid_level_4?
-              break
-            end
-          end
-        when :large
-          @@third_12 -= 1
-          unless valid_level_4?
-            state = :small
-            @@third_12 = third_edge_12
-            third_edge_6 += 1
-            @@third_6 = third_edge_6
-            unless valid_level_4?
-              break
-            end
+            break
           end
         end
-        third_sets_build_level_5_6
       end
+      third_sets_build_level_5_6
+    end
     nil
   end
 
   def third_sets_build_level_5_6
-      @@third_1 = - @@third_5 - @@third_9
-      @@third_2 = - @@third_6 - @@third_10
-      @@third_7 = - @@third_3 - @@third_11
-      @@third_8 = - @@third_4 - @@third_12
-      if valid_level_5_6?
-        third_set_save
-      end
+    @@third_1 = - @@third_5 - @@third_9
+    @@third_2 = - @@third_6 - @@third_10
+    @@third_7 = - @@third_3 - @@third_11
+    @@third_8 = - @@third_4 - @@third_12
+    if valid_level_5_6?
+      third_set_save
+    end
     nil
   end
 
