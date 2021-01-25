@@ -111,6 +111,7 @@ module TemperamentMath
 
   def run
     p "A range #{fifth_range} of fifths"
+
     third_sets_build
     p "produces #{@@third_sets.length} sets of thirds"
     @@third_sets.each{|e| p e}
@@ -122,7 +123,20 @@ module TemperamentMath
     fifth_incremental_sets_build
     p 'The corresponding incremental fifths are'
     @@fifth_incremental_sets.each{|e| p e}
+
+    tuning_sets_build
+    p 'The corresponding tuning sets are'
+    @@tuning_sets.each{|e| p e}
     nil
+  end
+
+  def third_major_just_difference_cents
+    @@third_major_just_difference_cents ||= begin
+      equal_tempered = 400
+      just_frequency_ratio = 5.0 / 4
+      just_cents = (Math.log2 just_frequency_ratio) * 1200
+      equal_tempered - just_cents
+    end
   end
 
   def third_major_size
@@ -293,6 +307,17 @@ module TemperamentMath
     @@third_7 = - @@third_3 - @@third_11
     @@third_8 = - @@third_4 - @@third_12
     third_set_save if valid_level_5_6?
+    nil
+  end
+
+  def tuning_sets_build
+    @@tuning_sets = @@fifth_sets.length.times.map do |k|
+      fifth_set = @@fifth_sets.at k
+      smallest = third_major_size.times.map{|i| fifth_set.at i}.sum
+      unit = third_major_just_difference_cents / smallest
+      fifth_incremental_set = @@fifth_incremental_sets.at k
+      fifth_incremental_set.map{|e| (e * unit).round 5}
+    end
     nil
   end
 
