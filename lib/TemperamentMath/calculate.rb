@@ -96,14 +96,13 @@ module TemperamentMath
   end
 
   def run
+    p "A range #{fifth_range} of fifths"
     third_sets_build
-    p @@third_sets.length
-#   @@third_sets.sort.each{|e| p e}
+    p "produces #{@@third_sets.length} sets of thirds"
     @@third_sets.each{|e| p e}
 
     fifth_sets_build
-    p @@fifth_sets.length
-#   @@fifth_sets.sort.each{|e| p e}
+    p "and #{@@fifth_sets.length} sets of fifths"
     @@fifth_sets.each{|e| p e}
     nil
   end
@@ -351,78 +350,5 @@ module TemperamentMath
         @@third_8 <= [@@third_7  + fifth_span, @@third_12 - 1].min
   end
 end
-
-#-------------
-=begin
-  def good_find_old
-    @@good_find_old ||= begin
-      universe_size_old.times.map do |e|
-        fifths = octave_size.times.map do
-          old_e = e
-          e = e.div radix_old
-          old_e % radix_old + fifth_min
-        end
-        next unless 0 == fifths.sum
-        thirds = thirds_build_old fifths
-        next unless thirds_match_octave_old? thirds
-        next unless thirds.uniq.length == thirds.length
-        fifths
-      end.compact
-    end
-  end
-
-  def radix_old
-    @@radix_old ||= fifth_span + 1
-  end
-
-  def run_old
-    # p thirds_combined_old
-    p "#{fifth_min} #{fifth_max}"
-    p universe_size_old
-    good = good_find_old
-    p good.length
-    [good.length, 10].min.times do |i|
-      fifths = good.at i
-      p "#{fifths} #{thirds_build_old fifths}"
-    end
-    nil
-  end
-
-  def thirds_build_old(fifths)
-    octave_size.times.map do |step|
-      third_major_size.times.map do |offset|
-        index = (step - offset) % octave_size
-        fifths.at index
-      end.sum
-    end
-  end
-
-  def thirds_combined_old
-    @@thirds_combined_old ||= begin
-      ring = (octave_size.div third_major_size).times.map do |e|
-        third_major_size * e
-      end
-      third_major_size.times.map do |offset|
-        ring.map do |e|
-          offset + e
-        end
-      end
-    end
-  end
-
-  def thirds_match_octave_old?(thirds)
-    thirds_combined_old.each do |e|
-      ring = e.map do |i|
-        thirds.at i
-      end
-      return false unless 0 == ring.sum
-    end
-    true
-  end
-
-  def universe_size_old
-    @@universe_size_old ||= radix_old ** octave_size
-  end
-=end
 
 TemperamentMath::run
