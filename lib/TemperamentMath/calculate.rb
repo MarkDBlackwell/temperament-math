@@ -27,9 +27,9 @@ module TemperamentMath
 # Convert "rising to" to "rising from":
 # 0  1  2  3  4  5  6  7  8  9  10 11
 # G  D  A  E  B  F# C# G# D# A# F  C
-    indexes_incremental = [0, 7, 2, 9, 4, 11, 6, 1, 8, 3, 10, 5]
-    @@fifth_incremental_sets = @@fifth_sets.map do |set|
-      ordered = set.values_at *indexes_incremental
+    indexes_incremental = [7, 2, 9, 4, 11, 6, 1, 8, 3, 10, 5, 0]
+    @@fifth_incremental_sets = @@fifth_accumulated_sets.map do |set|
+      set.values_at *indexes_incremental
     end
     nil
   end
@@ -144,7 +144,7 @@ module TemperamentMath
 
     fifth_incremental_sets_build
     p 'The corresponding incremental fifths'
-    p 'rising to G G# A A# B C C# D D# E F F# are'
+    p 'rising to G# A A# B C C# D D# E F F# G are'
     @@fifth_incremental_sets.each{|e| p e}
 
     tuning_sets_build
