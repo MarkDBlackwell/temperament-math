@@ -119,7 +119,19 @@ module TemperamentMath
     fifth_sets_build
     p "and #{@@fifth_sets.length} sets of fifths"
     p 'also rising to G D A E B F# C# G# D# A# F C'
-    @@fifth_sets.each{|e| p e}
+    thirds_previous = ''
+    @@fifth_sets.each do |fifth_set|
+      thirds = fifth_set.length.times.map do |k|
+        a = third_major_size.times.map{|i| (k + i) % octave_size}
+        fifth_set.values_at(*a).sum
+      end
+      thirds_previous = thirds if thirds_previous.empty?
+      unless thirds_previous == thirds
+        thirds_previous = ''
+        puts
+      end
+      p fifth_set
+    end
 
     fifth_incremental_sets_build
     p 'The corresponding incremental fifths'
