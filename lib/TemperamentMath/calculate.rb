@@ -340,18 +340,15 @@ module TemperamentMath
   end
 
   def tuning_sets_build
-    @@tuning_sets = []
-    @@fifth_sets.each_with_index do |fifth_set, k|
-      third_smallest = fifth_set.values_at(*third_smallest_enum).sum
+    @@tuning_sets = @@fifth_sets.zip(@@fifth_stepwise_sets).each.map do |circle_set, stepwise_set|
+      third_smallest = circle_set.values_at(*third_smallest_enum).sum
       unit = (third_major_just_difference_cents / third_smallest).abs
 # p unit
-      fifth_stepwise_set = @@fifth_stepwise_sets.at k
-      set = octave_size.times.map do |i|
-        offset = (fifth_stepwise_set.at i) * unit
+      stepwise_set.each_with_index.map do |note, i|
+        offset = note * unit
         equal_tempered = 100.0 * i.succ
         equal_tempered + offset
       end
-      @@tuning_sets.push set
     end
     nil
   end
