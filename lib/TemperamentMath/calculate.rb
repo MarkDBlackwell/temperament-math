@@ -15,15 +15,21 @@ Dates:
 module TemperamentMath
   extend self
 
+  def fifth_accumulated_sets_build
+    @@fifth_accumulated_sets = @@fifth_sets.map do |set|
+      sum = 0
+      set.map{|e| sum += e}
+    end
+    nil
+  end
+
   def fifth_incremental_sets_build
 # Convert "rising to" to "rising from":
 # 0  1  2  3  4  5  6  7  8  9  10 11
 # G  D  A  E  B  F# C# G# D# A# F  C
     indexes_incremental = [0, 7, 2, 9, 4, 11, 6, 1, 8, 3, 10, 5]
     @@fifth_incremental_sets = @@fifth_sets.map do |set|
-      sum = 0
       ordered = set.values_at *indexes_incremental
-      ordered.map{|e| sum += e}
     end
     nil
   end
@@ -130,6 +136,11 @@ module TemperamentMath
       thirds_previous = thirds
       p fifth_set
     end
+
+    fifth_accumulated_sets_build
+    p 'The corresponding accumulated fifths'
+    p 'also rising to G D A E B F# C# G# D# A# F C are'
+    @@fifth_accumulated_sets.each{|e| p e}
 
     fifth_incremental_sets_build
     p 'The corresponding incremental fifths'
