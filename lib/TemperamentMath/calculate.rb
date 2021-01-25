@@ -258,7 +258,9 @@ module TemperamentMath
   end
 
   def valid_3?
-    @@third_9  >= @@third_3 + octave_size - 5
+    true &&
+        @@third_9  >= [@@third_10 - fifth_span, (  3 - @@third_5 ) / 2, @@third_3 + octave_size - 5].max  &&
+        @@third_3  <= [@@third_4  + fifth_span, (- 3 - @@third_11) / 2].min
   end
 
   def valid_4?
