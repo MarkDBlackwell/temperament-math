@@ -16,11 +16,75 @@ module TemperamentMath
   extend self
 
   def fifth_max
-    3
+    2
   end
 
   def fifth_min
     -2
+  end
+
+  def fifth_range
+    @@fifth_range ||= fifth_min..fifth_max
+  end
+
+  def fifth_set_save
+    set = [
+        @@fifth_1,  @@fifth_2,  @@fifth_3,  @@fifth_4,
+        @@fifth_5,  @@fifth_6,  @@fifth_7,  @@fifth_8,
+        @@fifth_9,  @@fifth_10, @@fifth_11, @@fifth_12,
+        ]
+# Integers are immutable:
+    @@fifth_sets << set
+    nil
+  end
+
+  def fifth_sets_build
+    @@fifth_sets = []
+    @@third_sets.each do |third_set|
+          @@third_1,  @@third_2,  @@third_3,  @@third_4,
+          @@third_5,  @@third_6,  @@third_7,  @@third_8,
+          @@third_9,  @@third_10, @@third_11, @@third_12 = third_set
+# Pick a fifth; calculate two other fifths:
+      fifth_range.each do |f1|
+        @@fifth_1 = f1
+        @@fifth_5 = @@third_5 - @@third_4 + @@fifth_1
+        @@fifth_9 = @@third_9 - @@third_8 + @@fifth_5
+        next unless [@@fifth_5, @@fifth_9].all? {|e| fifth_range.include? e}
+# Pick a fifth; calculate two other fifths:
+        fifth_range.each do |f2|
+          @@fifth_2 = f2
+          @@fifth_6  = @@third_6 - @@third_5 + @@fifth_2
+          @@fifth_10 = @@third_10 - @@third_9 + @@fifth_6
+          next unless [@@fifth_6, @@fifth_10].all? {|e| fifth_range.include? e}
+# Pick a fifth; calculate two other fifths:
+          fifth_range.each do |f3|
+            @@fifth_3 = f3
+            @@fifth_7  = @@third_7 - @@third_6 + @@fifth_3
+            @@fifth_11 = @@third_11 - @@third_10 + @@fifth_7
+            next unless [@@fifth_7, @@fifth_11].all? {|e| fifth_range.include? e}
+# Calculate three fifths:
+            @@fifth_4  = @@third_4 - @@fifth_1 - @@fifth_2 - @@fifth_3
+            @@fifth_8  = @@third_8 - @@third_7 + @@fifth_4
+            @@fifth_12 = @@third_12 - @@third_11 + @@fifth_8
+            next unless [@@fifth_4, @@fifth_8, @@fifth_12].all? {|e| fifth_range.include? e}
+            next unless true &&
+                @@fifth_10 + @@fifth_11 + @@fifth_12 + @@fifth_1  == @@third_1   &&
+                @@fifth_11 + @@fifth_12 + @@fifth_1  + @@fifth_2  == @@third_2   &&
+                @@fifth_12 + @@fifth_1  + @@fifth_2  + @@fifth_3  == @@third_3   &&
+                @@fifth_2  + @@fifth_3  + @@fifth_4  + @@fifth_5  == @@third_5   &&
+                @@fifth_3  + @@fifth_4  + @@fifth_5  + @@fifth_6  == @@third_6   &&
+                @@fifth_4  + @@fifth_5  + @@fifth_6  + @@fifth_7  == @@third_7   &&
+                @@fifth_5  + @@fifth_6  + @@fifth_7  + @@fifth_8  == @@third_8   &&
+                @@fifth_6  + @@fifth_7  + @@fifth_8  + @@fifth_9  == @@third_9   &&
+                @@fifth_7  + @@fifth_8  + @@fifth_9  + @@fifth_10 == @@third_10  &&
+                @@fifth_8  + @@fifth_9  + @@fifth_10 + @@fifth_11 == @@third_11  &&
+                @@fifth_9  + @@fifth_10 + @@fifth_11 + @@fifth_12 == @@third_12
+            fifth_set_save
+          end
+        end
+      end
+    end
+    nil
   end
 
   def fifth_span
@@ -32,10 +96,15 @@ module TemperamentMath
   end
 
   def run
-    third_sets = third_sets_build
-    p third_sets.length
-#   third_sets.sort.each{|e| p e}
-    third_sets.each{|e| p e}
+    third_sets_build
+    p @@third_sets.length
+#   @@third_sets.sort.each{|e| p e}
+    @@third_sets.each{|e| p e}
+
+    fifth_sets_build
+    p @@fifth_sets.length
+#   @@fifth_sets.sort.each{|e| p e}
+    @@fifth_sets.each{|e| p e}
     nil
   end
 
@@ -65,7 +134,7 @@ module TemperamentMath
   def third_sets_build
     @@third_sets = []
     third_sets_build_level_1
-    @@third_sets
+    nil
   end
 
   def third_sets_build_level_1
