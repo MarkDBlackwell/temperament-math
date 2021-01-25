@@ -23,13 +23,13 @@ module TemperamentMath
     nil
   end
 
-  def fifth_incremental_sets_build
+  def fifth_stepwise_sets_build
 # "Rising to G#" here (for example) usually equals "rising from C#" in the outside world.
 # 0  1  2  3  4  5  6  7  8  9  10 11
 # G  D  A  E  B  F# C# G# D# A# F  C
-    indexes_incremental = [7, 2, 9, 4, 11, 6, 1, 8, 3, 10, 5, 0]
-    @@fifth_incremental_sets = @@fifth_accumulated_sets.map do |set|
-      set.values_at *indexes_incremental
+    indexes_stepwise = [7, 2, 9, 4, 11, 6, 1, 8, 3, 10, 5, 0]
+    @@fifth_stepwise_sets = @@fifth_accumulated_sets.map do |set|
+      set.values_at *indexes_stepwise
     end
     nil
   end
@@ -142,10 +142,10 @@ module TemperamentMath
     p 'also rising to G D A E B F# C# G# D# A# F C are'
     @@fifth_accumulated_sets.each{|e| p e}
 
-    fifth_incremental_sets_build
-    p 'The corresponding incremental fifths'
+    fifth_stepwise_sets_build
+    p 'The corresponding stepwise fifths'
     p 'rising to G# A A# B C C# D D# E F F# G are'
-    @@fifth_incremental_sets.each{|e| p e}
+    @@fifth_stepwise_sets.each{|e| p e}
 
     tuning_sets_build
     p 'The corresponding tuning sets are'
@@ -335,14 +335,14 @@ module TemperamentMath
 
   def tuning_sets_build
     third_smallest_enum = third_major_size.times
-    @@tuning_sets = @@fifth_incremental_sets.length.times.map do |k|
+    @@tuning_sets = @@fifth_stepwise_sets.length.times.map do |k|
       fifth_set = @@fifth_sets.at k
       third_smallest = fifth_set.values_at(*third_smallest_enum).sum
       unit = (third_major_just_difference_cents / third_smallest).abs
 # p unit
-      fifth_incremental_set = @@fifth_incremental_sets.at k
+      fifth_stepwise_set = @@fifth_stepwise_sets.at k
       octave_size.times.map do |i|
-        offset = ((fifth_incremental_set.at i) * unit).round 5
+        offset = ((fifth_stepwise_set.at i) * unit).round 5
         equal_tempered = 100.0 * i.succ
         equal_tempered + offset
       end
