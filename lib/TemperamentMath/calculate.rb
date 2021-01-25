@@ -126,10 +126,8 @@ module TemperamentMath
         fifth_set.values_at(*a).sum
       end
       thirds_previous = thirds if thirds_previous.empty?
-      unless thirds_previous == thirds
-        thirds_previous = ''
-        puts
-      end
+      puts unless thirds_previous == thirds
+      thirds_previous = thirds
       p fifth_set
     end
 
