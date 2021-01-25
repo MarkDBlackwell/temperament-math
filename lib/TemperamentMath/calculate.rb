@@ -15,6 +15,22 @@ Dates:
 module TemperamentMath
   extend self
 
+  def fifth_incremental_indexes
+# Convert "rising to" to "rising from":
+# 0  1  2  3  4  5  6  7  8  9  10 11
+# G  D  A  E  B  F# C# G# D# A# F  C
+    @@fifth_incremental_indexes ||= [7, 2, 9, 4, 11, 6, 1, 8, 3, 10, 5, 0]
+  end
+
+  def fifth_incremental_sets_build
+    @@fifth_incremental_sets = []
+    @@fifth_sets.each do |fifths|
+      set = fifth_incremental_indexes.map{|i| fifths.at i}
+      @@fifth_incremental_sets << set
+    end
+    nil
+  end
+
   def fifth_max
     2
   end
@@ -104,6 +120,10 @@ module TemperamentMath
     fifth_sets_build
     p "and #{@@fifth_sets.length} sets of fifths"
     @@fifth_sets.each{|e| p e}
+
+    fifth_incremental_sets_build
+    p 'The corresponding incremental fifths are'
+    @@fifth_incremental_sets.each{|e| p e}
     nil
   end
 
