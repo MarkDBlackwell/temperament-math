@@ -138,7 +138,6 @@ module TemperamentMath
 
   def third_sets_build_level_1
 # Walk disjointedly from both ends.
-    catch :level_1 do
       state = :initial
       while true
         case state
@@ -147,7 +146,7 @@ module TemperamentMath
           @@third_4,  third_edge_4  = third_min, third_min
           @@third_10, third_edge_10 = third_max, third_max
           unless valid_level_1?
-            throw :level_1
+            break
           end
         when :small
           @@third_4 += 1
@@ -157,7 +156,7 @@ module TemperamentMath
             third_edge_10 -= 1
             @@third_10 = third_edge_10
             unless valid_level_1?
-              throw :level_1
+              break
             end
           end
         when :large
@@ -168,18 +167,16 @@ module TemperamentMath
             third_edge_4 += 1
             @@third_4 = third_edge_4
             unless valid_level_1?
-              throw :level_1
+              break
             end
           end
         end
         third_sets_build_level_2
       end
-    end
     nil
   end
 
   def third_sets_build_level_2
-    catch :level_2 do
       state = :initial
       while true
         case state
@@ -188,7 +185,7 @@ module TemperamentMath
           @@third_5,  third_edge_5  = @@third_4  + 1, @@third_4  + 1
           @@third_11, third_edge_11 = @@third_10 - 1, @@third_10 - 1
           unless valid_level_2?
-            throw :level_2
+            break
           end
         when :small
           @@third_5 += 1
@@ -198,7 +195,7 @@ module TemperamentMath
             third_edge_11 -= 1
             @@third_11 = third_edge_11
             unless valid_level_2?
-              throw :level_2
+              break
             end
           end
         when :large
@@ -209,18 +206,16 @@ module TemperamentMath
             third_edge_5 += 1
             @@third_5 = third_edge_5
             unless valid_level_2?
-              throw :level_2
+              break
             end
           end
         end
         third_sets_build_level_3
       end
-    end
     nil
   end
 
   def third_sets_build_level_3
-    catch :level_3 do
       state = :initial
       while true
         case state
@@ -229,7 +224,7 @@ module TemperamentMath
           @@third_3, third_edge_3 = @@third_5  + 1, @@third_5  + 1
           @@third_9, third_edge_9 = @@third_11 - 1, @@third_11 - 1
           unless valid_level_3?
-            throw :level_3
+            break
           end
         when :small
           @@third_3 += 1
@@ -239,7 +234,7 @@ module TemperamentMath
             third_edge_9 -= 1
             @@third_9 = third_edge_9
             unless valid_level_3?
-              throw :level_3
+              break
             end
           end
         when :large
@@ -250,18 +245,16 @@ module TemperamentMath
             third_edge_3 += 1
             @@third_3 = third_edge_3
             unless valid_level_3?
-              throw :level_3
+              break
             end
           end
         end
         third_sets_build_level_4
       end
-    end
     nil
   end
 
   def third_sets_build_level_4
-    catch :level_4 do
       state = :initial
       while true
         case state
@@ -270,7 +263,7 @@ module TemperamentMath
           @@third_6,  third_edge_6  = @@third_3 + 1, @@third_3 + 1
           @@third_12, third_edge_12 = @@third_9 - 1, @@third_9 - 1
           unless valid_level_4?
-            throw :level_4
+            break
           end
         when :small
           @@third_6 += 1
@@ -280,7 +273,7 @@ module TemperamentMath
             third_edge_12 -= 1
             @@third_12 = third_edge_12
             unless valid_level_4?
-              throw :level_4
+              break
             end
           end
         when :large
@@ -291,27 +284,23 @@ module TemperamentMath
             third_edge_6 += 1
             @@third_6 = third_edge_6
             unless valid_level_4?
-              throw :level_4
+              break
             end
           end
         end
         third_sets_build_level_5_6
       end
-    end
     nil
   end
 
   def third_sets_build_level_5_6
-    catch :level_5_6 do
       @@third_1 = - @@third_5 - @@third_9
       @@third_2 = - @@third_6 - @@third_10
       @@third_7 = - @@third_3 - @@third_11
       @@third_8 = - @@third_4 - @@third_12
-      unless valid_level_5_6?
-        throw :level_5_6
+      if valid_level_5_6?
+        third_set_save
       end
-      third_set_save
-    end
     nil
   end
 
