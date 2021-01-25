@@ -128,7 +128,7 @@ module TemperamentMath
     thirds_previous = ''
     @@fifth_sets.each do |fifth_set|
       thirds = fifth_set.length.times.map do |k|
-        a = third_major_size.times.map{|i| (k + i) % octave_size}
+        a = third_smallest_enum.map{|i| (k - i) % octave_size}
         fifth_set.values_at(*a).sum
       end
       thirds_previous = thirds if thirds_previous.empty?
@@ -335,19 +335,23 @@ module TemperamentMath
     nil
   end
 
+  def third_smallest_enum
+    @@third_smallest_enum ||= third_major_size.times
+  end
+
   def tuning_sets_build
-    third_smallest_enum = third_major_size.times
-    @@tuning_sets = @@fifth_sets.length.times.map do |k|
-      fifth_set = @@fifth_sets.at k
+    @@tuning_sets = []
+    @@fifth_sets.each_with_index do |fifth_set, k|
       third_smallest = fifth_set.values_at(*third_smallest_enum).sum
       unit = (third_major_just_difference_cents / third_smallest).abs
 # p unit
       fifth_stepwise_set = @@fifth_stepwise_sets.at k
-      octave_size.times.map do |i|
+      set = octave_size.times.map do |i|
         offset = (fifth_stepwise_set.at i) * unit
         equal_tempered = 100.0 * i.succ
         equal_tempered + offset
       end
+      @@tuning_sets.push set
     end
     nil
   end
