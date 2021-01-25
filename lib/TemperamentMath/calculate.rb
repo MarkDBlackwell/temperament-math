@@ -15,16 +15,15 @@ Dates:
 module TemperamentMath
   extend self
 
-  def fifth_incremental_indexes
+  def fifth_incremental_sets_build
 # Convert "rising to" to "rising from":
 # 0  1  2  3  4  5  6  7  8  9  10 11
 # G  D  A  E  B  F# C# G# D# A# F  C
-    @@fifth_incremental_indexes ||= [7, 2, 9, 4, 11, 6, 1, 8, 3, 10, 5, 0]
-  end
-
-  def fifth_incremental_sets_build
+    indexes_incremental = [0, 7, 2, 9, 4, 11, 6, 1, 8, 3, 10, 5]
     @@fifth_incremental_sets = @@fifth_sets.map do |set|
-      fifth_incremental_indexes.map{|i| set.at i}
+      sum = 0
+      ordered = set.values_at *indexes_incremental
+      ordered.map{|e| sum += e}
     end
     nil
   end
@@ -114,14 +113,17 @@ module TemperamentMath
 
     third_sets_build
     p "produces #{@@third_sets.length} sets of thirds"
+    p 'rising to G D A E B F# C# G# D# A# F C'
     @@third_sets.each{|e| p e}
 
     fifth_sets_build
     p "and #{@@fifth_sets.length} sets of fifths"
+    p 'also rising to G D A E B F# C# G# D# A# F C'
     @@fifth_sets.each{|e| p e}
 
     fifth_incremental_sets_build
-    p 'The corresponding incremental fifths are'
+    p 'The corresponding incremental fifths'
+    p 'rising to G G# A A# B C C# D D# E F F# are'
     @@fifth_incremental_sets.each{|e| p e}
 
     tuning_sets_build
@@ -311,12 +313,16 @@ module TemperamentMath
   end
 
   def tuning_sets_build
-    @@tuning_sets = @@fifth_sets.length.times.map do |k|
-      fifth_set = @@fifth_sets.at k
-      smallest = third_major_size.times.map{|i| fifth_set.at i}.sum
-      unit = third_major_just_difference_cents / smallest
+    @@tuning_sets = @@fifth_incremental_sets.length.times.map do |k|
       fifth_incremental_set = @@fifth_incremental_sets.at k
-      fifth_incremental_set.map{|e| (e * unit).round 5}
+      fifth_set = @@fifth_sets.at k
+      third_smallest = third_major_size.times.map{|i| fifth_set.at i}.sum
+      unit = third_major_just_difference_cents / third_smallest.abs
+      octave_size.times.map do |i|
+        equal_tempered = 100.0 * i.succ
+        offset = ((fifth_incremental_set.at i) * unit).round 5
+        equal_tempered + offset
+      end
     end
     nil
   end
