@@ -27,9 +27,9 @@ module TemperamentMath
 # "Rising to G#" here (for example) usually equals "rising from C#" in the outside world.
 # 0  1  2  3  4  5  6  7  8  9  10 11
 # G  D  A  E  B  F# C# G# D# A# F  C
-    indexes_stepwise = [7, 2, 9, 4, 11, 6, 1, 8, 3, 10, 5, 0]
+    stepwise = [7, 2, 9, 4, 11, 6, 1, 8, 3, 10, 5, 0]
     @@fifth_stepwise_sets = @@fifth_accumulated_sets.map do |set|
-      set.values_at *indexes_stepwise
+      set.values_at *stepwise
     end
     nil
   end
@@ -335,7 +335,7 @@ module TemperamentMath
 
   def tuning_sets_build
     third_smallest_enum = third_major_size.times
-    @@tuning_sets = @@fifth_stepwise_sets.length.times.map do |k|
+    @@tuning_sets = @@fifth_sets.length.times.map do |k|
       fifth_set = @@fifth_sets.at k
       third_smallest = fifth_set.values_at(*third_smallest_enum).sum
       unit = (third_major_just_difference_cents / third_smallest).abs
