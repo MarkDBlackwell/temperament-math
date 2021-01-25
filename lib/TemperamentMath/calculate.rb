@@ -149,7 +149,9 @@ module TemperamentMath
 
     tuning_sets_build
     p 'The corresponding tuning sets are'
-    @@tuning_sets.each{|e| p e}
+    @@tuning_sets.each do |set|
+      p set.map{|e| e.round 5}
+    end
     nil
   end
 
@@ -342,7 +344,7 @@ module TemperamentMath
 # p unit
       fifth_stepwise_set = @@fifth_stepwise_sets.at k
       octave_size.times.map do |i|
-        offset = ((fifth_stepwise_set.at i) * unit).round 5
+        offset = (fifth_stepwise_set.at i) * unit
         equal_tempered = 100.0 * i.succ
         equal_tempered + offset
       end
