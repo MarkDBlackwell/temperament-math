@@ -23,10 +23,8 @@ module TemperamentMath
   end
 
   def fifth_incremental_sets_build
-    @@fifth_incremental_sets = []
-    @@fifth_sets.each do |fifths|
-      set = fifth_incremental_indexes.map{|i| fifths.at i}
-      @@fifth_incremental_sets << set
+    @@fifth_incremental_sets = @@fifth_sets.map do |set|
+      fifth_incremental_indexes.map{|i| set.at i}
     end
     nil
   end
