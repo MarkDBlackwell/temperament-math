@@ -4,6 +4,15 @@ Temperament-Math: calculate variegated circulating tuning temperaments
 
 Copyright (C) 2021 Mark D. Blackwell.
 
+** Usage
+
+Known to work with Ruby version 2.7.0p0.
+
+`ruby lib/TemperamentMath/calculate.rb`
+
+Then enter the tuning values into your tuner.
+I use Stichting Huygens-Fokker's Scala program to tune my harpsichord.
+
 ** Explanation
 
 x-sub-i is a numbered perfect fifth in the circle of fifths, rising to G, D, etc.:
@@ -27,4 +36,4 @@ The first line of numbers is the level number.
 
 GNU Affero General Public License, Version 3
 
-See license [here](./LICENSE).
+See [LICENSE](./LICENSE).

@@ -134,20 +134,20 @@ module TemperamentMath
   end
 
   def run
-    p 'Temperament-Math'
-    p 'Copyright (C) 2021 Mark D. Blackwell.'
-    p 'This program comes with ABSOLUTELY NO WARRANTY; for details see the file, LICENSE.'
+    puts 'Temperament-Math'
+    puts 'Copyright (C) 2021 Mark D. Blackwell.'
+    puts 'This program comes with ABSOLUTELY NO WARRANTY; for details see the file, LICENSE.'
     puts
-    p "A range #{fifth_range} of fifths"
+    puts "A range #{fifth_range} of fifths"
 
     third_sets_build
-    p "produces #{@@third_sets.length} sets of thirds"
-    p 'rising to G D A E B F# C# G# D# A# F C'
+    puts "produces #{@@third_sets.length} sets of thirds"
+    puts 'rising to G D A E B F# C# G# D# A# F C'
     @@third_sets.each{|e| p e}
 
     fifth_sets_build
-    p "and #{@@fifth_sets.length} sets of fifths"
-    p 'also rising to G D A E B F# C# G# D# A# F C'
+    puts "and #{@@fifth_sets.length} sets of fifths"
+    puts 'also rising to G D A E B F# C# G# D# A# F C'
     thirds_previous = ''
     @@fifth_sets.each do |fifth_set|
       thirds = octave_enum.map do |k|
@@ -161,18 +161,18 @@ module TemperamentMath
     end
 
     fifth_accumulated_sets_build
-    p 'The corresponding accumulated fifths'
-    p 'also rising to G D A E B F# C# G# D# A# F C are'
+    puts 'The corresponding accumulated fifths'
+    puts 'also rising to G D A E B F# C# G# D# A# F C are'
     @@fifth_accumulated_sets.each{|e| p e}
 
     fifth_stepwise_sets_build
-    p 'The corresponding stepwise fifths'
-    p 'indicating the positions of C# D D# E F F# G G# A A# B C are'
+    puts 'The corresponding stepwise fifths'
+    puts 'indicating the positions of C# D D# E F F# G G# A A# B C are'
     @@fifth_stepwise_sets.each{|e| p e}
 
     tuning_sets_build
-    p 'The corresponding tuning sets'
-    p 'indicating the positions of C# D D# E F F# G G# A A# B C are'
+    puts 'The corresponding tuning sets'
+    puts 'indicating the positions of C# D D# E F F# G G# A A# B C are'
     @@tuning_sets.each do |set|
       p set.map{|e| e.round 5}
     end
