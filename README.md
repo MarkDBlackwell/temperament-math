@@ -29,21 +29,22 @@ This resembles Thomas Young's first temperament.
 
 Unlike Young's, however,
 the sharp keys' major thirds are closer to just
-than those of the corresponding flat keys,
-which increases variety.
-(In Young's, these are the same.)
+than those of the corresponding flat keys.
+This increases variety.
+(In Young's, they are the same.)
 
 Unlike Young's,
-the sharp keys are favored over the flat keys
-(in other words, the major thirds are more just).
+the sharp keys are favored over the flat keys.
+(In other words, the major thirds are more just.)
 
 This improves the sound of the
-major dominant chords of the commonly-used minor keys, such as
-the E-major dominant chord of A-minor, A-major of D-minor,
-and B-major of E-minor.
+(major) dominant chords of the commonly-used minor keys:
+for example,
+the E-major dominant chord in A-minor, A-major in D-minor,
+and B-major in E-minor.
 
 Also unlike Young's,
-the major third CE is perfectly just, here.
+the major third CE is perfectly just, here. He only came fairly close.
 
 ## Notes on the program
 
