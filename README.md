@@ -29,14 +29,14 @@ the tuning adjustment of major thirds varies
 along with the number of sharps or flats in that key signature.
 Thomas Young's first temperament is like this.
 
-Unlike Young's, however,
-here the sharped key signatures' tonic major thirds are closer to just,
-than those of the corresponding flatted key signatures.
+Unlike Young's, however, here,
+the sharped key signatures' tonic major thirds are closer to just,
+than those of the corresponding (one sharp, one flat, etc.) flatted key signatures.
 This increases variety.
 (In Young's, they are the same.)
 
-Unlike Young's,
-here the sharp keys are favored over the flat keys.
+Unlike Young's, here,
+the sharp keys are favored over the flat keys.
 (In other words, their tonic major thirds are closer to just.)
 This improves the sound of
 (major) dominant chords in commonly-used minor keys.
@@ -48,8 +48,8 @@ For example:
 
 * The B-major chord (5 sharps) in E minor (1 sharp).
 
-Also unlike Young's,
-here the major third CE is perfectly just.
+Also unlike Young's, here,
+the major third CE is perfectly just.
 He only came fairly close.
 
 ## Notes on the program
