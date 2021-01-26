@@ -110,6 +110,10 @@ module TemperamentMath
     @@fifth_span ||= fifth_max - fifth_min
   end
 
+  def octave_enum
+    @@octave_enum ||= octave_size.times
+  end
+
   def octave_size
     12
   end
@@ -127,7 +131,7 @@ module TemperamentMath
     p 'also rising to G D A E B F# C# G# D# A# F C'
     thirds_previous = ''
     @@fifth_sets.each do |fifth_set|
-      thirds = fifth_set.length.times.map do |k|
+      thirds = octave_enum.map do |k|
         a = third_smallest_enum.map{|i| (k - i) % octave_size}
         fifth_set.values_at(*a).sum
       end
