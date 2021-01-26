@@ -36,10 +36,9 @@ This increases variety.
 Unlike Young's,
 the sharp keys are favored over the flat keys.
 (In other words, the major thirds are closer to just.)
-
 This improves the sound of
-(major) dominant chords in commonly-used minor keys:
-for example:
+(major) dominant chords in commonly-used minor keys.
+For example:
 
 * The E-major dominant chord (4 sharps) in A minor (no sharps);
 
