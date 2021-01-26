@@ -24,18 +24,18 @@ The program generates keyboard tuning temperaments in which the major thirds are
 In particular,
 since each major third forms part of a major key's tonic chord,
 each major third's tuning width increases
-along with the number of sharps or flats in the key signature.
+along with the number of sharps or flats in that key signature.
 This resembles Thomas Young's first temperament.
 
 Unlike Young's, however,
-the sharp keys' major thirds are closer to just
+the sharp keys' tonic major thirds are closer to just
 than those of the corresponding flat keys.
 This increases variety.
 (In Young's, they are the same.)
 
 Unlike Young's,
 the sharp keys are favored over the flat keys.
-(In other words, the major thirds are closer to just.)
+(In other words, their tonic major thirds are closer to just.)
 This improves the sound of
 (major) dominant chords in commonly-used minor keys.
 For example:
