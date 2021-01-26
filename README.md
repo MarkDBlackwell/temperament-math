@@ -38,11 +38,14 @@ the sharp keys are favored over the flat keys.
 (In other words, the major thirds are closer to just.)
 
 This improves the sound of
-(major) dominant chords in the commonly-used minor keys:
-for example,
-the E-major dominant chord (4 sharps) in A minor (no sharps),
-the A-major chord (3 sharps) in D minor (1 flat),
-and the B-major chord (5 sharps) in E minor (1 sharp).
+(major) dominant chords in commonly-used minor keys:
+for example:
+
+* The E-major dominant chord (4 sharps) in A minor (no sharps);
+
+* The A-major chord (3 sharps) in D minor (1 flat); and
+
+* The B-major chord (5 sharps) in E minor (1 sharp).
 
 Also unlike Young's,
 the major third CE is perfectly just.
