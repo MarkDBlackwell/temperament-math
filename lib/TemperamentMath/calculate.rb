@@ -27,7 +27,8 @@ module TemperamentMath
 # "Rising to G#" here (for example) usually equals "rising from C#" in the outside world.
 # 0  1  2  3  4  5  6  7  8  9  10 11
 # G  D  A  E  B  F# C# G# D# A# F  C
-    stepwise = [7, 2, 9, 4, 11, 6, 1, 8, 3, 10, 5, 0]
+# Position of:  C#  D  D#  E  F   F#  G  G#  A  A#  B  C
+    stepwise = [6,  1, 8,  3, 10, 5,  0, 7,  2, 9,  4, 11]
     @@fifth_stepwise_sets = @@fifth_accumulated_sets.map do |set|
       set.values_at *stepwise
     end
@@ -148,11 +149,12 @@ module TemperamentMath
 
     fifth_stepwise_sets_build
     p 'The corresponding stepwise fifths'
-    p 'rising to G# A A# B C C# D D# E F F# G are'
+    p 'indicating the positions of C# D D# E F F# G G# A A# B C are'
     @@fifth_stepwise_sets.each{|e| p e}
 
     tuning_sets_build
-    p 'The corresponding tuning sets are'
+    p 'The corresponding tuning sets'
+    p 'indicating the positions of C# D D# E F F# G G# A A# B C are'
     @@tuning_sets.each do |set|
       p set.map{|e| e.round 5}
     end
