@@ -1,3 +1,9 @@
+** Introduction
+
+Temperament-Math: calculate variegated circulating tuning temperaments
+
+Copyright (C) 2021 Mark D. Blackwell.
+
 ** Explanation
 
 x-sub-i is a numbered perfect fifth in the circle of fifths, rising to G, D, etc.:
@@ -16,3 +22,9 @@ E    B    A    F#   D    C#   G    G#   C     D#   F     A#
 In this program, they are called @@third_1, etc.
 
 The first line of numbers is the level number.
+
+** License
+
+GNU Affero General Public License, Version 3
+
+See license [here](./LICENSE).

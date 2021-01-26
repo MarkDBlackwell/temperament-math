@@ -1,15 +1,29 @@
 # coding: utf-8
 
 =begin
+Temperament-Math: calculate variegated circulating tuning temperaments
 Copyright (C) 2021 Mark D. Blackwell.
-   All rights reserved.
-   This program is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+Contact: Mark D. Blackwell
+markdblackwell01@gmail.com
 
 Author: Mark D. Blackwell
 Dates:
 2021-Jan-14: created (mdb)
+2021-Jan-26: works (mdb)
 =end
 
 module TemperamentMath
@@ -120,6 +134,10 @@ module TemperamentMath
   end
 
   def run
+    p 'Temperament-Math'
+    p 'Copyright (C) 2021 Mark D. Blackwell.'
+    p 'This program comes with ABSOLUTELY NO WARRANTY; for details see the file, LICENSE.'
+    puts
     p "A range #{fifth_range} of fifths"
 
     third_sets_build
