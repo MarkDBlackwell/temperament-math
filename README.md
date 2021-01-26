@@ -19,7 +19,7 @@ This program is known to work with version 2.7.0p0 (of Ruby).
 
 ## Explanation
 
-The program generates tuning temperaments in which the major thirds are variegated.
+The program generates keyboard tuning temperaments in which the major thirds are variegated.
 
 In particular,
 since each major third forms part of a major key's tonic chord,
@@ -35,14 +35,14 @@ This increases variety.
 
 Unlike Young's,
 the sharp keys are favored over the flat keys.
-(In other words, the major thirds are more just.)
+(In other words, the major thirds are closer to just.)
 
-This improves the sound of the
-(major) dominant chords of the commonly-used minor keys:
+This improves the sound of
+(major) dominant chords in the commonly-used minor keys:
 for example,
-the E-major dominant chord (4 sharps) in A-minor (no sharps),
-A-major (3 sharps) in D-minor (1 flat),
-and B-major (5 sharps) in E-minor (1 sharp).
+the E-major dominant chord (4 sharps) in A minor (no sharps),
+the A-major chord (3 sharps) in D minor (1 flat),
+and the B-major chord (5 sharps) in E minor (1 sharp).
 
 Also unlike Young's,
 the major third CE is perfectly just.
