@@ -31,19 +31,19 @@ Unlike Young's, however,
 the sharp keys' major thirds are closer to just
 than those of the corresponding flat keys,
 which increases variety.
-(Thomas Young had these the same.)
+(In Young's, these are the same.)
 
 Unlike Young's,
 the sharp keys are favored over the flat keys
-(the major thirds are more just).
+(in other words, the major thirds are more just).
 
 This improves the sound of the
 major dominant chords of the commonly-used minor keys, such as
-E-major in A-minor, A-major in D-minor,
-B-major in E-minor, etc.
+the E-major dominant chord of A-minor, A-major of D-minor,
+and B-major of E-minor.
 
 Also unlike Young's,
-here the major third, CE is perfectly just.
+the major third CE is perfectly just, here.
 
 ## Notes on the program
 
