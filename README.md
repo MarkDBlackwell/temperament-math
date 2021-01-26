@@ -40,11 +40,13 @@ the sharp keys are favored over the flat keys.
 This improves the sound of the
 (major) dominant chords of the commonly-used minor keys:
 for example,
-the E-major dominant chord in A-minor, A-major in D-minor,
-and B-major in E-minor.
+the E-major dominant chord (4 sharps) in A-minor (no sharps),
+A-major (3 sharps) in D-minor (1 flat),
+and B-major (5 sharps) in E-minor (1 sharp).
 
 Also unlike Young's,
-the major third CE is perfectly just, here. He only came fairly close.
+the major third CE is perfectly just.
+He only came fairly close.
 
 ## Notes on the program
 
