@@ -134,20 +134,25 @@ module TemperamentMath
   end
 
   def run
+    basename_output = 'output.txt'
+    project_root = ::File.dirname ::File.realpath "#{__FILE__}/../.."
+    @@out = ::File.open "#{project_root}/#{basename_output}", 'w'
+
     puts 'Temperament-Math'
     puts 'Copyright (C) 2021 Mark D. Blackwell.'
     puts 'This program comes with ABSOLUTELY NO WARRANTY; for details see the file, LICENSE.'
-    puts
-    puts "A range #{fifth_range} of fifths"
+    puts "Output is in #{basename_output}."
+
+    @@out.puts "A range #{fifth_range} of fifths"
 
     third_sets_build
-    puts "produces #{@@third_sets.length} sets of thirds"
-    puts 'rising to G D A E B F# C# G# D# A# F C'
-    @@third_sets.each{|e| p e}
+    @@out.puts "produces #{@@third_sets.length} sets of thirds"
+    @@out.puts 'rising to G D A E B F# C# G# D# A# F C'
+    @@third_sets.each{|e| @@out.puts e.inspect}
 
     fifth_sets_build
-    puts "and #{@@fifth_sets.length} sets of fifths"
-    puts 'also rising to G D A E B F# C# G# D# A# F C'
+    @@out.puts "and #{@@fifth_sets.length} sets of fifths"
+    @@out.puts 'also rising to G D A E B F# C# G# D# A# F C'
     thirds_previous = ''
     @@fifth_sets.each do |fifth_set|
       thirds = octave_enum.map do |k|
@@ -155,26 +160,26 @@ module TemperamentMath
         fifth_set.values_at(*a).sum
       end
       thirds_previous = thirds if thirds_previous.empty?
-      puts unless thirds_previous == thirds
+      @@out.puts unless thirds_previous == thirds
       thirds_previous = thirds
-      p fifth_set
+      @@out.puts fifth_set.inspect
     end
 
     fifth_accumulated_sets_build
-    puts 'The corresponding accumulated fifths'
-    puts 'also rising to G D A E B F# C# G# D# A# F C are'
-    @@fifth_accumulated_sets.each{|e| p e}
+    @@out.puts 'The corresponding accumulated fifths'
+    @@out.puts 'also rising to G D A E B F# C# G# D# A# F C are'
+    @@fifth_accumulated_sets.each{|e| @@out.puts e.inspect}
 
     fifth_stepwise_sets_build
-    puts 'The corresponding reordered stepwise fifths'
-    puts 'indicating the positions of C# D D# E F F# G G# A A# B C are'
-    @@fifth_stepwise_sets.each{|e| p e}
+    @@out.puts 'The corresponding reordered stepwise fifths'
+    @@out.puts 'indicating the positions of C# D D# E F F# G G# A A# B C are'
+    @@fifth_stepwise_sets.each{|e| @@out.puts e.inspect}
 
     tuning_sets_build
-    puts 'The corresponding tuning sets'
-    puts 'indicating the positions of C# D D# E F F# G G# A A# B C are'
+    @@out.puts 'The corresponding tuning sets'
+    @@out.puts 'indicating the positions of C# D D# E F F# G G# A A# B C are'
     @@tuning_sets.each do |set|
-      p set.map{|e| e.round 5}
+      @@out.puts set.map{|e| e.round 5}.inspect
     end
     nil
   end
