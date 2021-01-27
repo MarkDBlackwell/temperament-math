@@ -166,7 +166,7 @@ module TemperamentMath
     @@fifth_accumulated_sets.each{|e| p e}
 
     fifth_stepwise_sets_build
-    puts 'The corresponding stepwise fifths'
+    puts 'The corresponding reordered stepwise fifths'
     puts 'indicating the positions of C# D D# E F F# G G# A A# B C are'
     @@fifth_stepwise_sets.each{|e| p e}
 

@@ -37,8 +37,8 @@ This increases variety.
 (But in Young's, they are the same.)
 
 So, here,
-the sharp keys are favored over the flat keys.
-(In other words, their tonic major thirds are closer to just.)
+the sharp keys are favored over the flat keys
+(because their tonic major thirds are closer to just).
 This improves the sound of the
 (major) dominant chords in commonly-used minor keys.
 For example:
@@ -51,7 +51,7 @@ For example:
 
 Also unlike Young's,
 the major third CE here is perfectly just.
-Young's comes only fairly close.
+Young's only comes fairly close.
 
 ## Notes on the program
 
