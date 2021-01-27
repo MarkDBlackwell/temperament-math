@@ -146,13 +146,13 @@ module TemperamentMath
     @@out.puts "A range #{fifth_range} of fifths"
 
     third_sets_build
-    @@out.puts "produces #{@@third_sets.length} sets of thirds"
-    @@out.puts 'rising to G D A E B F# C# G# D# A# F C'
+    @@out.puts "produces #{@@third_sets.length} sets of thirds, " \
+        "rising to G D A E B F# C# G# D# A# F C"
     @@third_sets.each{|e| @@out.puts e.inspect}
 
     fifth_sets_build
-    @@out.puts "and #{@@fifth_sets.length} sets of fifths"
-    @@out.puts 'also rising to G D A E B F# C# G# D# A# F C'
+    @@out.puts "and #{@@fifth_sets.length} sets of fifths, " \
+        "also rising to G D A E B F# C# G# D# A# F C"
     thirds_previous = ''
     @@fifth_sets.each do |fifth_set|
       thirds = octave_enum.map do |k|
@@ -166,18 +166,18 @@ module TemperamentMath
     end
 
     fifth_accumulated_sets_build
-    @@out.puts 'The corresponding accumulated fifths'
-    @@out.puts 'also rising to G D A E B F# C# G# D# A# F C are'
+    @@out.puts 'The corresponding accumulated fifths, ' \
+        'also rising to G D A E B F# C# G# D# A# F C are'
     @@fifth_accumulated_sets.each{|e| @@out.puts e.inspect}
 
     fifth_stepwise_sets_build
-    @@out.puts 'The corresponding reordered stepwise fifths'
-    @@out.puts 'indicating the positions of C# D D# E F F# G G# A A# B C are'
+    @@out.puts 'The corresponding reordered stepwise fifths, ' \
+        'indicating the positions of C# D D# E F F# G G# A A# B C are'
     @@fifth_stepwise_sets.each{|e| @@out.puts e.inspect}
 
     tuning_sets_build
-    @@out.puts 'The corresponding tuning sets'
-    @@out.puts 'indicating the positions of C# D D# E F F# G G# A A# B C are'
+    @@out.puts 'The corresponding tuning sets, ' \
+        'indicating the positions of C# D D# E F F# G G# A A# B C are'
     @@tuning_sets.each do |set|
       @@out.puts set.map{|e| e.round 5}.inspect
     end
