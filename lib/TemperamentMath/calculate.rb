@@ -29,6 +29,10 @@ Dates:
 module TemperamentMath
   extend self
 
+  def directory_output
+    @@directory_output ||= "#{project_root}/out"
+  end
+
   def fifth_accumulated_sets_build
     @@fifth_accumulated_sets = @@fifth_sets.map do |set|
       sum = 0
@@ -133,25 +137,59 @@ module TemperamentMath
     12
   end
 
-  def run
-    basename_output = 'output.txt'
-    project_root = ::File.dirname ::File.realpath "#{__FILE__}/../.."
-    @@out = ::File.open "#{project_root}/#{basename_output}", 'w'
+  def open(basename)
+    ::File.open "#{directory_output}/#{basename}", 'w'
+  end
 
+  def out_accumulated
+    @@out_accumulated ||= begin
+      open 'output-accumulated.txt'
+    end
+  end
+
+  def out_fifth
+    @@out_fifth ||= begin
+      open 'output-fifth.txt'
+    end
+  end
+
+  def out_stepwise
+    @@out_stepwise ||= begin
+      open 'output-stepwise.txt'
+    end
+  end
+
+  def out_third
+    @@out_third ||= begin
+      open 'output-third.txt'
+    end
+  end
+
+  def out_tuning
+    @@out_tuning ||= begin
+      open 'output-tuning.txt'
+    end
+  end
+
+  def project_root
+    @@project_root ||= ::File.dirname ::File.realpath "#{__FILE__}/../.."
+  end
+
+  def run
     puts 'Temperament-Math'
     puts 'Copyright (C) 2021 Mark D. Blackwell.'
     puts 'This program comes with ABSOLUTELY NO WARRANTY; for details see the file, LICENSE.'
-    puts "Output is in #{basename_output}."
-
-    @@out.puts "A range #{fifth_range} of fifths"
+    puts 'Output is in directory, "out/"'
 
     third_sets_build
-    @@out.puts "produces #{@@third_sets.length} sets of thirds, " \
+    out_third.puts "A range #{fifth_range} of fifths"
+    out_third.puts "produces #{@@third_sets.length} sets of thirds, " \
         "rising to G D A E B F# C# G# D# A# F C"
-    @@third_sets.each{|e| @@out.puts e.inspect}
+    @@third_sets.each{|e| out_third.puts e.inspect}
 
     fifth_sets_build
-    @@out.puts "and #{@@fifth_sets.length} sets of fifths, " \
+    out_fifth.puts "A range #{fifth_range} of fifths"
+    out_fifth.puts "produces #{@@fifth_sets.length} sets of fifths, " \
         "also rising to G D A E B F# C# G# D# A# F C"
     thirds_previous = ''
     @@fifth_sets.each do |fifth_set|
@@ -160,26 +198,29 @@ module TemperamentMath
         fifth_set.values_at(*a).sum
       end
       thirds_previous = thirds if thirds_previous.empty?
-      @@out.puts unless thirds_previous == thirds
+      out_fifth.puts unless thirds_previous == thirds
       thirds_previous = thirds
-      @@out.puts fifth_set.inspect
+      out_fifth.puts fifth_set.inspect
     end
 
     fifth_accumulated_sets_build
-    @@out.puts 'The corresponding accumulated fifths, ' \
-        'also rising to G D A E B F# C# G# D# A# F C are'
-    @@fifth_accumulated_sets.each{|e| @@out.puts e.inspect}
+    out_accumulated.puts "A range #{fifth_range} of fifths"
+    out_accumulated.puts "produces #{@@fifth_accumulated_sets.length} corresponding accumulated fifths, " \
+        "rising to G D A E B F# C# G# D# A# F C"
+    @@fifth_accumulated_sets.each{|e| out_accumulated.puts e.inspect}
 
     fifth_stepwise_sets_build
-    @@out.puts 'The corresponding reordered stepwise fifths, ' \
-        'indicating the positions of C# D D# E F F# G G# A A# B C are'
-    @@fifth_stepwise_sets.each{|e| @@out.puts e.inspect}
+    out_stepwise.puts "A range #{fifth_range} of fifths"
+    out_stepwise.puts "produces #{@@fifth_stepwise_sets.length} corresponding reordered stepwise fifths, " \
+        "indicating the positions of C# D D# E F F# G G# A A# B C"
+    @@fifth_stepwise_sets.each{|e| out_stepwise.puts e.inspect}
 
     tuning_sets_build
-    @@out.puts 'The corresponding tuning sets, ' \
-        'indicating the positions of C# D D# E F F# G G# A A# B C are'
+    out_tuning.puts "A range #{fifth_range} of fifths"
+    out_tuning.puts "produces #{@@tuning_sets.length} corresponding tuning sets, " \
+        "indicating the positions of C# D D# E F F# G G# A A# B C"
     @@tuning_sets.each do |set|
-      @@out.puts set.map{|e| e.round 5}.inspect
+      out_tuning.puts set.map{|e| e.round 5}.inspect
     end
     nil
   end
