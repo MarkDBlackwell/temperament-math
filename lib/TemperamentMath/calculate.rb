@@ -137,38 +137,33 @@ module TemperamentMath
     12
   end
 
-  def open(basename)
+  def open(s)
+    basename = "#{s}-#{fifth_min.abs}-#{fifth_max.abs}.txt"
     ::File.open "#{directory_output}/#{basename}", 'w'
   end
 
+  def out
+    @@out ||= open 'output'
+  end
+
   def out_accumulated
-    @@out_accumulated ||= begin
-      open 'output-accumulated.txt'
-    end
+    @@out_accumulated ||= open 'output-accumulated'
   end
 
   def out_fifth
-    @@out_fifth ||= begin
-      open 'output-fifth.txt'
-    end
+    @@out_fifth ||= open 'output-fifth'
   end
 
   def out_stepwise
-    @@out_stepwise ||= begin
-      open 'output-stepwise.txt'
-    end
+    @@out_stepwise ||= open 'output-stepwise'
   end
 
   def out_third
-    @@out_third ||= begin
-      open 'output-third.txt'
-    end
+    @@out_third ||= open 'output-third'
   end
 
   def out_tuning
-    @@out_tuning ||= begin
-      open 'output-tuning.txt'
-    end
+    @@out_tuning ||= open 'output-tuning'
   end
 
   def project_root
@@ -182,15 +177,16 @@ module TemperamentMath
     puts 'Output is in directory, "out/"'
 
     third_sets_build
-    out_third.puts "A range #{fifth_range} of fifths"
-    out_third.puts "produces #{@@third_sets.length} sets of thirds, " \
-        "rising to G D A E B F# C# G# D# A# F C"
+    out.puts "A range #{fifth_range} of fifths produces:"
+    out.puts
+    out.puts "* #{@@third_sets.length} sets of thirds, rising to"
+    out.puts '      G D A E B F# C# G# D# A# F C'
     @@third_sets.each{|e| out_third.puts e.inspect}
 
     fifth_sets_build
-    out_fifth.puts "A range #{fifth_range} of fifths"
-    out_fifth.puts "produces #{@@fifth_sets.length} sets of fifths, " \
-        "also rising to G D A E B F# C# G# D# A# F C"
+    out.puts
+    out.puts "* #{@@fifth_sets.length} sets of fifths, also rising to"
+    out.puts '      G D A E B F# C# G# D# A# F C'
     thirds_previous = ''
     @@fifth_sets.each do |fifth_set|
       thirds = octave_enum.map do |k|
@@ -204,21 +200,21 @@ module TemperamentMath
     end
 
     fifth_accumulated_sets_build
-    out_accumulated.puts "A range #{fifth_range} of fifths"
-    out_accumulated.puts "produces #{@@fifth_accumulated_sets.length} corresponding accumulated fifths, " \
-        "rising to G D A E B F# C# G# D# A# F C"
+    out.puts
+    out.puts '* Corresponding accumulated fifths, rising to'
+    out.puts '      G D A E B F# C# G# D# A# F C'
     @@fifth_accumulated_sets.each{|e| out_accumulated.puts e.inspect}
 
     fifth_stepwise_sets_build
-    out_stepwise.puts "A range #{fifth_range} of fifths"
-    out_stepwise.puts "produces #{@@fifth_stepwise_sets.length} corresponding reordered stepwise fifths, " \
-        "indicating the positions of C# D D# E F F# G G# A A# B C"
+    out.puts
+    out.puts '* Corresponding reordered stepwise notes, indicating the positions of'
+    out.puts '      C# D D# E F F# G G# A A# B C'
     @@fifth_stepwise_sets.each{|e| out_stepwise.puts e.inspect}
 
     tuning_sets_build
-    out_tuning.puts "A range #{fifth_range} of fifths"
-    out_tuning.puts "produces #{@@tuning_sets.length} corresponding tuning sets, " \
-        "indicating the positions of C# D D# E F F# G G# A A# B C"
+    out.puts
+    out.puts '* And corresponding tuning sets, also indicating the positions of'
+    out.puts '      C# D D# E F F# G G# A A# B C'
     @@tuning_sets.each do |set|
       out_tuning.puts set.map{|e| e.round 5}.inspect
     end
