@@ -147,7 +147,7 @@ module TemperamentMath
   end
 
   def out_accumulated
-    @@out_accumulated ||= open 'output-accumulated'
+    @@out_accumulated ||= open 'output-fifth-accumulated'
   end
 
   def out_fifth
@@ -155,7 +155,7 @@ module TemperamentMath
   end
 
   def out_stepwise
-    @@out_stepwise ||= open 'output-stepwise'
+    @@out_stepwise ||= open 'output-fifth-stepwise'
   end
 
   def out_third
@@ -181,42 +181,51 @@ module TemperamentMath
     out.puts
     out.puts "* #{@@third_sets.length} sets of thirds, rising to"
     out.puts '      G D A E B F# C# G# D# A# F C'
-    @@third_sets.each{|e| out_third.puts e.inspect}
+    @@third_sets.each_with_index{|e,i| out_third.puts "#{i} #{e}"}
 
     fifth_sets_build
     out.puts
     out.puts "* #{@@fifth_sets.length} sets of fifths, also rising to"
     out.puts '      G D A E B F# C# G# D# A# F C'
     thirds_previous = ''
-    @@fifth_sets.each do |fifth_set|
+    thirds_index = 0
+    @@fifth_sets.each_with_index do |fifth_set, fifths_index|
       thirds = octave_enum.map do |k|
         a = third_smallest_enum.map{|i| (k - i) % octave_size}
         fifth_set.values_at(*a).sum
       end
-      thirds_previous = thirds if thirds_previous.empty?
-      out_fifth.puts unless thirds_previous == thirds
+      s = "Third set #{thirds_index}:"
+      if thirds_previous.empty?
+        thirds_previous = thirds
+        out_fifth.puts s
+        thirds_index += 1
+      end
+      unless thirds_previous == thirds
+        out_fifth.puts s
+        thirds_index += 1
+      end
       thirds_previous = thirds
-      out_fifth.puts fifth_set.inspect
+      out_fifth.puts "#{fifths_index} #{fifth_set}"
     end
 
     fifth_accumulated_sets_build
     out.puts
     out.puts '* Corresponding accumulated fifths, rising to'
     out.puts '      G D A E B F# C# G# D# A# F C'
-    @@fifth_accumulated_sets.each{|e| out_accumulated.puts e.inspect}
+    @@fifth_accumulated_sets.each_with_index{|e,i| out_accumulated.puts "#{i} #{e}"}
 
     fifth_stepwise_sets_build
     out.puts
     out.puts '* Corresponding reordered stepwise notes, indicating the positions of'
     out.puts '      C# D D# E F F# G G# A A# B C'
-    @@fifth_stepwise_sets.each{|e| out_stepwise.puts e.inspect}
+    @@fifth_stepwise_sets.each_with_index{|e,i| out_stepwise.puts "#{i} #{e}"}
 
     tuning_sets_build
     out.puts
     out.puts '* And corresponding tuning sets, also indicating the positions of'
     out.puts '      C# D D# E F F# G G# A A# B C'
-    @@tuning_sets.each do |set|
-      out_tuning.puts set.map{|e| e.round 5}.inspect
+    @@tuning_sets.each_with_index do |set,i|
+      out_tuning.puts "#{i} #{set.map{|e| e.round 5}}"
     end
     nil
   end
