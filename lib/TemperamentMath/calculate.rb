@@ -154,12 +154,20 @@ module TemperamentMath
     @@out_fifth ||= open 'output-fifth'
   end
 
+  def out_fifth_raw
+    @@out_fifth_raw ||= open 'output-fifth-raw'
+  end
+
   def out_stepwise
     @@out_stepwise ||= open 'output-fifth-stepwise'
   end
 
   def out_third
     @@out_third ||= open 'output-third'
+  end
+
+  def out_third_raw
+    @@out_third_raw ||= open 'output-third-raw'
   end
 
   def out_tuning
@@ -177,6 +185,7 @@ module TemperamentMath
     puts 'Output is in directory, "out/"'
 
     third_sets_build
+    @@third_sets.each{|set| out_third_raw.print "#{set.join ' '}\n"}
     out.puts "A range #{fifth_range} of fifths produces:"
     out.puts
     out.puts "* #{@@third_sets.length} sets of thirds, rising to"
@@ -184,6 +193,7 @@ module TemperamentMath
     @@third_sets.each_with_index{|e,i| out_third.puts "#{i} #{e}"}
 
     fifth_sets_build
+    @@fifth_sets.each{|set| out_fifth_raw.print "#{set.join ' '}\n"}
     out.puts
     out.puts "* #{@@fifth_sets.length} sets of fifths, also rising to"
     out.puts '      G D A E B F# C# G# D# A# F C'
