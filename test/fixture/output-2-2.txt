@@ -1,0 +1,16 @@
+A range -2..2 of fifths produces:
+
+* 2 sets of thirds, rising to
+      G D A E B F# C# G# D# A# F C
+
+* 3 sets of fifths, also rising to
+      G D A E B F# C# G# D# A# F C
+
+* Corresponding accumulated fifths, rising to
+      G D A E B F# C# G# D# A# F C
+
+* Corresponding reordered stepwise notes, indicating the positions of
+      C# D D# E F F# G G# A A# B C
+
+* And corresponding tuning sets, also indicating the positions of
+      C# D D# E F F# G G# A A# B C
