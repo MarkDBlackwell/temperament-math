@@ -185,12 +185,10 @@ module TemperamentMath
     puts 'Output is in directory, "out/"'
 
     third_sets_build
-    @@third_sets.each{|set| out_third_raw.print "#{set.join ' '}\n"}
     out.puts "A range #{fifth_range} of fifths produces:"
     out.puts
-    out.puts "* #{@@third_sets.length} sets of thirds, rising to"
+    out.puts "* #{@@third_sets_length} sets of thirds, rising to"
     out.puts '      G D A E B F# C# G# D# A# F C'
-    @@third_sets.each_with_index{|e,i| out_third.puts "#{i} #{e}"}
 
     fifth_sets_build
     @@fifth_sets.each{|set| out_fifth_raw.print "#{set.join ' '}\n"}
@@ -275,6 +273,9 @@ module TemperamentMath
   def third_sets_build
     @@third_sets = []
     third_sets_build_level_1
+    @@third_sets_length = @@third_sets.length
+    @@third_sets.each{|set| out_third_raw.print "#{set.join ' '}\n"}
+    @@third_sets.each_with_index{|e,i| out_third.puts "#{i} #{e}"}
     nil
   end
 
