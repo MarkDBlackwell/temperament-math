@@ -79,14 +79,9 @@ module TemperamentMath
   def fifth_sets_build
     @@fifth_sets = []
 
-    @@third_sets = []
     out_third_raw.rewind
     out_third_raw.each_line do |line|
-      set = line.split(' ').map{|e| e.to_i}
-      @@third_sets << set
-    end
-
-    @@third_sets.each do |third_set|
+      third_set = line.split(' ').map &:to_i
       @@third_1,  @@third_2,  @@third_3,  @@third_4,
       @@third_5,  @@third_6,  @@third_7,  @@third_8,
       @@third_9,  @@third_10, @@third_11, @@third_12 = third_set
@@ -275,7 +270,6 @@ module TemperamentMath
         @@third_9,  @@third_10, @@third_11, @@third_12,
         ]
 # Integers are immutable:
-    @@third_sets << set
     @@third_sets_length += 1
     out_third_raw.print "#{set.join ' '}\n"
     out_third.puts "#{@@third_sets_length - 1} #{set}"
@@ -283,7 +277,6 @@ module TemperamentMath
   end
 
   def third_sets_build
-    @@third_sets = []
     @@third_sets_length = 0
     third_sets_build_level_1
     nil
