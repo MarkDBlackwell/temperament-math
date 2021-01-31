@@ -268,6 +268,8 @@ module TemperamentMath
 # Integers are immutable:
     @@third_sets << set
     @@third_sets_length += 1
+    out_third_raw.print "#{set.join ' '}\n"
+    out_third.puts "#{@@third_sets_length - 1} #{set}"
     nil
   end
 
@@ -275,8 +277,6 @@ module TemperamentMath
     @@third_sets = []
     @@third_sets_length = 0
     third_sets_build_level_1
-    @@third_sets.each{|set| out_third_raw.print "#{set.join ' '}\n"}
-    @@third_sets.each_with_index{|e,i| out_third.puts "#{i} #{e}"}
     nil
   end
 
