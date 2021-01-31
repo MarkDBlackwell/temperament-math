@@ -137,9 +137,10 @@ module TemperamentMath
     12
   end
 
-  def open(s)
+  def open(s, bidirectional=false)
     basename = "#{s}-#{fifth_min.abs}-#{fifth_max.abs}.txt"
-    ::File.open "#{directory_output}/#{basename}", 'w'
+    mode = bidirectional ? 'w+' : 'w'
+    ::File.open "#{directory_output}/#{basename}", mode
   end
 
   def out
@@ -167,7 +168,7 @@ module TemperamentMath
   end
 
   def out_third_raw
-    @@out_third_raw ||= open 'output-third-raw'
+    @@out_third_raw ||= open 'output-third-raw', true
   end
 
   def out_tuning
