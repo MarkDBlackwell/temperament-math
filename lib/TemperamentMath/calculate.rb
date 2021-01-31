@@ -73,10 +73,12 @@ module TemperamentMath
         ]
 # Integers are immutable:
     @@fifth_sets << set
+    @@fifth_sets_length += 1
     nil
   end
 
   def fifth_sets_build
+    @@fifth_sets_length = 0
     @@fifth_sets = []
 
     out_third_raw.rewind
@@ -197,7 +199,7 @@ module TemperamentMath
     fifth_sets_build
     @@fifth_sets.each{|set| out_fifth_raw.print "#{set.join ' '}\n"}
     out.puts
-    out.puts "* #{@@fifth_sets.length} sets of fifths, also rising to"
+    out.puts "* #{@@fifth_sets_length} sets of fifths, also rising to"
     out.puts '      G D A E B F# C# G# D# A# F C'
     thirds_previous = ''
     thirds_index = 0
