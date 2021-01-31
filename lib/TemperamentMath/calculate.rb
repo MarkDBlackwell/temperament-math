@@ -78,6 +78,14 @@ module TemperamentMath
 
   def fifth_sets_build
     @@fifth_sets = []
+
+    @@third_sets = []
+    out_third_raw.rewind
+    out_third_raw.each_line do |line|
+      set = line.split(' ').map{|e| e.to_i}
+      @@third_sets << set
+    end
+
     @@third_sets.each do |third_set|
       @@third_1,  @@third_2,  @@third_3,  @@third_4,
       @@third_5,  @@third_6,  @@third_7,  @@third_8,
