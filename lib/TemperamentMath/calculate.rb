@@ -35,9 +35,8 @@ module TemperamentMath
 
   def fifth_accumulated_sets_build
     out_fifth_raw.rewind
-    out_fifth_raw.each_line do |line|
-    end
-    @@fifth_accumulated_sets = @@fifth_sets.map do |set|
+    @@fifth_accumulated_sets = out_fifth_raw.each_line.map do |line|
+      set = line.split(' ').map &:to_i
       sum = 0
       set.map{|e| sum += e}
     end
