@@ -215,8 +215,9 @@ module TemperamentMath
     puts 'This program comes with ABSOLUTELY NO WARRANTY; for details see the file, LICENSE.'
     puts 'Output is in directory, "out/"'
 
-    third_sets_build
     out.puts "A range #{fifth_range} of fifths produces:"
+
+    third_sets_build
     out.puts
     out.puts "* #{@@third_sets_length} sets of thirds, rising to"
     out.puts '      G D A E B F# C# G# D# A# F C'
