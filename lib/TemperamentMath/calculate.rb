@@ -34,6 +34,9 @@ module TemperamentMath
   end
 
   def fifth_accumulated_sets_build
+    out_fifth_raw.rewind
+    out_fifth_raw.each_line do |line|
+    end
     @@fifth_accumulated_sets = @@fifth_sets.map do |set|
       sum = 0
       set.map{|e| sum += e}
@@ -71,6 +74,7 @@ module TemperamentMath
         @@fifth_5,  @@fifth_6,  @@fifth_7,  @@fifth_8,
         @@fifth_9,  @@fifth_10, @@fifth_11, @@fifth_12,
         ]
+    out_fifth_raw.print "#{set.join ' '}\n"
 # Integers are immutable:
     @@fifth_sets << set
     @@fifth_sets_length += 1
@@ -127,7 +131,6 @@ module TemperamentMath
         end
       end
     end
-    @@fifth_sets.each{|set| out_fifth_raw.print "#{set.join ' '}\n"}
     thirds_previous = ''
     thirds_index = 0
     @@fifth_sets.each_with_index do |fifth_set, fifths_index|
@@ -182,7 +185,7 @@ module TemperamentMath
   end
 
   def out_fifth_raw
-    @@out_fifth_raw ||= open 'output-fifth-raw'
+    @@out_fifth_raw ||= open 'output-fifth-raw', true
   end
 
   def out_stepwise
