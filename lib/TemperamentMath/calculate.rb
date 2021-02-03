@@ -40,6 +40,7 @@ module TemperamentMath
       sum = 0
       set.map{|e| sum += e}
     end
+    @@fifth_accumulated_sets.each_with_index{|e,i| out_accumulated.puts "#{i} #{e}"}
     nil
   end
 
@@ -154,6 +155,7 @@ module TemperamentMath
     @@fifth_stepwise_sets = @@fifth_accumulated_sets.map do |set|
       set.values_at *stepwise
     end
+    @@fifth_stepwise_sets.each_with_index{|e,i| out_stepwise.puts "#{i} #{e}"}
     nil
   end
 
@@ -225,21 +227,16 @@ module TemperamentMath
     out.puts '      G D A E B F# C# G# D# A# F C'
 
     fifth_accumulated_sets_build
-    @@fifth_accumulated_sets.each_with_index{|e,i| out_accumulated.puts "#{i} #{e}"}
     out.puts
     out.puts '* Corresponding accumulated fifths, rising to'
     out.puts '      G D A E B F# C# G# D# A# F C'
 
     fifth_stepwise_sets_build
-    @@fifth_stepwise_sets.each_with_index{|e,i| out_stepwise.puts "#{i} #{e}"}
     out.puts
     out.puts '* Corresponding reordered stepwise notes, indicating the positions of'
     out.puts '      C# D D# E F F# G G# A A# B C'
 
     tuning_sets_build
-    @@tuning_sets.each_with_index do |set,i|
-      out_tuning.puts "#{i} #{set.map{|e| e.round 5}}"
-    end
     out.puts
     out.puts '* And corresponding tuning sets, also indicating the positions of'
     out.puts '      C# D D# E F F# G G# A A# B C'
@@ -442,6 +439,9 @@ module TemperamentMath
         equal_tempered = 100.0 * i.succ
         equal_tempered + offset
       end
+    end
+    @@tuning_sets.each_with_index do |set,i|
+      out_tuning.puts "#{i} #{set.map{|e| e.round 5}}"
     end
     nil
   end
