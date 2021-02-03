@@ -35,14 +35,16 @@ module TemperamentMath
 
   def fifth_accumulated_sets_build
     out_fifth_raw.rewind
+    index = 0
     fifth_accumulated_sets = out_fifth_raw.each_line.map do |line|
       set = line.split(' ').map &:to_i
       sum = 0
       set.map{|e| sum += e}
     end
-    fifth_accumulated_sets.each_with_index{|e,i| out_accumulated.puts "#{i} #{e}"}
     fifth_accumulated_sets.each do |set|
       out_accumulated_raw.print "#{set.join ' '}\n"
+      out_accumulated.puts "#{index} #{set}"
+      index += 1
     end
     nil
   end
