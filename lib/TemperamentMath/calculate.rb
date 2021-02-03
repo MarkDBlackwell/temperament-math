@@ -69,7 +69,6 @@ module TemperamentMath
 
   def fifth_sets_build
     @@fifth_sets_length = 0
-
     out_third_raw.rewind
     out_third_raw.each_line do |line|
       third_set = line.split(' ').map &:to_i
@@ -120,7 +119,7 @@ module TemperamentMath
     thirds_index = 0
     fifths_index = 0
     out_fifth_raw.rewind
-    out_fifth_raw.each_line.map do |line|
+    out_fifth_raw.each_line do |line|
       fifth_set = line.split(' ').map &:to_i
       thirds = octave_enum.map do |k|
         a = third_smallest_enum.map{|i| (k - i) % octave_size}
@@ -441,10 +440,8 @@ module TemperamentMath
 
   def tuning_sets_build
     out_fifth_raw.rewind
-    fifth_sets = out_fifth_raw.each_line.map do |line|
-      line.split(' ').map &:to_i
-    end
-    @@tuning_sets = fifth_sets.zip(@@fifth_stepwise_sets).each.map do |circle_set, stepwise_set|
+    @@tuning_sets = @@fifth_stepwise_sets.each.map do |stepwise_set|
+      circle_set = out_fifth_raw.readline.split(' ').map &:to_i
       third_smallest = circle_set.values_at(*third_smallest_enum).sum
       unit = (third_major_just_difference_cents / third_smallest).abs
 # p unit
