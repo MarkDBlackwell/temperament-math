@@ -127,6 +127,27 @@ module TemperamentMath
         end
       end
     end
+    @@fifth_sets.each{|set| out_fifth_raw.print "#{set.join ' '}\n"}
+    thirds_previous = ''
+    thirds_index = 0
+    @@fifth_sets.each_with_index do |fifth_set, fifths_index|
+      thirds = octave_enum.map do |k|
+        a = third_smallest_enum.map{|i| (k - i) % octave_size}
+        fifth_set.values_at(*a).sum
+      end
+      s = "Third set #{thirds_index}:"
+      if thirds_previous.empty?
+        thirds_previous = thirds
+        out_fifth.puts s
+        thirds_index += 1
+      end
+      unless thirds_previous == thirds
+        out_fifth.puts s
+        thirds_index += 1
+      end
+      thirds_previous = thirds
+      out_fifth.puts "#{fifths_index} #{fifth_set}"
+    end
     nil
   end
 
@@ -197,30 +218,9 @@ module TemperamentMath
     out.puts '      G D A E B F# C# G# D# A# F C'
 
     fifth_sets_build
-    @@fifth_sets.each{|set| out_fifth_raw.print "#{set.join ' '}\n"}
     out.puts
     out.puts "* #{@@fifth_sets_length} sets of fifths, also rising to"
     out.puts '      G D A E B F# C# G# D# A# F C'
-    thirds_previous = ''
-    thirds_index = 0
-    @@fifth_sets.each_with_index do |fifth_set, fifths_index|
-      thirds = octave_enum.map do |k|
-        a = third_smallest_enum.map{|i| (k - i) % octave_size}
-        fifth_set.values_at(*a).sum
-      end
-      s = "Third set #{thirds_index}:"
-      if thirds_previous.empty?
-        thirds_previous = thirds
-        out_fifth.puts s
-        thirds_index += 1
-      end
-      unless thirds_previous == thirds
-        out_fifth.puts s
-        thirds_index += 1
-      end
-      thirds_previous = thirds
-      out_fifth.puts "#{fifths_index} #{fifth_set}"
-    end
 
     fifth_accumulated_sets_build
     out.puts
