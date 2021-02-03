@@ -118,11 +118,10 @@ module TemperamentMath
     end
     thirds_previous = ''
     thirds_index = 0
+    fifths_index = 0
     out_fifth_raw.rewind
-    fifth_sets = out_fifth_raw.each_line.map do |line|
-      line.split(' ').map &:to_i
-    end
-    fifth_sets.each_with_index do |fifth_set, fifths_index|
+    out_fifth_raw.each_line.map do |line|
+      fifth_set = line.split(' ').map &:to_i
       thirds = octave_enum.map do |k|
         a = third_smallest_enum.map{|i| (k - i) % octave_size}
         fifth_set.values_at(*a).sum
@@ -139,6 +138,7 @@ module TemperamentMath
       end
       thirds_previous = thirds
       out_fifth.puts "#{fifths_index} #{fifth_set}"
+      fifths_index += 1
     end
     nil
   end
