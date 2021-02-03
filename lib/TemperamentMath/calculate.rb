@@ -63,15 +63,12 @@ module TemperamentMath
         @@fifth_9,  @@fifth_10, @@fifth_11, @@fifth_12,
         ]
     out_fifth_raw.print "#{set.join ' '}\n"
-# Integers are immutable:
-    @@fifth_sets << set
     @@fifth_sets_length += 1
     nil
   end
 
   def fifth_sets_build
     @@fifth_sets_length = 0
-    @@fifth_sets = []
 
     out_third_raw.rewind
     out_third_raw.each_line do |line|
@@ -121,6 +118,10 @@ module TemperamentMath
     end
     thirds_previous = ''
     thirds_index = 0
+    out_fifth_raw.rewind
+    @@fifth_sets = out_fifth_raw.each_line.map do |line|
+      line.split(' ').map &:to_i
+    end
     @@fifth_sets.each_with_index do |fifth_set, fifths_index|
       thirds = octave_enum.map do |k|
         a = third_smallest_enum.map{|i| (k - i) % octave_size}
@@ -181,6 +182,10 @@ module TemperamentMath
     @@out_accumulated ||= open 'output-fifth-accumulated'
   end
 
+  def out_accumulated_raw
+    @@out_accumulated_raw ||= open 'output-fifth-accumulated-raw', true
+  end
+
   def out_fifth
     @@out_fifth ||= open 'output-fifth'
   end
@@ -191,6 +196,10 @@ module TemperamentMath
 
   def out_stepwise
     @@out_stepwise ||= open 'output-fifth-stepwise'
+  end
+
+  def out_stepwise_raw
+    @@out_stepwise_raw ||= open 'output-fifth-stepwise-raw', true
   end
 
   def out_third
@@ -431,6 +440,10 @@ module TemperamentMath
   end
 
   def tuning_sets_build
+    out_fifth_raw.rewind
+    @@fifth_sets = out_fifth_raw.each_line.map do |line|
+      line.split(' ').map &:to_i
+    end
     @@tuning_sets = @@fifth_sets.zip(@@fifth_stepwise_sets).each.map do |circle_set, stepwise_set|
       third_smallest = circle_set.values_at(*third_smallest_enum).sum
       unit = (third_major_just_difference_cents / third_smallest).abs
