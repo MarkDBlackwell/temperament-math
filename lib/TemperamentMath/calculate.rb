@@ -44,18 +44,6 @@ module TemperamentMath
     nil
   end
 
-  def fifth_stepwise_sets_build
-# "Rising to G#" here (for example) usually equals "rising from C#" in the outside world.
-# 0  1  2  3  4  5  6  7  8  9  10 11
-# G  D  A  E  B  F# C# G# D# A# F  C
-# Position of:  C#  D  D#  E  F   F#  G  G#  A  A#  B  C
-    stepwise = [6,  1, 8,  3, 10, 5,  0, 7,  2, 9,  4, 11]
-    @@fifth_stepwise_sets = @@fifth_accumulated_sets.map do |set|
-      set.values_at *stepwise
-    end
-    nil
-  end
-
   def fifth_max
     2
   end
@@ -156,6 +144,18 @@ module TemperamentMath
 
   def fifth_span
     @@fifth_span ||= fifth_max - fifth_min
+  end
+
+  def fifth_stepwise_sets_build
+# "Rising to G#" here (for example) usually equals "rising from C#" in the outside world.
+# 0  1  2  3  4  5  6  7  8  9  10 11
+# G  D  A  E  B  F# C# G# D# A# F  C
+# Position of:  C#  D  D#  E  F   F#  G  G#  A  A#  B  C
+    stepwise = [6,  1, 8,  3, 10, 5,  0, 7,  2, 9,  4, 11]
+    @@fifth_stepwise_sets = @@fifth_accumulated_sets.map do |set|
+      set.values_at *stepwise
+    end
+    nil
   end
 
   def octave_enum
