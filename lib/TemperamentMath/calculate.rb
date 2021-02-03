@@ -154,6 +154,7 @@ module TemperamentMath
 # 0  1  2  3  4  5  6  7  8  9  10 11
 # G  D  A  E  B  F# C# G# D# A# F  C
 # Position of:  C#  D  D#  E  F   F#  G  G#  A  A#  B  C
+    index = 0
     @@fifth_stepwise_sets = []
     stepwise = [6,  1, 8,  3, 10, 5,  0, 7,  2, 9,  4, 11]
     out_accumulated_raw.rewind
@@ -161,8 +162,9 @@ module TemperamentMath
       accumulated_set = line.split(' ').map &:to_i
       set = accumulated_set.values_at *stepwise
       @@fifth_stepwise_sets << set
+      out_stepwise.puts "#{index} #{set}"
+      index += 1
     end
-    @@fifth_stepwise_sets.each_with_index{|e,i| out_stepwise.puts "#{i} #{e}"}
     nil
   end
 
