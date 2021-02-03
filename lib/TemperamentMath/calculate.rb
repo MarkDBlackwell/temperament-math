@@ -35,13 +35,13 @@ module TemperamentMath
 
   def fifth_accumulated_sets_build
     out_fifth_raw.rewind
-    @@fifth_accumulated_sets = out_fifth_raw.each_line.map do |line|
+    fifth_accumulated_sets = out_fifth_raw.each_line.map do |line|
       set = line.split(' ').map &:to_i
       sum = 0
       set.map{|e| sum += e}
     end
-    @@fifth_accumulated_sets.each_with_index{|e,i| out_accumulated.puts "#{i} #{e}"}
-    @@fifth_accumulated_sets.each do |set|
+    fifth_accumulated_sets.each_with_index{|e,i| out_accumulated.puts "#{i} #{e}"}
+    fifth_accumulated_sets.each do |set|
       out_accumulated_raw.print "#{set.join ' '}\n"
     end
     nil
@@ -156,10 +156,10 @@ module TemperamentMath
 # Position of:  C#  D  D#  E  F   F#  G  G#  A  A#  B  C
     stepwise = [6,  1, 8,  3, 10, 5,  0, 7,  2, 9,  4, 11]
     out_accumulated_raw.rewind
-    @@fifth_accumulated_sets = out_accumulated_raw.each_line.map do |line|
+    fifth_accumulated_sets = out_accumulated_raw.each_line.map do |line|
       line.split(' ').map &:to_i
     end
-    @@fifth_stepwise_sets = @@fifth_accumulated_sets.map do |set|
+    @@fifth_stepwise_sets = fifth_accumulated_sets.map do |set|
       set.values_at *stepwise
     end
     @@fifth_stepwise_sets.each_with_index{|e,i| out_stepwise.puts "#{i} #{e}"}
