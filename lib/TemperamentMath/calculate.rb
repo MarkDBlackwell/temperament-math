@@ -221,16 +221,20 @@ module TemperamentMath
     @@out_tuning ||= open 'output-tuning'
   end
 
+  def program_announce
+    puts 'Temperament-Math'
+    puts 'Copyright (C) 2021 Mark D. Blackwell.'
+    puts 'This program comes with ABSOLUTELY NO WARRANTY; for details see the file, LICENSE.'
+    puts 'Output is in directory, "out/"'
+    nil
+  end
+
   def project_root
     @@project_root ||= ::File.dirname ::File.realpath "#{__FILE__}/../.."
   end
 
   def run
-    puts 'Temperament-Math'
-    puts 'Copyright (C) 2021 Mark D. Blackwell.'
-    puts 'This program comes with ABSOLUTELY NO WARRANTY; for details see the file, LICENSE.'
-    puts 'Output is in directory, "out/"'
-
+    program_announce
     out.puts "A range #{fifth_range} of fifths produces:"
 
     third_sets_build
