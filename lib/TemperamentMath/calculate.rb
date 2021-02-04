@@ -141,10 +141,6 @@ module TemperamentMath
     nil
   end
 
-  def octave_enum
-    @@octave_enum ||= octave_size.times
-  end
-
   def octave_size
     12
   end
@@ -243,7 +239,7 @@ module TemperamentMath
       equal_tempered = 400
       just_frequency_ratio = 5.0 / 4
       just_cents = (Math.log2 just_frequency_ratio) * 1200
-      equal_tempered - just_cents
+      (equal_tempered - just_cents).abs
     end
   end
 
@@ -265,10 +261,9 @@ module TemperamentMath
         @@third_5,  @@third_6,  @@third_7,  @@third_8,
         @@third_9,  @@third_10, @@third_11, @@third_12,
         ]
-# Integers are immutable:
-    @@third_sets_length += 1
     out_third_raw.print "#{set.join ' '}\n"
-    out_third.puts "#{@@third_sets_length - 1} #{set}"
+    out_third.puts "#{@@third_sets_length} #{set}"
+    @@third_sets_length += 1
     nil
   end
 
