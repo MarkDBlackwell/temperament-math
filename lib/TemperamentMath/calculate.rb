@@ -146,10 +146,14 @@ module TemperamentMath
   end
 
   def open(s, bidirectional=false)
-    suffix = (s.end_with? '-raw') ? '' : '.txt'
-    basename = "#{s}-#{fifth_min.abs}-#{fifth_max.abs}#{suffix}"
     mode = bidirectional ? 'w+' : 'w'
-    ::File.open "#{directory_output}/#{basename}", mode
+    is_raw = s.end_with? '-raw'
+    suffix = is_raw ? '' : '.txt'
+    basename = "#{s}-#{fifth_min.abs}-#{fifth_max.abs}#{suffix}"
+    filename = "#{directory_output}/#{basename}"
+    result = ::File.open filename, mode
+    @@output_raw << [filename, result] if is_raw
+    result
   end
 
   def out
@@ -192,6 +196,14 @@ module TemperamentMath
     @@out_tuning ||= open 'output-tuning'
   end
 
+  def output_raw_delete
+    @@output_raw.each do |filename, handle|
+      handle.close
+      ::File.delete filename
+    end
+    nil
+  end
+
   def program_announce
     puts 'Temperament-Math'
     puts 'Copyright (C) 2021 Mark D. Blackwell.'
@@ -207,6 +219,7 @@ module TemperamentMath
   def run
     program_announce
     out.puts "A range #{fifth_range} of fifths produces:"
+    @@output_raw = []
 
     third_sets_build
     out.puts
@@ -234,6 +247,8 @@ module TemperamentMath
     out.puts
     out.puts '* And corresponding tuning sets, also indicating the positions of'
     out.puts '      C# D D# E F F# G G# A A# B C'
+
+    output_raw_delete
     nil
   end
 
