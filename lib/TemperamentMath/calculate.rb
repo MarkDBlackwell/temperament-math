@@ -29,6 +29,36 @@ Dates:
 module TemperamentMath
   extend self
 
+  def build
+    third_sets_build
+    out.puts
+    out.puts "* #{@@third_sets_length} sets of thirds, rising to"
+    out.puts '      G D A E B F# C# G# D# A# F C'
+    return if @@third_sets_length.zero?
+
+    fifth_sets_build
+    out.puts
+    out.puts "* #{@@fifth_sets_length} sets of fifths, also rising to"
+    out.puts '      G D A E B F# C# G# D# A# F C'
+    return if @@fifth_sets_length.zero?
+
+    fifth_accumulated_sets_build
+    out.puts
+    out.puts '* Corresponding accumulated fifths, rising to'
+    out.puts '      G D A E B F# C# G# D# A# F C'
+
+    fifth_stepwise_sets_build
+    out.puts
+    out.puts '* Corresponding reordered stepwise notes, indicating the positions of'
+    out.puts '      C# D D# E F F# G G# A A# B C'
+
+    tuning_sets_build
+    out.puts
+    out.puts '* And corresponding tuning sets, also indicating the positions of'
+    out.puts '      C# D D# E F F# G G# A A# B C'
+    nil
+  end
+
   def directory_output
     @@directory_output ||= "#{project_root}/out"
   end
@@ -222,34 +252,7 @@ module TemperamentMath
     program_announce
     out.puts "A range #{fifth_range} of fifths produces:"
     @@output_raw = []
-
-    third_sets_build
-    out.puts
-    out.puts "* #{@@third_sets_length} sets of thirds, rising to"
-    out.puts '      G D A E B F# C# G# D# A# F C'
-    return if @@third_sets_length.zero?
-
-    fifth_sets_build
-    out.puts
-    out.puts "* #{@@fifth_sets_length} sets of fifths, also rising to"
-    out.puts '      G D A E B F# C# G# D# A# F C'
-    return if @@fifth_sets_length.zero?
-
-    fifth_accumulated_sets_build
-    out.puts
-    out.puts '* Corresponding accumulated fifths, rising to'
-    out.puts '      G D A E B F# C# G# D# A# F C'
-
-    fifth_stepwise_sets_build
-    out.puts
-    out.puts '* Corresponding reordered stepwise notes, indicating the positions of'
-    out.puts '      C# D D# E F F# G G# A A# B C'
-
-    tuning_sets_build
-    out.puts
-    out.puts '* And corresponding tuning sets, also indicating the positions of'
-    out.puts '      C# D D# E F F# G G# A A# B C'
-
+    build
     output_raw_delete
     nil
   end
