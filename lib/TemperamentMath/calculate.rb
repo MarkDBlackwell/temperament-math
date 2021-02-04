@@ -71,9 +71,13 @@ module TemperamentMath
   end
 
   def fifth_sets_build
+    @@thirds_previous = ''
+    @@thirds_index = 0
+    @@fifths_index = 0
     @@fifth_sets_length = 0
     out_third_raw.rewind
     out_third_raw.each_line do |line|
+#   out_third_raw.each_with_index do |line, index|
       third_set = line.split(' ').map &:to_i
       @@third_1,  @@third_2,  @@third_3,  @@third_4,
       @@third_5,  @@third_6,  @@third_7,  @@third_8,
@@ -118,9 +122,6 @@ module TemperamentMath
         end
       end
     end
-    fifths_index = 0
-    thirds_previous = ''
-    thirds_index = 0
     out_fifth_raw.rewind
     out_fifth_raw.each_line do |line|
       fifth_set = line.split(' ').map &:to_i
@@ -128,19 +129,19 @@ module TemperamentMath
         a = third_smallest_enum.map{|i| (k - i) % octave_size}
         fifth_set.values_at(*a).sum
       end
-      s = "Third set #{thirds_index}:"
-      if thirds_previous.empty?
-        thirds_previous = thirds
+      s = "Third set #{@@thirds_index}:"
+      if @@thirds_previous.empty?
+        @@thirds_previous = thirds
         out_fifth.puts s
-        thirds_index += 1
+        @@thirds_index += 1
       end
-      unless thirds_previous == thirds
+      unless @@thirds_previous == thirds
         out_fifth.puts s
-        thirds_index += 1
+        @@thirds_index += 1
       end
-      thirds_previous = thirds
-      out_fifth.puts "#{fifths_index} #{fifth_set}"
-      fifths_index += 1
+      @@thirds_previous = thirds
+      out_fifth.puts "#{@@fifths_index} #{fifth_set}"
+      @@fifths_index += 1
     end
     nil
   end
