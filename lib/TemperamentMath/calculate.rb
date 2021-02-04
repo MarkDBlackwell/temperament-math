@@ -64,14 +64,12 @@ module TemperamentMath
         @@fifth_9,  @@fifth_10, @@fifth_11, @@fifth_12,
         ]
     out_fifth_raw.print "#{fifth_set.join ' '}\n"
+    out_fifth.puts "#{@@fifth_sets_length} #{fifth_set}"
     @@fifth_sets_length += 1
-    out_fifth.puts "#{@@fifths_index} #{fifth_set}"
-    @@fifths_index += 1
     nil
   end
 
   def fifth_sets_build
-    @@fifths_index = 0
     @@fifth_sets_length = 0
     out_third_raw.rewind
     out_third_raw.each_with_index do |line, index|
