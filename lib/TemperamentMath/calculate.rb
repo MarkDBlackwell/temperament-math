@@ -60,13 +60,31 @@ module TemperamentMath
   end
 
   def fifth_set_save
-    set = [
+    fifth_set = [
         @@fifth_1,  @@fifth_2,  @@fifth_3,  @@fifth_4,
         @@fifth_5,  @@fifth_6,  @@fifth_7,  @@fifth_8,
         @@fifth_9,  @@fifth_10, @@fifth_11, @@fifth_12,
         ]
-    out_fifth_raw.print "#{set.join ' '}\n"
+    out_fifth_raw.print "#{fifth_set.join ' '}\n"
     @@fifth_sets_length += 1
+
+    thirds = octave_enum.map do |k|
+      a = third_smallest_enum.map{|i| (k - i) % octave_size}
+      fifth_set.values_at(*a).sum
+    end
+    s = "Third set #{@@thirds_index}:"
+    if @@thirds_previous.empty?
+      @@thirds_previous = thirds
+      out_fifth.puts s
+      @@thirds_index += 1
+    end
+    unless @@thirds_previous == thirds
+      out_fifth.puts s
+      @@thirds_index += 1
+    end
+    @@thirds_previous = thirds
+    out_fifth.puts "#{@@fifths_index} #{fifth_set}"
+    @@fifths_index += 1
     nil
   end
 
@@ -77,7 +95,6 @@ module TemperamentMath
     @@fifth_sets_length = 0
     out_third_raw.rewind
     out_third_raw.each_line do |line|
-#   out_third_raw.each_with_index do |line, index|
       third_set = line.split(' ').map &:to_i
       @@third_1,  @@third_2,  @@third_3,  @@third_4,
       @@third_5,  @@third_6,  @@third_7,  @@third_8,
@@ -121,27 +138,6 @@ module TemperamentMath
           end
         end
       end
-    end
-    out_fifth_raw.rewind
-    out_fifth_raw.each_line do |line|
-      fifth_set = line.split(' ').map &:to_i
-      thirds = octave_enum.map do |k|
-        a = third_smallest_enum.map{|i| (k - i) % octave_size}
-        fifth_set.values_at(*a).sum
-      end
-      s = "Third set #{@@thirds_index}:"
-      if @@thirds_previous.empty?
-        @@thirds_previous = thirds
-        out_fifth.puts s
-        @@thirds_index += 1
-      end
-      unless @@thirds_previous == thirds
-        out_fifth.puts s
-        @@thirds_index += 1
-      end
-      @@thirds_previous = thirds
-      out_fifth.puts "#{@@fifths_index} #{fifth_set}"
-      @@fifths_index += 1
     end
     nil
   end
