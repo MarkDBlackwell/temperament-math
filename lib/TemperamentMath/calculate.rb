@@ -63,6 +63,8 @@ module TemperamentMath
         @@fifth_5,  @@fifth_6,  @@fifth_7,  @@fifth_8,
         @@fifth_9,  @@fifth_10, @@fifth_11, @@fifth_12,
         ]
+    full = [fifth_min, fifth_max].all? {|e| set.include? e}
+    return unless full
     @@fifth_sets_length += 1
     out_fifth_raw.print "#{set.join ' '}\n"
     out_fifth.puts "#{@@fifth_sets_length} #{set}"
