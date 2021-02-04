@@ -162,6 +162,7 @@ module TemperamentMath
       accumulated_set = line.split(' ').map &:to_i
       set = accumulated_set.values_at *stepwise
       @@fifth_stepwise_sets << set
+      out_stepwise_raw.print "#{set.join ' '}\n"
       out_stepwise.puts "#{index} #{set}"
       index += 1
     end
@@ -449,6 +450,10 @@ module TemperamentMath
 
   def tuning_sets_build
     out_fifth_raw.rewind
+    out_stepwise_raw.rewind
+    @@fifth_stepwise_sets = out_stepwise_raw.each_line do |line|
+      line.split(' ').map &:to_i
+    end
     @@tuning_sets = @@fifth_stepwise_sets.each.map do |stepwise_set|
       circle_set = out_fifth_raw.readline.split(' ').map &:to_i
       third_smallest = circle_set.values_at(*third_smallest_enum).sum
