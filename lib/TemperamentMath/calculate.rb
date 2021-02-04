@@ -449,20 +449,20 @@ module TemperamentMath
   def tuning_sets_build
     out_fifth_raw.rewind
     out_stepwise_raw.rewind
-    @@tuning_sets = out_stepwise_raw.each_line.map do |line|
+    index = 0
+    out_stepwise_raw.each_line do |line|
       stepwise_set = line.split(' ').map &:to_i
       circle_set = out_fifth_raw.readline.split(' ').map &:to_i
       third_smallest = circle_set.values_at(*third_smallest_enum).sum
       unit = (third_major_just_difference_cents / third_smallest).abs
 # p unit
-      stepwise_set.each_with_index.map do |note, i|
+      set = stepwise_set.each_with_index.map do |note, i|
         offset = note * unit
         equal_tempered = 100.0 * i.succ
         equal_tempered + offset
       end
-    end
-    @@tuning_sets.each_with_index do |set,i|
-      out_tuning.puts "#{i} #{set.map{|e| e.round 5}}"
+      out_tuning.puts "#{index} #{set.map{|e| e.round 5}}"
+      index += 1
     end
     nil
   end
