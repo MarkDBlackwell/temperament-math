@@ -58,13 +58,13 @@ module TemperamentMath
   end
 
   def fifth_set_save
-    fifth_set = [
+    set = [
         @@fifth_1,  @@fifth_2,  @@fifth_3,  @@fifth_4,
         @@fifth_5,  @@fifth_6,  @@fifth_7,  @@fifth_8,
         @@fifth_9,  @@fifth_10, @@fifth_11, @@fifth_12,
         ]
-    out_fifth_raw.print "#{fifth_set.join ' '}\n"
-    out_fifth.puts "#{@@fifth_sets_length} #{fifth_set}"
+    out_fifth_raw.print "#{set.join ' '}\n"
+    out_fifth.puts "#{@@fifth_sets_length} #{set}"
     @@fifth_sets_length += 1
     nil
   end
