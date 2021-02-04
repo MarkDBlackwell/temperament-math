@@ -65,31 +65,17 @@ module TemperamentMath
         ]
     out_fifth_raw.print "#{fifth_set.join ' '}\n"
     @@fifth_sets_length += 1
-    thirds =
-        @@third_1,  @@third_2,  @@third_3,  @@third_4,
-        @@third_5,  @@third_6,  @@third_7,  @@third_8,
-        @@third_9,  @@third_10, @@third_11, @@third_12
-    s = "Third set #{@@thirds_index}:"
-    if @@thirds_previous.empty?
-      @@thirds_previous = thirds
-      out_fifth.puts s
-    end
-    unless @@thirds_previous == thirds
-      out_fifth.puts s
-    end
-    @@thirds_previous = thirds
     out_fifth.puts "#{@@fifths_index} #{fifth_set}"
     @@fifths_index += 1
     nil
   end
 
   def fifth_sets_build
-    @@thirds_previous = ''
     @@fifths_index = 0
     @@fifth_sets_length = 0
     out_third_raw.rewind
     out_third_raw.each_with_index do |line, index|
-      @@thirds_index = index
+      out_fifth.puts "Third set #{index}:"
       third_set = line.split(' ').map &:to_i
       @@third_1,  @@third_2,  @@third_3,  @@third_4,
       @@third_5,  @@third_6,  @@third_7,  @@third_8,
