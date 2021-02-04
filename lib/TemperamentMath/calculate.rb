@@ -75,11 +75,9 @@ module TemperamentMath
     if @@thirds_previous.empty?
       @@thirds_previous = thirds
       out_fifth.puts s
-      @@thirds_index += 1
     end
     unless @@thirds_previous == thirds
       out_fifth.puts s
-      @@thirds_index += 1
     end
     @@thirds_previous = thirds
     out_fifth.puts "#{@@fifths_index} #{fifth_set}"
@@ -89,11 +87,11 @@ module TemperamentMath
 
   def fifth_sets_build
     @@thirds_previous = ''
-    @@thirds_index = 0
     @@fifths_index = 0
     @@fifth_sets_length = 0
     out_third_raw.rewind
-    out_third_raw.each_line do |line|
+    out_third_raw.each_with_index do |line, index|
+      @@thirds_index = index
       third_set = line.split(' ').map &:to_i
       @@third_1,  @@third_2,  @@third_3,  @@third_4,
       @@third_5,  @@third_6,  @@third_7,  @@third_8,
