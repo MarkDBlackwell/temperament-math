@@ -34,8 +34,8 @@ module TemperamentMath
   end
 
   def fifth_accumulated_sets_build
-    out_fifth_raw.rewind
     index = 0
+    out_fifth_raw.rewind
     out_fifth_raw.each_line do |line|
       fifth_set = line.split(' ').map &:to_i
       sum = 0
@@ -118,9 +118,9 @@ module TemperamentMath
         end
       end
     end
+    fifths_index = 0
     thirds_previous = ''
     thirds_index = 0
-    fifths_index = 0
     out_fifth_raw.rewind
     out_fifth_raw.each_line do |line|
       fifth_set = line.split(' ').map &:to_i
@@ -447,9 +447,9 @@ module TemperamentMath
   end
 
   def tuning_sets_build
+    index = 0
     out_fifth_raw.rewind
     out_stepwise_raw.rewind
-    index = 0
     out_stepwise_raw.each_line do |line|
       stepwise_set = line.split(' ').map &:to_i
       circle_set = out_fifth_raw.readline.split(' ').map &:to_i
