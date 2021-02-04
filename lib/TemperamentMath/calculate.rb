@@ -40,7 +40,7 @@ module TemperamentMath
       sum = 0
       set = fifth_set.map{|e| sum += e}
       out_accumulated_raw.print "#{set.join ' '}\n"
-      out_accumulated.puts "#{index} #{set}"
+      out_accumulated.puts "#{index + 1} #{set}"
     end
     nil
   end
@@ -63,9 +63,9 @@ module TemperamentMath
         @@fifth_5,  @@fifth_6,  @@fifth_7,  @@fifth_8,
         @@fifth_9,  @@fifth_10, @@fifth_11, @@fifth_12,
         ]
+    @@fifth_sets_length += 1
     out_fifth_raw.print "#{set.join ' '}\n"
     out_fifth.puts "#{@@fifth_sets_length} #{set}"
-    @@fifth_sets_length += 1
     nil
   end
 
@@ -73,7 +73,7 @@ module TemperamentMath
     @@fifth_sets_length = 0
     out_third_raw.rewind
     out_third_raw.each_with_index do |line, index|
-      out_fifth.puts "Third set #{index}:"
+      out_fifth.puts "Third set #{index + 1}:"
       third_set = line.split(' ').map &:to_i
       @@third_1,  @@third_2,  @@third_3,  @@third_4,
       @@third_5,  @@third_6,  @@third_7,  @@third_8,
@@ -136,7 +136,7 @@ module TemperamentMath
       accumulated_set = line.split(' ').map &:to_i
       set = accumulated_set.values_at *stepwise
       out_stepwise_raw.print "#{set.join ' '}\n"
-      out_stepwise.puts "#{index} #{set}"
+      out_stepwise.puts "#{index + 1} #{set}"
     end
     nil
   end
@@ -211,11 +211,13 @@ module TemperamentMath
     out.puts
     out.puts "* #{@@third_sets_length} sets of thirds, rising to"
     out.puts '      G D A E B F# C# G# D# A# F C'
+    return if @@third_sets_length.zero?
 
     fifth_sets_build
     out.puts
     out.puts "* #{@@fifth_sets_length} sets of fifths, also rising to"
     out.puts '      G D A E B F# C# G# D# A# F C'
+    return if @@fifth_sets_length.zero?
 
     fifth_accumulated_sets_build
     out.puts
@@ -261,9 +263,9 @@ module TemperamentMath
         @@third_5,  @@third_6,  @@third_7,  @@third_8,
         @@third_9,  @@third_10, @@third_11, @@third_12,
         ]
+    @@third_sets_length += 1
     out_third_raw.print "#{set.join ' '}\n"
     out_third.puts "#{@@third_sets_length} #{set}"
-    @@third_sets_length += 1
     nil
   end
 
@@ -433,7 +435,7 @@ module TemperamentMath
         equal_tempered = 100.0 * i.succ
         equal_tempered + offset
       end
-      out_tuning.puts "#{index} #{set.map{|e| e.round 5}}"
+      out_tuning.puts "#{index + 1} #{set.map{|e| e.round 5}}"
     end
     nil
   end
