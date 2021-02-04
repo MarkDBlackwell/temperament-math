@@ -20,7 +20,7 @@
 
 #--------------
 
-ruby lib/TemperamentMath/calculate.rb
+ruby -W lib/TemperamentMath/calculate.rb
 
 diff out/output-2-2.txt  test/fixture/output-2-2.txt
 
@@ -28,11 +28,11 @@ diff out/output-fifth-accumulated-2-2.txt  test/fixture/output-fifth-accumulated
 
 diff out/output-fifth-stepwise-2-2.txt  test/fixture/output-fifth-stepwise-2-2.txt
 
-diff out/output-third-raw-2-2.txt  test/fixture/output-third-raw-2-2.txt
+diff out/output-third-raw-2-2  test/fixture/output-third-raw-2-2
 
 diff out/output-fifth-2-2.txt  test/fixture/output-fifth-2-2.txt
 
-diff out/output-fifth-raw-2-2.txt  test/fixture/output-fifth-raw-2-2.txt
+diff out/output-fifth-raw-2-2  test/fixture/output-fifth-raw-2-2
 
 diff out/output-third-2-2.txt  test/fixture/output-third-2-2.txt
 

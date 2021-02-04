@@ -134,7 +134,7 @@ module TemperamentMath
     out_accumulated_raw.rewind
     out_accumulated_raw.each_with_index do |line, index|
       accumulated_set = line.split(' ').map &:to_i
-      set = accumulated_set.values_at *stepwise
+      set = accumulated_set.values_at(*stepwise)
       out_stepwise_raw.print "#{set.join ' '}\n"
       out_stepwise.puts "#{index + 1} #{set}"
     end
@@ -146,7 +146,8 @@ module TemperamentMath
   end
 
   def open(s, bidirectional=false)
-    basename = "#{s}-#{fifth_min.abs}-#{fifth_max.abs}.txt"
+    suffix = (s.end_with? '-raw') ? '' : '.txt'
+    basename = "#{s}-#{fifth_min.abs}-#{fifth_max.abs}#{suffix}"
     mode = bidirectional ? 'w+' : 'w'
     ::File.open "#{directory_output}/#{basename}", mode
   end
