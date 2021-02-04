@@ -34,15 +34,13 @@ module TemperamentMath
   end
 
   def fifth_accumulated_sets_build
-    index = 0
     out_fifth_raw.rewind
-    out_fifth_raw.each_line do |line|
+    out_fifth_raw.each_with_index do |line, index|
       fifth_set = line.split(' ').map &:to_i
       sum = 0
       set = fifth_set.map{|e| sum += e}
       out_accumulated_raw.print "#{set.join ' '}\n"
       out_accumulated.puts "#{index} #{set}"
-      index += 1
     end
     nil
   end
@@ -148,15 +146,13 @@ module TemperamentMath
 # 0  1  2  3  4  5  6  7  8  9  10 11
 # G  D  A  E  B  F# C# G# D# A# F  C
 # Position of:  C#  D  D#  E  F   F#  G  G#  A  A#  B  C
-    index = 0
     stepwise = [6,  1, 8,  3, 10, 5,  0, 7,  2, 9,  4, 11]
     out_accumulated_raw.rewind
-    out_accumulated_raw.each_line do |line|
+    out_accumulated_raw.each_with_index do |line, index|
       accumulated_set = line.split(' ').map &:to_i
       set = accumulated_set.values_at *stepwise
       out_stepwise_raw.print "#{set.join ' '}\n"
       out_stepwise.puts "#{index} #{set}"
-      index += 1
     end
     nil
   end
@@ -445,10 +441,9 @@ module TemperamentMath
   end
 
   def tuning_sets_build
-    index = 0
     out_fifth_raw.rewind
     out_stepwise_raw.rewind
-    out_stepwise_raw.each_line do |line|
+    out_stepwise_raw.each_with_index do |line, index|
       stepwise_set = line.split(' ').map &:to_i
       circle_set = out_fifth_raw.readline.split(' ').map &:to_i
       third_smallest = circle_set.values_at(*third_smallest_enum).sum
@@ -460,7 +455,6 @@ module TemperamentMath
         equal_tempered + offset
       end
       out_tuning.puts "#{index} #{set.map{|e| e.round 5}}"
-      index += 1
     end
     nil
   end
