@@ -67,11 +67,10 @@ module TemperamentMath
         ]
     out_fifth_raw.print "#{fifth_set.join ' '}\n"
     @@fifth_sets_length += 1
-
-    thirds = octave_enum.map do |k|
-      a = third_smallest_enum.map{|i| (k - i) % octave_size}
-      fifth_set.values_at(*a).sum
-    end
+    thirds =
+        @@third_1,  @@third_2,  @@third_3,  @@third_4,
+        @@third_5,  @@third_6,  @@third_7,  @@third_8,
+        @@third_9,  @@third_10, @@third_11, @@third_12
     s = "Third set #{@@thirds_index}:"
     if @@thirds_previous.empty?
       @@thirds_previous = thirds
