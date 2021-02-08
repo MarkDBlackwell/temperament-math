@@ -53,18 +53,6 @@ module TemperamentMath
     @@directory_output ||= "#{project_root}/out"
   end
 
-  def fifth_accumulated_sets_build
-    out_fifth_raw.rewind
-    out_fifth_raw.each_with_index do |line, index|
-      fifth_set = line.split(' ').map &:to_i
-      sum = 0
-      set = fifth_set.map{|e| sum += e}
-      out_accumulated_raw.print "#{set.join ' '}\n"
-      out_accumulated.puts "#{index + 1} #{set}"
-    end
-    nil
-  end
-
   def fifth_max
     2
   end
@@ -145,22 +133,6 @@ module TemperamentMath
 
   def fifth_span
     @@fifth_span ||= fifth_max - fifth_min
-  end
-
-  def fifth_stepwise_sets_build
-# "Rising to G#" here (for example) usually equals "rising from C#" in the outside world.
-# 0  1  2  3  4  5  6  7  8  9  10 11
-# G  D  A  E  B  F# C# G# D# A# F  C
-# Position of:  C#  D  D#  E  F   F#  G  G#  A  A#  B  C
-    stepwise = [6,  1, 8,  3, 10, 5,  0, 7,  2, 9,  4, 11]
-    out_accumulated_raw.rewind
-    out_accumulated_raw.each_with_index do |line, index|
-      accumulated_set = line.split(' ').map &:to_i
-      set = accumulated_set.values_at(*stepwise)
-      out_stepwise_raw.print "#{set.join ' '}\n"
-      out_stepwise.puts "#{index + 1} #{set}"
-    end
-    nil
   end
 
   def octave_size
@@ -433,8 +405,28 @@ module TemperamentMath
   end
 
   def tuning_sets_build
-    fifth_accumulated_sets_build
-    fifth_stepwise_sets_build
+    out_fifth_raw.rewind
+    out_fifth_raw.each_with_index do |line, index|
+      fifth_set = line.split(' ').map &:to_i
+      sum = 0
+      set = fifth_set.map{|e| sum += e}
+      out_accumulated_raw.print "#{set.join ' '}\n"
+      out_accumulated.puts "#{index + 1} #{set}"
+    end
+
+# "Rising to G#" here (for example) usually equals "rising from C#" in the outside world.
+# 0  1  2  3  4  5  6  7  8  9  10 11
+# G  D  A  E  B  F# C# G# D# A# F  C
+# Position of:  C#  D  D#  E  F   F#  G  G#  A  A#  B  C
+    stepwise = [6,  1, 8,  3, 10, 5,  0, 7,  2, 9,  4, 11]
+    out_accumulated_raw.rewind
+    out_accumulated_raw.each_with_index do |line, index|
+      accumulated_set = line.split(' ').map &:to_i
+      set = accumulated_set.values_at(*stepwise)
+      out_stepwise_raw.print "#{set.join ' '}\n"
+      out_stepwise.puts "#{index + 1} #{set}"
+    end
+
     out_fifth_raw.rewind
     out_stepwise_raw.rewind
     out_stepwise_raw.each_with_index do |line, index|
