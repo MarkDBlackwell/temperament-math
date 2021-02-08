@@ -219,6 +219,17 @@ module TemperamentMath
     nil
   end
 
+  def stepwise
+# "Rising to G#" here (for example) equals "rising from C#" in most
+# outside-world documentation and programs, such as Scala.
+# The circle of fifths:
+# 0  1  2  3  4  5  6  7  8  9  10 11
+# G  D  A  E  B  F# C# G# D# A# F  C
+
+#     Position of:  C#  D  D#  E  F   F#  G  G#  A  A#  B  C
+    @@stepwise ||= [6,  1, 8,  3, 10, 5,  0, 7,  2, 9,  4, 11]
+  end
+
   def third_major_just_difference_cents
     @@third_major_just_difference_cents ||= begin
       equal_tempered = 400
@@ -414,11 +425,6 @@ module TemperamentMath
       out_accumulated.puts "#{index + 1} #{accumulated_set}"
     end
 
-# "Rising to G#" here (for example) usually equals "rising from C#" in the outside world.
-# 0  1  2  3  4  5  6  7  8  9  10 11
-# G  D  A  E  B  F# C# G# D# A# F  C
-# Position of:  C#  D  D#  E  F   F#  G  G#  A  A#  B  C
-    stepwise = [6,  1, 8,  3, 10, 5,  0, 7,  2, 9,  4, 11]
     out_accumulated_raw.rewind
     out_accumulated_raw.each_with_index do |line, index|
       accumulated_set = line.split(' ').map &:to_i
