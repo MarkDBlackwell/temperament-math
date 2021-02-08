@@ -71,8 +71,8 @@ module TemperamentMath
         @@fifth_5,  @@fifth_6,  @@fifth_7,  @@fifth_8,
         @@fifth_9,  @@fifth_10, @@fifth_11, @@fifth_12,
         ]
-    full = [fifth_min, fifth_max].all? {|e| set.include? e}
-    return unless full
+    justified = [fifth_min, fifth_max].all? {|extreme| set.include? extreme}
+    return unless justified
     @@fifth_sets_length += 1
     out_fifth_raw.print "#{set.join ' '}\n"
     out_fifth.puts "#{@@fifth_sets_length} #{set}"
@@ -228,11 +228,11 @@ module TemperamentMath
   end
 
   def third_max
-    @@third_max ||= fifth_max * third_major_size
+    @@third_max ||= third_major_size * fifth_max
   end
 
   def third_min
-    @@third_min ||= fifth_min * third_major_size
+    @@third_min ||= third_major_size * fifth_min
   end
 
   def third_set_save
@@ -408,10 +408,9 @@ module TemperamentMath
       stepwise_set = accumulated_set.values_at(*stepwise)
       third_smallest = fifth_set.values_at(*third_smallest_enum).sum
       unit = (third_major_just_difference_cents / third_smallest).abs
-# p unit
-      tuning_set = stepwise_set.each_with_index.map do |note, i|
-        offset = note * unit
-        equal_tempered = 100.0 * i.succ
+      tuning_set = stepwise_set.each_with_index.map do |deviation, note_index|
+        offset = unit * deviation
+        equal_tempered = 100.0 * note_index.succ
         equal_tempered + offset
       end
       out_tuning.puts "#{index + 1} #{tuning_set.map{|e| e.round 5}}"
