@@ -409,9 +409,9 @@ module TemperamentMath
     out_fifth_raw.each_with_index do |line, index|
       fifth_set = line.split(' ').map &:to_i
       sum = 0
-      set = fifth_set.map{|e| sum += e}
-      out_accumulated_raw.print "#{set.join ' '}\n"
-      out_accumulated.puts "#{index + 1} #{set}"
+      accumulated_set = fifth_set.map{|e| sum += e}
+      out_accumulated_raw.print "#{accumulated_set.join ' '}\n"
+      out_accumulated.puts "#{index + 1} #{accumulated_set}"
     end
 
 # "Rising to G#" here (for example) usually equals "rising from C#" in the outside world.
@@ -422,9 +422,9 @@ module TemperamentMath
     out_accumulated_raw.rewind
     out_accumulated_raw.each_with_index do |line, index|
       accumulated_set = line.split(' ').map &:to_i
-      set = accumulated_set.values_at(*stepwise)
-      out_stepwise_raw.print "#{set.join ' '}\n"
-      out_stepwise.puts "#{index + 1} #{set}"
+      stepwise_set = accumulated_set.values_at(*stepwise)
+      out_stepwise_raw.print "#{stepwise_set.join ' '}\n"
+      out_stepwise.puts "#{index + 1} #{stepwise_set}"
     end
 
     out_stepwise_raw.rewind
@@ -435,12 +435,12 @@ module TemperamentMath
       third_smallest = circle_set.values_at(*third_smallest_enum).sum
       unit = (third_major_just_difference_cents / third_smallest).abs
 # p unit
-      set = stepwise_set.each_with_index.map do |note, i|
+      tuning_set = stepwise_set.each_with_index.map do |note, i|
         offset = note * unit
         equal_tempered = 100.0 * i.succ
         equal_tempered + offset
       end
-      out_tuning.puts "#{index + 1} #{set.map{|e| e.round 5}}"
+      out_tuning.puts "#{index + 1} #{tuning_set.map{|e| e.round 5}}"
     end
     nil
   end
