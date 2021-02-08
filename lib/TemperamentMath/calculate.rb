@@ -162,14 +162,6 @@ module TemperamentMath
     @@out_fifth_raw ||= open 'output-fifth-raw', true
   end
 
-  def out_stepwise
-    @@out_stepwise ||= open 'output-fifth-stepwise'
-  end
-
-  def out_stepwise_raw
-    @@out_stepwise_raw ||= open 'output-fifth-stepwise-raw', true
-  end
-
   def out_third
     @@out_third ||= open 'output-third'
   end
@@ -414,16 +406,7 @@ module TemperamentMath
       sum = 0
       accumulated_set = fifth_set.map{|e| sum += e}
       stepwise_set = accumulated_set.values_at(*stepwise)
-      out_stepwise_raw.print "#{stepwise_set.join ' '}\n"
-      out_stepwise.puts "#{index + 1} #{stepwise_set}"
-    end
-
-    out_stepwise_raw.rewind
-    out_fifth_raw.rewind
-    out_fifth_raw.each_with_index do |line, index|
-      circle_set = line.split(' ').map &:to_i
-      stepwise_set = out_stepwise_raw.readline.split(' ').map &:to_i
-      third_smallest = circle_set.values_at(*third_smallest_enum).sum
+      third_smallest = fifth_set.values_at(*third_smallest_enum).sum
       unit = (third_major_just_difference_cents / third_smallest).abs
 # p unit
       tuning_set = stepwise_set.each_with_index.map do |note, i|
