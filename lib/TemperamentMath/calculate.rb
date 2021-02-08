@@ -427,11 +427,11 @@ module TemperamentMath
       out_stepwise.puts "#{index + 1} #{set}"
     end
 
-    out_fifth_raw.rewind
     out_stepwise_raw.rewind
-    out_stepwise_raw.each_with_index do |line, index|
-      stepwise_set = line.split(' ').map &:to_i
-      circle_set = out_fifth_raw.readline.split(' ').map &:to_i
+    out_fifth_raw.rewind
+    out_fifth_raw.each_with_index do |line, index|
+      circle_set = line.split(' ').map &:to_i
+      stepwise_set = out_stepwise_raw.readline.split(' ').map &:to_i
       third_smallest = circle_set.values_at(*third_smallest_enum).sum
       unit = (third_major_just_difference_cents / third_smallest).abs
 # p unit
