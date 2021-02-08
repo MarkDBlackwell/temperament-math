@@ -154,14 +154,6 @@ module TemperamentMath
     @@out ||= open 'output'
   end
 
-  def out_accumulated
-    @@out_accumulated ||= open 'output-fifth-accumulated'
-  end
-
-  def out_accumulated_raw
-    @@out_accumulated_raw ||= open 'output-fifth-accumulated-raw', true
-  end
-
   def out_fifth
     @@out_fifth ||= open 'output-fifth'
   end
@@ -421,13 +413,6 @@ module TemperamentMath
       fifth_set = line.split(' ').map &:to_i
       sum = 0
       accumulated_set = fifth_set.map{|e| sum += e}
-      out_accumulated_raw.print "#{accumulated_set.join ' '}\n"
-      out_accumulated.puts "#{index + 1} #{accumulated_set}"
-    end
-
-    out_accumulated_raw.rewind
-    out_accumulated_raw.each_with_index do |line, index|
-      accumulated_set = line.split(' ').map &:to_i
       stepwise_set = accumulated_set.values_at(*stepwise)
       out_stepwise_raw.print "#{stepwise_set.join ' '}\n"
       out_stepwise.puts "#{index + 1} #{stepwise_set}"
