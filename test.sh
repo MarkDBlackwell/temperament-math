@@ -26,10 +26,6 @@ diff out/output-2-2.txt  test/fixture/output-2-2.txt
 
 diff out/output-fifth-2-2.txt  test/fixture/output-fifth-2-2.txt
 
-diff out/output-fifth-accumulated-2-2.txt  test/fixture/output-fifth-accumulated-2-2.txt
-
-diff out/output-fifth-stepwise-2-2.txt  test/fixture/output-fifth-stepwise-2-2.txt
-
 diff out/output-third-2-2.txt  test/fixture/output-third-2-2.txt
 
 diff out/output-tuning-2-2.txt  test/fixture/output-tuning-2-2.txt

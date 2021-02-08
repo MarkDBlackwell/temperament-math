@@ -42,19 +42,9 @@ module TemperamentMath
     out.puts '      G D A E B F# C# G# D# A# F C'
     return if @@fifth_sets_length.zero?
 
-    fifth_accumulated_sets_build
-    out.puts
-    out.puts '* Corresponding accumulated fifths, rising to'
-    out.puts '      G D A E B F# C# G# D# A# F C'
-
-    fifth_stepwise_sets_build
-    out.puts
-    out.puts '* Corresponding reordered stepwise notes, indicating the positions of'
-    out.puts '      C# D D# E F F# G G# A A# B C'
-
     tuning_sets_build
     out.puts
-    out.puts '* And corresponding tuning sets, also indicating the positions of'
+    out.puts '* And corresponding tuning sets, indicating the positions of'
     out.puts '      C# D D# E F F# G G# A A# B C'
     nil
   end
@@ -443,6 +433,8 @@ module TemperamentMath
   end
 
   def tuning_sets_build
+    fifth_accumulated_sets_build
+    fifth_stepwise_sets_build
     out_fifth_raw.rewind
     out_stepwise_raw.rewind
     out_stepwise_raw.each_with_index do |line, index|
