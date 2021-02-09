@@ -65,6 +65,10 @@ module TemperamentMath
     @@fifth_range ||= fifth_min..fifth_max
   end
 
+  def fifth_range_valid?
+    fifth_min.negative? && fifth_max.positive?
+  end
+
   def fifth_set_save
     set = [
         @@fifth_1,  @@fifth_2,  @@fifth_3,  @@fifth_4,
@@ -143,7 +147,7 @@ module TemperamentMath
     mode = bidirectional ? 'w+' : 'w'
     is_raw = name.end_with? '-raw'
     suffix = is_raw ? '' : '.txt'
-    basename = "#{name}-#{out_prefix_min}#{fifth_min.abs}-#{out_prefix_max}#{fifth_max.abs}#{suffix}"
+    basename = "#{name}-n#{-fifth_min}-p#{fifth_max}#{suffix}"
     filename = "#{directory_output}/#{basename}"
     result = ::File.open filename, mode
     @@output_raw << [filename, result] if is_raw
@@ -160,24 +164,6 @@ module TemperamentMath
 
   def out_fifth_raw
     @@out_fifth_raw ||= open 'output-fifth-raw', true
-  end
-
-  def out_prefix_max
-    @@out_prefix_max ||= begin
-      spaceship = fifth_max <=> 0
-      out_prefixes.at spaceship.succ
-    end
-  end
-
-  def out_prefix_min
-    @@out_prefix_min ||= begin
-      spaceship = fifth_min <=> 0
-      out_prefixes.at spaceship.succ
-    end
-  end
-
-  def out_prefixes
-    @@out_prefixes ||= %w[n z p]
   end
 
   def out_third
@@ -214,6 +200,10 @@ module TemperamentMath
 
   def run
     program_announce
+    unless fifth_range_valid?
+      out.puts "Invalid fifth range #{fifth_range}."
+      return
+    end
     out.puts "A range #{fifth_range} of fifths produces:"
     @@output_raw = []
     build
