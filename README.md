@@ -8,49 +8,50 @@ Copyright (C) 2021 Mark D. Blackwell
 
 `ruby lib/TemperamentMath/calculate.rb`
 
-Enter the generated tuning values into your tuner.
+Then you can enter the generated tuning values into your tuner.
 For example, I use Stichting Huygens-Fokker's program, Scala, to tune my harpsichord.
 
 To generate more temperaments,
 you can adjust the variables `fifth_max` and `fifth_min`,
-found near the top of the program.
+found alphabetically in the program.
 
 This program is known to work with version 2.7.0p0 (of Ruby).
 
 ## Explanation
 
-The program generates keyboard tuning temperaments in which the major thirds are variegated.
+The program generates many keyboard tuning temperaments
+in which the major thirds are variegated.
 
-Tuning to a varietaged temperament adds richness to the listener's experience.
+Tuning to a variegated temperament adds richness to the listener's experience.
 
-In particular,
+In particular, in this program,
 since each major third forms part of some major key's tonic chord,
-here the tuning adjustment of major thirds varies
+the tuning adjustment of major thirds co-varies
 with the number of sharps or flats in that key signature.
-Thomas Young's first temperament is like this.
+Thomas Young's first temperament is a good example of this principle.
 
-Unlike Young's, however,
-the sharped key signatures' tonic major thirds are closer here to just,
+Better than Young's, however, in this program
+the sharped key signatures' tonic major thirds are closer to just,
 than those of the corresponding flatted key signatures
 (that is, with the same number of sharps or flats).
 This increases variety.
-(But in Young's, they are the same.)
+(In Young's, on the other hand, they are the same.)
 
 So, here,
 the sharp keys are favored over the flat keys
 (because their tonic major thirds are closer to just).
 This improves the sound of the
-(major) dominant chords in commonly-used minor keys.
+(major) dominant chords of commonly-used minor keys.
 For example:
 
-* The E-major dominant chord (4 sharps) in A minor (no sharps);
+* The dominant E-major chord (4 sharps) of A minor (no sharps);
 
-* The A-major chord (3 sharps) in D minor (1 flat); and
+* The A-major chord (3 sharps) of D minor (1 flat); and
 
-* The B-major chord (5 sharps) in E minor (1 sharp).
+* The B-major chord (5 sharps) of E minor (1 sharp).
 
-Also unlike Young's,
-the major third CE here is perfectly just.
+Also unlike Young's, in this program,
+the major third CE is perfectly just.
 Young's only comes fairly close.
 
 ## Notes on the program
@@ -70,7 +71,7 @@ In this program, they are called `@@fifth_1`, etc.
 
 In this program, they are called `@@third_1`, etc.
 
-The first line of numbers is the level number.
+The first line of numbers is called, in the program, the "level" number.
 
 ## License
 
