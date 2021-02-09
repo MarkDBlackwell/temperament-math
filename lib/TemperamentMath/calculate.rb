@@ -32,13 +32,13 @@ module TemperamentMath
   def build
     third_sets_build
     out.puts
-    out.puts "* #{@@third_sets_length} sets of thirds, rising to"
+    out.puts "* #{delimit @@third_sets_length} sets of thirds, rising to"
     out.puts '      G D A E B F# C# G# D# A# F C'
     return if @@third_sets_length.zero?
 
     fifth_sets_build
     out.puts
-    out.puts "* #{@@fifth_sets_length} sets of fifths, also rising to"
+    out.puts "* #{delimit @@fifth_sets_length} sets of fifths, also rising to"
     out.puts '      G D A E B F# C# G# D# A# F C'
     return if @@fifth_sets_length.zero?
 
@@ -47,6 +47,22 @@ module TemperamentMath
     out.puts '* And corresponding tuning sets, indicating the positions of'
     out.puts '      C# D D# E F F# G G# A A# B C'
     nil
+  end
+
+  def delimit(n)
+    n.to_s.gsub delimit_regexp, ','
+  end
+
+  def delimit_regexp
+# See: http://www.programming-idioms.org/idiom/173/format-a-number-with-grouped-thousands/2430/ruby
+#
+# \b means: a word boundary.
+# \B means: not a word boundary.
+# (?=pattern) means: positive lookahead assertion.
+#
+# Assert there are (any number of) groups of three characters
+# ending on a word boundary, and not beginning on a word boundary:
+    @@delimit_regexp ||= ::Regexp.new /\B(?=(...)*\b)/
   end
 
   def directory_output
