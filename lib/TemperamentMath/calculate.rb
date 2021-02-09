@@ -151,7 +151,7 @@ module TemperamentMath
   end
 
   def out
-    @@out ||= open 'output'
+    @@out ||= open 'output-main'
   end
 
   def out_fifth
