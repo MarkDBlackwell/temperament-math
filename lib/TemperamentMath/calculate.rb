@@ -217,7 +217,8 @@ module TemperamentMath
   def run
     program_announce
     unless fifth_range_valid?
-      out.puts "Invalid fifth range #{fifth_range}."
+      puts
+      puts "Error: Invalid fifth range: #{fifth_range}."
       return
     end
     out.puts "A range #{fifth_range} of fifths produces:"
