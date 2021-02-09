@@ -62,7 +62,7 @@ module TemperamentMath
 #
 # Assert there are (any number of) groups of three characters
 # ending on a word boundary, and not beginning on a word boundary:
-    @@delimit_regexp ||= ::Regexp.new /\B(?=(...)*\b)/
+    @@delimit_regexp ||= ::Regexp.new(/\B(?=(...)*\b)/)
   end
 
   def directory_output
