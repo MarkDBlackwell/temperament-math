@@ -139,11 +139,11 @@ module TemperamentMath
     12
   end
 
-  def open(s, bidirectional=false)
+  def open(name, bidirectional=false)
     mode = bidirectional ? 'w+' : 'w'
-    is_raw = s.end_with? '-raw'
+    is_raw = name.end_with? '-raw'
     suffix = is_raw ? '' : '.txt'
-    basename = "#{s}-#{fifth_min.abs}-#{fifth_max.abs}#{suffix}"
+    basename = "#{name}-#{out_prefix_min}#{fifth_min.abs}-#{out_prefix_max}#{fifth_max.abs}#{suffix}"
     filename = "#{directory_output}/#{basename}"
     result = ::File.open filename, mode
     @@output_raw << [filename, result] if is_raw
@@ -160,6 +160,24 @@ module TemperamentMath
 
   def out_fifth_raw
     @@out_fifth_raw ||= open 'output-fifth-raw', true
+  end
+
+  def out_prefix_max
+    @@out_prefix_max ||= begin
+      spaceship = fifth_max <=> 0
+      out_prefixes.at spaceship.succ
+    end
+  end
+
+  def out_prefix_min
+    @@out_prefix_min ||= begin
+      spaceship = fifth_min <=> 0
+      out_prefixes.at spaceship.succ
+    end
+  end
+
+  def out_prefixes
+    @@out_prefixes ||= %w[n z p]
   end
 
   def out_third

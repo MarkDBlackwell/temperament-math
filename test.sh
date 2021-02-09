@@ -22,10 +22,10 @@
 
 ruby -W lib/TemperamentMath/calculate.rb
 
-diff out/output-2-2.txt  test/fixture/output-2-2.txt
+diff out/output-n2-p2.txt  test/fixture/output-n2-p2.txt
 
-diff out/output-fifth-2-2.txt  test/fixture/output-fifth-2-2.txt
+diff out/output-fifth-n2-p2.txt  test/fixture/output-fifth-n2-p2.txt
 
-diff out/output-third-2-2.txt  test/fixture/output-third-2-2.txt
+diff out/output-third-n2-p2.txt  test/fixture/output-third-n2-p2.txt
 
-diff out/output-tuning-2-2.txt  test/fixture/output-tuning-2-2.txt
+diff out/output-tuning-n2-p2.txt  test/fixture/output-tuning-n2-p2.txt
