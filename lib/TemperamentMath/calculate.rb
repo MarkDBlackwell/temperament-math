@@ -266,6 +266,7 @@ module TemperamentMath
         @@third_5,  @@third_6,  @@third_7,  @@third_8,
         @@third_9,  @@third_10, @@third_11, @@third_12,
         ]
+    return unless thirds_slope_good? set
     @@third_sets_length += 1
     out_third_raw.print "#{set.join ' '}\n"
     out_third.puts "#{@@third_sets_length} #{set}"
@@ -422,6 +423,23 @@ module TemperamentMath
 
   def third_smallest_enum
     @@third_smallest_enum ||= third_major_size.times
+  end
+
+  def thirds_slope_bottom
+    @@thirds_slope_bottom ||= [4, 5, 3, 6, 2, 7].map &:pred
+  end
+
+  def thirds_slope_good?(set)
+    triplet = 3
+    [thirds_slope_top, thirds_slope_bottom].flat_map do |half|
+      set.values_at(*half).each_cons(triplet).map do |a, b, c|
+        (a - b).abs <= (b - c).abs
+      end
+    end.all?
+  end
+
+  def thirds_slope_top
+    @@thirds_slope_top ||= [10, 11, 9, 12, 8, 1].map &:pred
   end
 
   def tuning_sets_build
