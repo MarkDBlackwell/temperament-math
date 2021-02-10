@@ -425,21 +425,21 @@ module TemperamentMath
     @@third_smallest_enum ||= third_major_size.times
   end
 
-  def thirds_slope_bottom
-    @@thirds_slope_bottom ||= [4, 5, 3, 6, 2, 7].map &:pred
+  def thirds_half_bottom
+    @@thirds_half_bottom ||= [4, 5, 3, 6, 2, 7, 1].map &:pred
+  end
+
+  def thirds_half_top
+    @@thirds_half_top ||= [10, 11, 9, 12, 8, 1, 7].map &:pred
   end
 
   def thirds_slope_good?(set)
     triplet = 3
-    [thirds_slope_top, thirds_slope_bottom].flat_map do |half|
+    [thirds_half_top, thirds_half_bottom].flat_map do |half|
       set.values_at(*half).each_cons(triplet).map do |a, b, c|
         (a - b).abs <= (b - c).abs
       end
     end.all?
-  end
-
-  def thirds_slope_top
-    @@thirds_slope_top ||= [10, 11, 9, 12, 8, 1].map &:pred
   end
 
   def tuning_sets_build
