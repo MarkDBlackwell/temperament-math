@@ -3,7 +3,7 @@ A range -2..2 of fifths produces:
 * 2 sets of thirds, rising to
       G D A E B F# C# G# D# A# F C
 
-* 3 sets of fifths, also rising to
+* 2 sets of fifths, also rising to
       G D A E B F# C# G# D# A# F C
 
 * And corresponding tuning sets, indicating the positions of

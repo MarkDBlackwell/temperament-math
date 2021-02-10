@@ -69,6 +69,10 @@ module TemperamentMath
     @@directory_output ||= "#{project_root}/out"
   end
 
+  def fifth_large_enough_1(set)
+    @@fifth_1 >= (third_smallest_fifths_max set)
+  end
+
   def fifth_max
     2
   end
@@ -91,8 +95,9 @@ module TemperamentMath
         @@fifth_5,  @@fifth_6,  @@fifth_7,  @@fifth_8,
         @@fifth_9,  @@fifth_10, @@fifth_11, @@fifth_12,
         ]
-    justified = [fifth_min, fifth_max].all? {|extreme| set.include? extreme}
-    return unless justified
+    return unless fifths_justified set
+    return unless fifth_large_enough_1 set
+    return unless fifth_small_enough_11_12 set
     @@fifth_sets_length += 1
     out_fifth_raw.print "#{set.join ' '}\n"
     out_fifth.puts "#{@@fifth_sets_length} #{set}"
@@ -151,12 +156,26 @@ module TemperamentMath
     nil
   end
 
+  def fifth_small_enough_11_12(set)
+    [@@fifth_11, @@fifth_12].all? do |e|
+      e <= (third_largest_fifths_min set)
+    end
+  end
+
   def fifth_span
     @@fifth_span ||= fifth_max - fifth_min
   end
 
+  def fifths_justified(set)
+    [fifth_min, fifth_max].all? {|extreme| set.include? extreme}
+  end
+
   def octave_size
     12
+  end
+
+  def octave_size_half
+    @@octave_size_half ||= octave_size / 2
   end
 
   def open(name, bidirectional=false)
@@ -237,6 +256,18 @@ module TemperamentMath
 
 #     Position of:  C#  D  D#  E  F   F#  G  G#  A  A#  B  C
     @@stepwise ||= [6,  1, 8,  3, 10, 5,  0, 7,  2, 9,  4, 11]
+  end
+
+  def third_largest_enum
+    @@third_largest_enum ||= begin
+      third_smallest_enum.map do |i|
+        i + octave_size_half
+      end.to_enum
+    end
+  end
+
+  def third_largest_fifths_min(set)
+    third_largest_enum.map{|i| set.at i}.min
   end
 
   def third_major_just_difference_cents
@@ -423,6 +454,10 @@ module TemperamentMath
 
   def third_smallest_enum
     @@third_smallest_enum ||= third_major_size.times
+  end
+
+  def third_smallest_fifths_max(set)
+    third_smallest_enum.map{|i| set.at i}.max
   end
 
   def thirds_half_bottom
