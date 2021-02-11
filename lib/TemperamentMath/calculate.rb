@@ -99,6 +99,10 @@ module TemperamentMath
     return unless fifth_large_enough_1 set
     return unless fifth_small_enough_11_12 set
     return unless third_minor_set_good? set
+    unless @@third_indicated
+      @@third_indicated = true
+      out_fifth.puts "Third set #{@@third_index}:"
+    end
     out_fifth_raw.print "#{set.join ' '}\n"
     out_fifth.puts "#{@@fifth_sets_length} #{set}"
     nil
@@ -108,7 +112,8 @@ module TemperamentMath
     @@fifth_sets_length = 0
     out_third_raw.rewind
     out_third_raw.each_with_index do |line, index|
-      out_fifth.puts "Third set #{index + 1}:"
+      @@third_index = index + 1
+      @@third_indicated = false
       third_set = line.split(' ').map &:to_i
       @@third_1,  @@third_2,  @@third_3,  @@third_4,
       @@third_5,  @@third_6,  @@third_7,  @@third_8,
