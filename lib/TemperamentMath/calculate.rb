@@ -266,7 +266,7 @@ module TemperamentMath
 # The circle of fifths (except for C):
 # 1  2  3  4  5  6  7  8  9  10 11
 # G  D  A  E  B  F# C# G# D# A# F
-
+#
 #     Position of:  C#  D  D#  E  F   F#  G  G#  A  A#  B
     @@stepwise ||= [7,  2, 9,  4, 11, 6,  1, 8,  3, 10, 5].map &:pred
   end
@@ -318,6 +318,7 @@ module TemperamentMath
   def third_minor_set_good?(fifth_set)
     result = 'good'
     set = third_minor_set fifth_set
+    return unless slope_good? set, thirds_minor_half_top, thirds_minor_half_bottom
     @@fifth_sets_length += 1
     out_third_minor.puts "#{@@fifth_sets_length} #{set}"
     result
@@ -497,11 +498,29 @@ module TemperamentMath
   end
 
   def thirds_half_bottom
+# An example set of good major thirds is:
+# [2,  -5,  -10, -13, -12, -8,  -2,   5,   10,  13,  12,  8]
+#  G    D    A    E    B    F#   C#   G#   D#   A#   F    C
+#  1    2    3    4    5    6    7    8    9    10   11   12
+#
     @@thirds_half_bottom ||= [4, 5, 3, 6, 2, 7, 1].map &:pred
   end
 
   def thirds_half_top
     @@thirds_half_top ||= [10, 11, 9, 12, 8, 1, 7].map &:pred
+  end
+
+  def thirds_minor_half_bottom
+# An example set of good minor thirds is:
+# [13,  10,  5,  -2,  -8,  -12, -13, -10, -5,   2,   8,   12]
+#  G    D    A    E    B    F#   C#   G#   D#   A#   F    C
+#  1    2    3    4    5    6    7    8    9    10   11   12
+#
+    @@thirds_minor_half_bottom ||= [7, 6, 8, 5, 9, 4, 10].map &:pred
+  end
+
+  def thirds_minor_half_top
+    @@thirds_minor_half_top ||= [1, 12, 2, 11, 3, 10, 4].map &:pred
   end
 
   def tuning_sets_build
