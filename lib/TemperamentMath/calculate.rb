@@ -324,7 +324,7 @@ module TemperamentMath
         @@third_5,  @@third_6,  @@third_7,  @@third_8,
         @@third_9,  @@third_10, @@third_11, @@third_12,
         ]
-    return unless thirds_slope_good? set
+    return unless slope_good? set, thirds_half_top, thirds_half_bottom
     @@third_sets_length += 1
     out_third_raw.print "#{set.join ' '}\n"
     out_third.puts "#{@@third_sets_length} #{set}"
@@ -495,9 +495,9 @@ module TemperamentMath
     @@thirds_half_top ||= [10, 11, 9, 12, 8, 1, 7].map &:pred
   end
 
-  def thirds_slope_good?(set)
+  def slope_good?(set, half_top, half_bottom)
     triplet = 3
-    [thirds_half_top, thirds_half_bottom].flat_map do |half|
+    [half_top, half_bottom].flat_map do |half|
       set.values_at(*half).each_cons(triplet).map do |a, b, c|
         (a - b).abs <= (b - c).abs
       end
