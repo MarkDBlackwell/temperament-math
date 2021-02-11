@@ -296,13 +296,13 @@ module TemperamentMath
   end
 
   def third_minor_set(fifth_set)
-# Start with the minor third which rises to G,
-# and proceed along the circle of fifths.
+# Circle of fifths: G D A E B F# C# G# D# A# F C
+# Subtracting three fifths from C gives D# (for example).
     octave_size.times.map do |position|
-      indexes = 5.times.map do |i|
-        (position + 4 + i) % octave_size
+      indexes = third_minor_size.times.map do |i|
+        (position.succ + i) % octave_size
       end
-      fifth_set.values_at(*indexes).sum
+      - fifth_set.values_at(*indexes).sum
     end
   end
 
@@ -312,6 +312,10 @@ module TemperamentMath
     @@fifth_sets_length += 1
     out_third_minor.puts "#{@@fifth_sets_length} #{set}"
     result
+  end
+
+  def third_minor_size
+    3
   end
 
   def third_set_save
