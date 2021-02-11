@@ -31,12 +31,11 @@ module TemperamentMath
 
   def build
     third_sets_build
+    fifth_sets_build
     out.puts
     out.puts "* #{delimit @@third_sets_raw_length} sets of thirds, rising to"
     out.puts '      G D A E B F# C# G# D# A# F C'
     return if @@third_sets_raw_length.zero?
-
-    fifth_sets_build
     out.puts
     out.puts "* #{delimit @@fifth_sets_length} sets of fifths, also rising to"
     out.puts '      G D A E B F# C# G# D# A# F C'
@@ -101,7 +100,7 @@ module TemperamentMath
     return unless third_minor_set_good? set
     unless @@third_indicated
       @@third_indicated = true
-      out_fifth.puts "Third set #{@@third_index}:"
+      out_fifth.puts "Third set #{@@third_sets_length}:"
     end
     out_fifth_raw.print "#{set.join ' '}\n"
     out_fifth.puts "#{@@fifth_sets_length} #{set}"
@@ -109,12 +108,16 @@ module TemperamentMath
   end
 
   def fifth_sets_build
+    @@third_sets_length = 0
     @@fifth_sets_length = 0
     out_third_raw.rewind
     out_third_raw.each_with_index do |line, index|
-      @@third_index = index + 1
-      @@third_indicated = false
       third_set = line.split(' ').map &:to_i
+      if true
+        @@third_sets_length += 1
+        out_third.puts "#{@@third_sets_length} #{third_set}"
+        @@third_indicated = false
+      end
       @@third_1,  @@third_2,  @@third_3,  @@third_4,
       @@third_5,  @@third_6,  @@third_7,  @@third_8,
       @@third_9,  @@third_10, @@third_11, @@third_12 = third_set
@@ -342,7 +345,6 @@ module TemperamentMath
     return unless slope_good? set, thirds_half_top, thirds_half_bottom
     @@third_sets_raw_length += 1
     out_third_raw.print "#{set.join ' '}\n"
-    out_third.puts "#{@@third_sets_raw_length} #{set}"
     nil
   end
 
