@@ -98,7 +98,8 @@ module TemperamentMath
     return unless fifths_justified set
     return unless fifth_large_enough_1 set
     return unless fifth_small_enough_11_12 set
-    return unless third_minor_set_good? set
+    minors = third_minor_set set
+    return unless third_minor_set_good? minors
     unless @@third_written
       @@third_written = true
       @@third_sets_length += 1
@@ -106,6 +107,7 @@ module TemperamentMath
       out_fifth.puts "Third set #{@@third_sets_length}:"
     end
     @@fifth_sets_length += 1
+    out_third_minor.puts "#{@@fifth_sets_length} #{minors}"
     out_fifth_raw.print "#{set.join ' '}\n"
     out_fifth.puts "#{@@fifth_sets_length} #{set}"
     nil
@@ -323,12 +325,8 @@ module TemperamentMath
     end
   end
 
-  def third_minor_set_good?(fifth_set)
-    result = 'good'
-    set = third_minor_set fifth_set
-    return unless slope_good? set, thirds_minor_half_top, thirds_minor_half_bottom
-    out_third_minor.puts "#{@@fifth_sets_length.succ} #{set}"
-    result
+  def third_minor_set_good?(set)
+    slope_good? set, thirds_minor_half_top, thirds_minor_half_bottom
   end
 
   def third_minor_size
