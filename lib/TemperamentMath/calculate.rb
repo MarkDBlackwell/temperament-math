@@ -33,9 +33,8 @@ module TemperamentMath
     third_sets_build
     fifth_sets_build
     out.puts
-    out.puts "* #{delimit @@third_sets_raw_length} sets of thirds, rising to"
+    out.puts "* #{delimit @@third_sets_length} sets of thirds, rising to"
     out.puts '      G D A E B F# C# G# D# A# F C'
-    return if @@third_sets_raw_length.zero?
     out.puts
     out.puts "* #{delimit @@fifth_sets_length} sets of fifths, also rising to"
     out.puts '      G D A E B F# C# G# D# A# F C'
@@ -343,13 +342,11 @@ module TemperamentMath
         @@third_9,  @@third_10, @@third_11, @@third_12,
         ]
     return unless slope_good? set, thirds_half_top, thirds_half_bottom
-    @@third_sets_raw_length += 1
     out_third_raw.print "#{set.join ' '}\n"
     nil
   end
 
   def third_sets_build
-    @@third_sets_raw_length = 0
     third_sets_build_level_1
     nil
   end
