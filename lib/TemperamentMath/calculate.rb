@@ -35,6 +35,8 @@ module TemperamentMath
     out.puts
     out.puts "* #{delimit @@third_sets_length} sets of thirds, rising to"
     out.puts '      G D A E B F# C# G# D# A# F C'
+    return if @@third_sets_length.zero?
+
     out.puts
     out.puts "* #{delimit @@fifth_sets_length} sets of fifths, also rising to"
     out.puts '      G D A E B F# C# G# D# A# F C'
@@ -87,7 +89,7 @@ module TemperamentMath
     fifth_min.negative? && fifth_max.positive?
   end
 
-  def fifth_set_save
+  def fifth_set_save(third_set)
     set = [
         @@fifth_1,  @@fifth_2,  @@fifth_3,  @@fifth_4,
         @@fifth_5,  @@fifth_6,  @@fifth_7,  @@fifth_8,
@@ -97,10 +99,13 @@ module TemperamentMath
     return unless fifth_large_enough_1 set
     return unless fifth_small_enough_11_12 set
     return unless third_minor_set_good? set
-    unless @@third_indicated
-      @@third_indicated = true
+    unless @@third_written
+      @@third_written = true
+      @@third_sets_length += 1
+      out_third.puts "#{@@third_sets_length} #{third_set}"
       out_fifth.puts "Third set #{@@third_sets_length}:"
     end
+    @@fifth_sets_length += 1
     out_fifth_raw.print "#{set.join ' '}\n"
     out_fifth.puts "#{@@fifth_sets_length} #{set}"
     nil
@@ -111,12 +116,8 @@ module TemperamentMath
     @@fifth_sets_length = 0
     out_third_raw.rewind
     out_third_raw.each_with_index do |line, index|
+      @@third_written = false
       third_set = line.split(' ').map &:to_i
-      if true
-        @@third_sets_length += 1
-        out_third.puts "#{@@third_sets_length} #{third_set}"
-        @@third_indicated = false
-      end
       @@third_1,  @@third_2,  @@third_3,  @@third_4,
       @@third_5,  @@third_6,  @@third_7,  @@third_8,
       @@third_9,  @@third_10, @@third_11, @@third_12 = third_set
@@ -155,7 +156,7 @@ module TemperamentMath
                 @@fifth_7  + @@fifth_8  + @@fifth_9  + @@fifth_10 == @@third_10  &&
                 @@fifth_8  + @@fifth_9  + @@fifth_10 + @@fifth_11 == @@third_11  &&
                 @@fifth_9  + @@fifth_10 + @@fifth_11 + @@fifth_12 == @@third_12
-            fifth_set_save
+            fifth_set_save third_set
           end
         end
       end
@@ -326,8 +327,7 @@ module TemperamentMath
     result = 'good'
     set = third_minor_set fifth_set
     return unless slope_good? set, thirds_minor_half_top, thirds_minor_half_bottom
-    @@fifth_sets_length += 1
-    out_third_minor.puts "#{@@fifth_sets_length} #{set}"
+    out_third_minor.puts "#{@@fifth_sets_length.succ} #{set}"
     result
   end
 
