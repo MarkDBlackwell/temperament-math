@@ -100,8 +100,8 @@ module TemperamentMath
     return unless fifth_small_enough_11_12 set
     minors = third_minor_set set
     return unless third_minor_set_good? minors
-    unless @@third_written
-      @@third_written = true
+    unless @@third_set_written
+      @@third_set_written = true
       @@third_sets_length += 1
       out_third.puts "#{@@third_sets_length} #{third_set}"
       out_fifth.puts "Third set #{@@third_sets_length}:"
@@ -118,7 +118,7 @@ module TemperamentMath
     @@fifth_sets_length = 0
     out_third_raw.rewind
     out_third_raw.each_with_index do |line, index|
-      @@third_written = false
+      @@third_set_written = false
       third_set = line.split(' ').map &:to_i
       @@third_1,  @@third_2,  @@third_3,  @@third_4,
       @@third_5,  @@third_6,  @@third_7,  @@third_8,
