@@ -33,12 +33,12 @@ module TemperamentMath
     third_sets_build
     fifth_sets_build
     out.puts
-    out.puts "* #{delimit @@third_sets_length} sets of thirds, rising to"
+    out.puts "* #{delimit @@third_sets_length} sets of thirds, falling from"
     out.puts '      G D A E B F# C# G# D# A# F C'
     return if @@third_sets_length.zero?
 
     out.puts
-    out.puts "* #{delimit @@fifth_sets_length} sets of fifths, also rising to"
+    out.puts "* #{delimit @@fifth_sets_length} sets of fifths, also falling from"
     out.puts '      G D A E B F# C# G# D# A# F C'
     return if @@fifth_sets_length.zero?
 
@@ -117,7 +117,7 @@ module TemperamentMath
     @@third_sets_length = 0
     @@fifth_sets_length = 0
     out_third_raw.rewind
-    out_third_raw.each_with_index do |line, index|
+    out_third_raw.each do |line|
       @@third_set_written = false
       third_set = line.split(' ').map &:to_i
       @@third_1,  @@third_2,  @@third_3,  @@third_4,
@@ -216,7 +216,7 @@ module TemperamentMath
   end
 
   def out_third_minor
-    @@out_third_minor ||= open 'output-third-minor'
+    @@out_third_minor ||= open 'output-thirdminor'
   end
 
   def out_third_raw
@@ -271,7 +271,7 @@ module TemperamentMath
   end
 
   def stepwise
-# "Rising to G#" here (for example) equals "rising from C#" in most
+# "Falling from G#" here (for example) equals "rising from C#" in most
 # outside-world documentation and programs, such as Scala.
 # The circle of fifths (except for C):
 # 1  2  3  4  5  6  7  8  9  10 11
@@ -297,7 +297,7 @@ module TemperamentMath
     @@third_major_just_difference_cents ||= begin
       equal_tempered = 400
       just_frequency_ratio = 5.0 / 4
-      just_cents = (Math.log2 just_frequency_ratio) * 1200
+      just_cents = (::Math.log2 just_frequency_ratio) * 1200
       (equal_tempered - just_cents).abs
     end
   end
@@ -340,6 +340,7 @@ module TemperamentMath
         @@third_9,  @@third_10, @@third_11, @@third_12,
         ]
     return unless slope_good? set, thirds_half_top, thirds_half_bottom
+# Print thirds minimally before rewinding and filtering them, while building the fifth sets:
     out_third_raw.print "#{set.join ' '}\n"
     nil
   end

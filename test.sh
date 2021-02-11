@@ -28,6 +28,6 @@ diff test/fixture/output-fifth-n2-p2.txt  out/output-fifth-n2-p2.txt
 
 diff test/fixture/output-third-n2-p2.txt  out/output-third-n2-p2.txt
 
-diff test/fixture/output-third-minor-n2-p2.txt  out/output-third-minor-n2-p2.txt
+diff test/fixture/output-thirdminor-n2-p2.txt  out/output-thirdminor-n2-p2.txt
 
 diff test/fixture/output-tuning-n2-p2.txt  out/output-tuning-n2-p2.txt
