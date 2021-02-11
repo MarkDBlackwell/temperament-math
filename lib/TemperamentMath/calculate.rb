@@ -251,6 +251,15 @@ module TemperamentMath
     nil
   end
 
+  def slope_good?(set, half_top, half_bottom)
+    triplet = 3
+    [half_top, half_bottom].flat_map do |half|
+      set.values_at(*half).each_cons(triplet).map do |a, b, c|
+        (a - b).abs <= (b - c).abs
+      end
+    end.all?
+  end
+
   def stepwise
 # "Rising to G#" here (for example) equals "rising from C#" in most
 # outside-world documentation and programs, such as Scala.
@@ -493,15 +502,6 @@ module TemperamentMath
 
   def thirds_half_top
     @@thirds_half_top ||= [10, 11, 9, 12, 8, 1, 7].map &:pred
-  end
-
-  def slope_good?(set, half_top, half_bottom)
-    triplet = 3
-    [half_top, half_bottom].flat_map do |half|
-      set.values_at(*half).each_cons(triplet).map do |a, b, c|
-        (a - b).abs <= (b - c).abs
-      end
-    end.all?
   end
 
   def tuning_sets_build
