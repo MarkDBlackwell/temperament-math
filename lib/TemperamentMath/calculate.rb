@@ -98,7 +98,7 @@ module TemperamentMath
     return unless fifths_justified set
     return unless fifth_large_enough_1 set
     return unless fifth_small_enough_11_12 set
-    @@fifth_sets_length += 1
+    return unless third_minor_set_save set
     out_fifth_raw.print "#{set.join ' '}\n"
     out_fifth.puts "#{@@fifth_sets_length} #{set}"
     nil
@@ -205,6 +205,10 @@ module TemperamentMath
     @@out_third ||= open 'output-third'
   end
 
+  def out_third_minor
+    @@out_third_minor ||= open 'output-third-minor'
+  end
+
   def out_third_raw
     @@out_third_raw ||= open 'output-third-raw', true
   end
@@ -289,6 +293,25 @@ module TemperamentMath
 
   def third_min
     @@third_min ||= third_major_size * fifth_min
+  end
+
+  def third_minor_set(fifth_set)
+# Start with the minor third which rises to G,
+# and proceed along the circle of fifths.
+    octave_size.times.map do |position|
+      indexes = 5.times.map do |i|
+        (position + 4 + i) % octave_size
+      end
+      fifth_set.values_at(*indexes).sum
+    end
+  end
+
+  def third_minor_set_save(fifth_set)
+    result = 'okay'
+    set = third_minor_set fifth_set
+    @@fifth_sets_length += 1
+    out_third_minor.puts "#{@@fifth_sets_length} #{set}"
+    result
   end
 
   def third_set_save
