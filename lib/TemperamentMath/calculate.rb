@@ -323,7 +323,8 @@ module TemperamentMath
 
   def third_major_target_cents
     @@third_major_target_cents ||= begin
-      third_major_just_difference_cents
+      ratio = 0.6
+      third_major_just_difference_cents * ratio
     end
   end
 
