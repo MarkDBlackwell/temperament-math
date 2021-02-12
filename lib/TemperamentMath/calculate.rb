@@ -168,10 +168,11 @@ module TemperamentMath
   end
 
   def fifth_similar_enough_2_3_4(set)
-    indexes = third_smallest_enum.drop 1
-    fifths = set.values_at(*indexes)
-    width = (fifths.max - fifths.min).abs
-    width <= fifth_min.abs * 0.2
+    values = set.values_at(*third_smallest_enum_2_3_4)
+    width = (values.max - values.min).abs
+    fraction = 0.2
+    target = (fifth_min.abs * fraction).round.to_i
+    width <= target
   end
 
   def fifth_small_enough_11_12(set)
@@ -180,7 +181,7 @@ module TemperamentMath
   end
 
   def fifth_span
-    @@fifth_span ||= fifth_max - fifth_min
+    @@fifth_span ||= (fifth_max - fifth_min).abs
   end
 
   def fifths_justified(set)
@@ -501,6 +502,10 @@ module TemperamentMath
 
   def third_smallest_enum
     @@third_smallest_enum ||= third_major_size.times
+  end
+
+  def third_smallest_enum_2_3_4
+    @@third_smallest_enum_2_3_4 ||= third_smallest_enum.drop(1).to_enum
   end
 
   def third_smallest_fifths_max(set)
