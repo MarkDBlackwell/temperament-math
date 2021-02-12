@@ -102,7 +102,7 @@ module TemperamentMath
     return unless fifth_similar_enough_2_3_4 set
     return unless fifth_small_enough_11_12 set
     minors = third_minor_set set
-    return unless third_minor_set_good? minors
+    return unless slope_good? minors, thirds_minor_half_top, thirds_minor_half_bottom
     return if fifths_are_a_multiple set
     third_set_write third_set
     @@fifth_sets_length += 1
@@ -337,10 +337,6 @@ module TemperamentMath
       end
       - fifth_set.values_at(*indexes).sum
     end
-  end
-
-  def third_minor_set_good?(set)
-    slope_good? set, thirds_minor_half_top, thirds_minor_half_bottom
   end
 
   def third_minor_size
