@@ -104,12 +104,7 @@ module TemperamentMath
     minors = third_minor_set set
     return unless third_minor_set_good? minors
     return if fifths_are_a_multiple set
-    unless @@third_set_written
-      @@third_set_written = true
-      @@third_sets_length += 1
-      out_third.puts "#{@@third_sets_length} #{third_set}"
-      out_fifth.puts "Third set #{@@third_sets_length}:"
-    end
+    third_set_write third_set
     @@fifth_sets_length += 1
     out_third_minor.puts "#{@@fifth_sets_length} #{minors}"
     out_fifth_raw.print "#{set.join ' '}\n"
@@ -362,6 +357,15 @@ module TemperamentMath
 # Print thirds minimally before rewinding and filtering them, while building the fifth sets:
     out_third_raw.print "#{set.join ' '}\n"
     nil
+  end
+
+  def third_set_write(set)
+    unless @@third_set_written
+      @@third_set_written = true
+      @@third_sets_length += 1
+      out_third.puts "#{@@third_sets_length} #{set}"
+      out_fifth.puts "Third set #{@@third_sets_length}:"
+    end
   end
 
   def third_sets_build
