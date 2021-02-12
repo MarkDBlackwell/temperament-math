@@ -353,6 +353,7 @@ module TemperamentMath
         @@third_5,  @@third_6,  @@third_7,  @@third_8,
         @@third_9,  @@third_10, @@third_11, @@third_12,
         ]
+    return unless octave_size == set.uniq.length
     return unless slope_good? set, thirds_half_top, thirds_half_bottom
 # Print thirds minimally before rewinding and filtering them, while building the fifth sets:
     out_third_raw.print "#{set.join ' '}\n"
