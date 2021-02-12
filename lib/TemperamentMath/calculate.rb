@@ -97,6 +97,7 @@ module TemperamentMath
         ]
     return unless fifths_justified set
     return unless fifth_large_enough_1 set
+    return unless fifth_similar_enough_2_3_4 set
     return unless fifth_small_enough_11_12 set
     minors = third_minor_set set
     return unless third_minor_set_good? minors
@@ -166,10 +167,16 @@ module TemperamentMath
     nil
   end
 
+  def fifth_similar_enough_2_3_4(set)
+    fifths = third_smallest_enum.drop(1).map{|i| set.at i}
+    width = (fifths.max - fifths.min).abs
+    width <= fifth_min * 0.2
+    true
+  end
+
   def fifth_small_enough_11_12(set)
-    [@@fifth_11, @@fifth_12].all? do |e|
-      e <= (third_largest_fifths_min set)
-    end
+    minimum = third_largest_fifths_min set
+    [@@fifth_11, @@fifth_12].all? {|e| e <= minimum}
   end
 
   def fifth_span
