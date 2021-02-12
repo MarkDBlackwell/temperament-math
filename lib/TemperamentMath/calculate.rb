@@ -168,7 +168,8 @@ module TemperamentMath
   end
 
   def fifth_similar_enough_2_3_4(set)
-    fifths = third_smallest_enum.drop(1).map{|i| set.at i}
+    indexes = third_smallest_enum.drop 1
+    fifths = set.values_at(*indexes)
     width = (fifths.max - fifths.min).abs
     width <= fifth_min * 0.2
     true
@@ -297,7 +298,7 @@ module TemperamentMath
   end
 
   def third_largest_fifths_min(set)
-    third_largest_enum.map{|i| set.at i}.min
+    set.values_at(*third_largest_enum).min
   end
 
   def third_major_just_difference_cents
@@ -504,7 +505,7 @@ module TemperamentMath
   end
 
   def third_smallest_fifths_max(set)
-    third_smallest_enum.map{|i| set.at i}.max
+    set.values_at(*third_smallest_enum).max
   end
 
   def thirds_half_bottom
