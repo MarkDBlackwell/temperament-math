@@ -321,6 +321,12 @@ module TemperamentMath
     4
   end
 
+  def third_major_target_cents
+    @@third_major_target_cents ||= begin
+      third_major_just_difference_cents
+    end
+  end
+
   def third_max
     @@third_max ||= third_major_size * fifth_max
   end
@@ -557,7 +563,7 @@ module TemperamentMath
     out_fifth_raw.each_with_index do |line, index|
       fifth_set = line.split(' ').map &:to_i
       third_smallest = fifth_set.values_at(*third_smallest_enum).sum
-      unit = (third_major_just_difference_cents / third_smallest).abs
+      unit = (third_major_target_cents / third_smallest).abs
       sum = 0
       accumulated_set = fifth_set.map{|e| sum += e}
       stepwise_set = accumulated_set.values_at(*stepwise)
