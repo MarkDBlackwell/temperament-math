@@ -76,11 +76,11 @@ module TemperamentMath
   end
 
   def fifth_max
-    2
+    @@fifth_max ||= (2 != ARGV.length) ?  2 : ARGV.last.to_i
   end
 
   def fifth_min
-    -2
+    @@fifth_min ||= (2 != ARGV.length) ? -2 : ARGV.first.to_i
   end
 
   def fifth_range

@@ -20,7 +20,7 @@
 
 #--------------
 
-ruby -W lib/TemperamentMath/calculate.rb
+ruby -W lib/TemperamentMath/calculate.rb -2 2
 
 diff test/fixture/output-main-n2-p2.txt  out/output-main-n2-p2.txt
 
