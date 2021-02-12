@@ -171,8 +171,7 @@ module TemperamentMath
     indexes = third_smallest_enum.drop 1
     fifths = set.values_at(*indexes)
     width = (fifths.max - fifths.min).abs
-    width <= fifth_min * 0.2
-    true
+    width <= fifth_min.abs * 0.2
   end
 
   def fifth_small_enough_11_12(set)
