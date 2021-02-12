@@ -26,6 +26,8 @@ Dates:
 2021-Jan-26: works (mdb)
 =end
 
+require 'prime'
+
 module TemperamentMath
   extend self
 
@@ -101,6 +103,7 @@ module TemperamentMath
     return unless fifth_small_enough_11_12 set
     minors = third_minor_set set
     return unless third_minor_set_good? minors
+    return if fifths_are_a_multiple set
     unless @@third_set_written
       @@third_set_written = true
       @@third_sets_length += 1
@@ -182,6 +185,14 @@ module TemperamentMath
 
   def fifth_span
     @@fifth_span ||= (fifth_max - fifth_min).abs
+  end
+
+  def fifths_are_a_multiple(set)
+    clean = set.map(&:abs).reject &:zero?
+    prime_factors = clean.map do |e|
+      ::Prime.prime_division(e).map &:first
+    end
+    not prime_factors.reduce(&:intersection).empty?
   end
 
   def fifths_justified(set)
