@@ -101,9 +101,10 @@ module TemperamentMath
     return unless fifth_large_enough_1 set
     return unless fifth_similar_enough_2_3_4 set
     return unless fifth_small_enough_11_12 set
-    minors = third_minor_set set
-    return unless slope_good? minors, thirds_minor_half_top, thirds_minor_half_bottom
     return if fifths_are_a_multiple set
+    minors = third_minor_set set
+    return unless minors.uniq.length == octave_size
+    return unless slope_good? minors, thirds_minor_half_top, thirds_minor_half_bottom
     third_set_write third_set
     @@fifth_sets_length += 1
     out_third_minor.puts "#{@@fifth_sets_length} #{minors}"
@@ -349,7 +350,7 @@ module TemperamentMath
         @@third_5,  @@third_6,  @@third_7,  @@third_8,
         @@third_9,  @@third_10, @@third_11, @@third_12,
         ]
-    return unless octave_size == set.uniq.length
+    return unless set.uniq.length == octave_size
     return unless slope_good? set, thirds_half_top, thirds_half_bottom
 # Print thirds minimally before rewinding and filtering them, while building the fifth sets:
     out_third_raw.print "#{set.join ' '}\n"
@@ -363,6 +364,7 @@ module TemperamentMath
       out_third.puts "#{@@third_sets_length} #{set}"
       out_fifth.puts "Third set #{@@third_sets_length}:"
     end
+    nil
   end
 
   def third_sets_build
