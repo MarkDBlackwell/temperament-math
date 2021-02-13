@@ -30,4 +30,4 @@ diff test/fixture/output-third-n2-p2.txt  out/output-third-n2-p2.txt
 
 diff test/fixture/output-thirdminor-n2-p2.txt  out/output-thirdminor-n2-p2.txt
 
-diff test/fixture/output-tuning-n2-p2.txt  out/output-tuning-n2-p2.txt
+ruby -W lib/TemperamentMath/tuning.rb 12 [1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2] | diff - test/fixture/tuning.txt

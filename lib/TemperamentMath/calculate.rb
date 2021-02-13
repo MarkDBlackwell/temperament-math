@@ -44,7 +44,6 @@ module TemperamentMath
     out.puts '      G D A E B F# C# G# D# A# F C'
     return if @@fifth_sets_length.zero?
 
-    tuning_sets_build
     out.puts
     out.puts '* And corresponding tuning sets, indicating the positions of'
     out.puts '      C# D D# E F F# G G# A A# B C'
@@ -64,7 +63,7 @@ module TemperamentMath
 #
 # Assert there are (any number of) groups of three characters
 # ending on a word boundary, and not beginning on a word boundary:
-    @@delimit_regexp ||= ::Regexp.new(/\B(?=(...)*\b)/)
+    @@delimit_regexp ||= ::Regexp.new( /\B(?=(...)*\b)/ )
   end
 
   def directory_output
@@ -108,7 +107,7 @@ module TemperamentMath
     third_set_write third_set
     @@fifth_sets_length += 1
     out_third_minor.puts "#{@@fifth_sets_length} #{minors}"
-    out_fifth_raw.print "#{set.join ' '}\n"
+    out_fifth_raw.puts "#{set.join ' '}"
     out_fifth.puts "#{@@fifth_sets_length} #{set}"
     nil
   end
@@ -251,7 +250,7 @@ module TemperamentMath
   end
 
   def program_announce
-    puts 'Temperament-Math'
+    puts 'Temperament-Math: calculate'
     puts 'Copyright (C) 2021 Mark D. Blackwell.'
     puts 'This program comes with ABSOLUTELY NO WARRANTY; for details see the file, LICENSE.'
     puts 'Output is in directory, "out/"'
@@ -262,7 +261,7 @@ module TemperamentMath
     @@project_root ||= ::File.dirname ::File.realpath "#{__FILE__}/../.."
   end
 
-  def run
+  def run_calculate
     program_announce
     unless fifth_range_valid?
       puts
@@ -285,17 +284,6 @@ module TemperamentMath
     end.all?
   end
 
-  def stepwise
-# "Falling from G#" here (for example) equals "rising from C#" in most
-# outside-world documentation and programs, such as Scala.
-# The circle of fifths (except for C):
-# 1  2  3  4  5  6  7  8  9  10 11
-# G  D  A  E  B  F# C# G# D# A# F
-#
-#     Position of:  C#  D  D#  E  F   F#  G  G#  A  A#  B
-    @@stepwise ||= [7,  2, 9,  4, 11, 6,  1, 8,  3, 10, 5].map &:pred
-  end
-
   def third_largest_enum
     @@third_largest_enum ||= begin
       third_smallest_enum.map do |i|
@@ -308,24 +296,8 @@ module TemperamentMath
     set.values_at(*third_largest_enum).min
   end
 
-  def third_major_just_difference_cents
-    @@third_major_just_difference_cents ||= begin
-      equal_tempered = 400
-      just_frequency_ratio = 5.0 / 4
-      just_cents = (::Math.log2 just_frequency_ratio) * 1200
-      (equal_tempered - just_cents).abs
-    end
-  end
-
   def third_major_size
     4
-  end
-
-  def third_major_target_cents
-    @@third_major_target_cents ||= begin
-      ratio = 0.6
-      third_major_just_difference_cents * ratio
-    end
   end
 
   def third_max
@@ -360,7 +332,7 @@ module TemperamentMath
     return unless set.uniq.length == octave_size
     return unless slope_good? set, thirds_half_top, thirds_half_bottom
 # Print thirds minimally before rewinding and filtering them, while building the fifth sets:
-    out_third_raw.print "#{set.join ' '}\n"
+    out_third_raw.puts "#{set.join ' '}"
     nil
   end
 
@@ -559,25 +531,6 @@ module TemperamentMath
     @@thirds_minor_half_top ||= [1, 12, 2, 11, 3, 10, 4].map &:pred
   end
 
-  def tuning_sets_build
-    out_fifth_raw.rewind
-    out_fifth_raw.each_with_index do |line, index|
-      fifth_set = line.split(' ').map &:to_i
-      third_smallest = fifth_set.values_at(*third_smallest_enum).sum
-      unit = (third_major_target_cents / third_smallest).abs
-      sum = 0
-      accumulated_set = fifth_set.map{|e| sum += e}
-      stepwise_set = accumulated_set.values_at(*stepwise)
-      tuning_set = stepwise_set.each_with_index.map do |deviation, note_index|
-        offset = unit * deviation
-        equal_tempered = 100.0 * note_index.succ
-        equal_tempered + offset
-      end
-      out_tuning.puts "#{index + 1} #{tuning_set.map{|e| e.round 5}}"
-    end
-    nil
-  end
-
   def valid_level_1?
     @@third_10 >= @@third_4 + octave_size - 1
   end
@@ -614,4 +567,4 @@ module TemperamentMath
   end
 end
 
-TemperamentMath::run
+TemperamentMath::run_calculate
