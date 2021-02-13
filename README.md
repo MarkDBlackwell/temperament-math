@@ -6,14 +6,23 @@ Copyright (C) 2021 Mark D. Blackwell
 
 ## Usage
 
-`ruby lib/TemperamentMath/calculate.rb`
+`ruby lib/TemperamentMath/calculate.rb <minimum fifth> <maximum fifth>`
+
+A possible starting place is to use `-2` and `2`.
+
+Then look in directory `out/` for the generated fifth sets,
+which will be in a file, in this case, of the form `*-fifth-n2-p2*`.
+
+Select one; then do:
+
+`ruby lib/TemperamentMath/tuning.rb <fifth set>`
+
+There's no need to place single (or double) quotation marks around the fifth set.
 
 Then you can enter the generated tuning values into your tuner.
 For example, I use Stichting Huygens-Fokker's program, Scala, to tune my harpsichord.
 
-To generate more temperaments,
-you can adjust the variables `fifth_max` and `fifth_min`,
-found alphabetically in the program.
+To generate more temperaments, you can adjust the program arguments.
 
 This program is known to work with version 2.7.0p0 (of Ruby).
 

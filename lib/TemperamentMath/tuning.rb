@@ -25,7 +25,7 @@ module TemperamentMath
 
   def fifth_set
     @@fifth_set ||= begin
-      clean = ARGV.join(' ').sub(regexp_fifth_index, '').gsub regexp_comma_brackets, ''
+      clean = ARGV.join(' ').delete("\"'").sub(regexp_fifth_index, '').delete ',[]'
       clean.split(' ').map &:to_i
     end
   end
@@ -34,12 +34,8 @@ module TemperamentMath
     12
   end
 
-  def regexp_comma_brackets
-    @@regexp_comma_brackets ||= ::Regexp.new( /[,\[\]]/ )
-  end
-
   def regexp_fifth_index
-    @@regexp_fifth_index ||= ::Regexp.new( /^\d*(?= *\[)/ )
+    @@regexp_fifth_index ||= ::Regexp.new( /^ *\d+ +/ )
   end
 
   def run_tuning
