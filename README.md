@@ -6,7 +6,7 @@ Copyright (C) 2021 Mark D. Blackwell
 
 ## Usage
 
-`ruby lib/TemperamentMath/calculate.rb <minimum fifth> <maximum fifth>`
+`ruby lib/TemperamentMath/Calculate/calculate.rb <minimum fifth> <maximum fifth>`
 
 A possible starting place is to use `-2` and `2`.
 
@@ -15,7 +15,7 @@ which will be in a file, in this case, of the form `*-fifth-n2-p2*`.
 
 Select one; then do:
 
-`ruby lib/TemperamentMath/tuning.rb <fifth set>`
+`ruby lib/TemperamentMath/Tuning/tuning.rb <fifth set>`
 
 There's no need to place single (or double) quotation marks around the fifth set.
 
