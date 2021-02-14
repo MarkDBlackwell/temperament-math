@@ -30,6 +30,14 @@ module TemperamentMath
     end
   end
 
+  def fifth_set_valid?
+    @@fifth_set_valid ||= begin
+      true &&
+          fifth_set.sum.zero? &&
+          fifth_set.length == octave_size
+    end
+  end
+
   def octave_size
     12
   end
@@ -39,9 +47,9 @@ module TemperamentMath
   end
 
   def run_tuning
-    unless fifth_set.length == octave_size
+    unless fifth_set_valid?
       puts
-      puts 'Error: Invalid fifth set.'
+      puts "Error: Invalid fifth set '#{fifth_set}'."
       return
     end
     puts "#{tuning_set.map{|e| e.round 5}}"
