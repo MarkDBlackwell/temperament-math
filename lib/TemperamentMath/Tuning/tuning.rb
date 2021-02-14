@@ -54,7 +54,8 @@ module TemperamentMath
         puts "Error: Invalid fifth set '#{fifth_set}'."
         return
       end
-      puts "#{tuning_set.map{|e| e.round 5}}"
+      rounded = tuning_set.map{|e| e.round 5}
+      puts rounded.inspect
       nil
     end
 
