@@ -22,10 +22,10 @@
 
 set -e
 limit=7
-size=`expr $limit + 2`
+size=`expr $limit + 3`
 for neg in $(seq -$size -1); do
   for pos in $(seq 1 $size); do
-    if [ $pos -ge $limit -a $neg -le -$limit ]; then
+    if [ $pos -ge $limit -a $neg -le -$size ]; then
       continue
     fi
     echo $neg $pos
