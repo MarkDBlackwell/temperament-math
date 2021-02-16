@@ -72,7 +72,7 @@ module TemperamentMath
     end
 
     def fifth_large_enough_1(set)
-      @@fifth_1 >= (third_smallest_fifths_max set)
+      @@fifth_1 == (third_smallest_fifths_max set)
     end
 
     def fifth_max
@@ -167,11 +167,11 @@ module TemperamentMath
     end
 
     def fifth_similar_enough_2_3_4(set)
-      values = set.values_at(*third_smallest_enum_2_3_4)
-      width = (values.max - values.min).abs
       fraction = 0.2
       target = (fifth_min.abs * fraction).round.to_i
-      width <= target
+      values = set.values_at(*third_smallest_enum_2_3_4)
+      variance = values.max - values.min
+      variance <= target
     end
 
     def fifth_small_enough_11_12(set)
@@ -288,7 +288,7 @@ module TemperamentMath
     def third_largest_enum
       @@third_largest_enum ||= begin
         third_smallest_enum.map do |i|
-          i + octave_size_half
+          (i + octave_size_half) % octave_size
         end.to_enum
       end
     end
