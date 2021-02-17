@@ -23,11 +23,13 @@
 set -e
 limit=7
 size=`expr $limit + 3`
-for neg in $(seq -$size -1); do
-  for pos in $(seq 1 $size); do
-    if [ $pos -ge $limit -a $neg -le -$size ]; then
-      continue
-    fi
+#for neg in $(seq -$size -1); do
+# for pos in $(seq 1 $size); do
+for neg in $(seq -14 -10); do
+  for pos in $(seq 7 7); do
+#   if [ $pos -ge $limit -a $neg -le -$size ]; then
+#     continue
+#   fi
     echo $neg $pos
     nice ruby lib/TemperamentMath/Calculate/calculate.rb $neg $pos
   done
