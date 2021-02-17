@@ -78,6 +78,10 @@ module TemperamentMath
       end
     end
 
+    def third_major_flavor_level
+      @@third_major_flavor_level ||= 0.4
+    end
+
     def third_major_just_difference_cents
       @@third_major_just_difference_cents ||= begin
         equal_tempered = 400
@@ -92,10 +96,7 @@ module TemperamentMath
     end
 
     def third_major_target_cents
-      @@third_major_target_cents ||= begin
-        ratio = 0.4
-        third_major_just_difference_cents * ratio
-      end
+      @@third_major_target_cents ||= third_major_just_difference_cents * third_major_flavor_level
     end
 
     def third_smallest_enum
