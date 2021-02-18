@@ -88,7 +88,7 @@ module TemperamentMath
     end
 
     def fifth_range_valid?
-      fifth_min.negative? && fifth_max.positive?
+      @@fifth_range_valid ||= fifth_min.negative? && fifth_max.positive?
     end
 
     def fifth_set_save(third_set)
@@ -167,11 +167,16 @@ module TemperamentMath
     end
 
     def fifth_similar_enough_2_3_4(set)
-      fraction = 0.2
-      target = (fifth_min.abs * fraction).round.to_i
       values = set.values_at(*third_smallest_enum_2_3_4)
       variance = values.max - values.min
-      variance <= target
+      variance <= fifth_similar_enough_2_3_4_target
+    end
+
+    def fifth_similar_enough_2_3_4_target
+      @@fifth_similar_enough_2_3_4_target ||= begin
+        fraction = 0.2
+        (fifth_min.abs * fraction).round.to_i
+      end
     end
 
     def fifth_small_enough_11_12(set)
@@ -184,7 +189,7 @@ module TemperamentMath
     end
 
     def fifths_are_a_multiple(set)
-      clean = set.map(&:abs).reject &:zero?
+      clean = set.map(&:abs).reject(&:zero?).uniq
       prime_factors = clean.map do |e|
         ::Prime.prime_division(e).map &:first
       end
@@ -310,13 +315,21 @@ module TemperamentMath
     end
 
     def third_minor_set(fifth_set)
+      octave_size.times.map do |position|
+        indexes = third_minor_set_indexes.at position
+        - fifth_set.values_at(*indexes).sum
+      end
+    end
+
+    def third_minor_set_indexes
 # Circle of fifths: G D A E B F# C# G# D# A# F C
 # Subtracting three fifths from C gives D# (for example).
-      octave_size.times.map do |position|
-        indexes = third_minor_size.times.map do |i|
-          (position.succ + i) % octave_size
+      @@third_minor_set_indexes ||= begin
+        octave_size.times.map do |position|
+          third_minor_size.times.map do |i|
+            (position.succ + i) % octave_size
+          end
         end
-        - fifth_set.values_at(*indexes).sum
       end
     end
 
