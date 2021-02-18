@@ -106,15 +106,15 @@ module TemperamentMath
     def tuning_set
       @@tuning_set ||= begin
         stepwise_set.each_with_index.map do |deviation, note_index|
-          offset = unit * deviation
+          offset = unit_cents * deviation
           equal_tempered = 100.0 * note_index.succ
           equal_tempered + offset
         end
       end
     end
 
-    def unit
-      @@unit ||= begin
+    def unit_cents
+      @@unit_cents ||= begin
         third_smallest = fifth_set.values_at(*third_smallest_enum).sum
         (third_major_target_cents / third_smallest).abs
       end
