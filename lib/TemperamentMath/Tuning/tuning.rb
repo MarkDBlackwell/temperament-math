@@ -25,10 +25,14 @@ module TemperamentMath
 
     extend self
 
+    def deciles
+      @@deciles ||= 11.times.to_a
+    end
+
     def fifth_set
       @@fifth_set ||= begin
-        clean = ARGV.join(' ').delete("\"'").sub(regexp_fifth_index, '').delete ',[]'
-        clean.split(' ').map &:to_i
+        cleaned = ARGV.drop(1).join(' ').delete ',[]'
+        cleaned.split(' ').map &:to_i
       end
     end
 
@@ -44,16 +48,18 @@ module TemperamentMath
       12
     end
 
-    def regexp_fifth_index
-      @@regexp_fifth_index ||= ::Regexp.new( /^ *\d+ +/ )
-    end
-
     def run_tuning
       unless fifth_set_valid?
         puts
         puts "Error: Invalid fifth set '#{fifth_set}'."
         return
       end
+      unless third_major_flavor_strength_step_valid?
+        puts
+        puts "Error: Invalid flavor strength '#{third_major_flavor_strength_step}'."
+        return
+      end
+
       rounded = tuning_set.map{|e| e.round 5}
       puts "#{rounded} #{third_major_flavor_strength_step * 10}%"
       nil
@@ -83,7 +89,11 @@ module TemperamentMath
     end
 
     def third_major_flavor_strength_step
-      @@third_major_flavor_strength_step ||= 4
+      @@third_major_flavor_strength_step ||= ARGV.first.to_i
+    end
+
+    def third_major_flavor_strength_step_valid?
+      @@third_major_flavor_strength_step_valid ||= deciles.include? third_major_flavor_strength_step
     end
 
     def third_major_just_difference_cents
