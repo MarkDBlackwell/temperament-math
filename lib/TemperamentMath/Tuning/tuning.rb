@@ -117,10 +117,8 @@ module TemperamentMath
 
     def third_major_just_difference_cents
       @@third_major_just_difference_cents ||= begin
-        equal_tempered = 400
-        just_frequency_ratio = 5.0 / 4
-        just_cents = (::Math.log2 just_frequency_ratio) * 1200
-        (equal_tempered - just_cents).abs
+        frequency_ratio = 5.0 / 4
+        just_difference_cents frequency_ratio, 400
       end
     end
 
