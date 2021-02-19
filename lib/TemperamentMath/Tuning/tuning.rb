@@ -31,15 +31,13 @@ module TemperamentMath
 
     def fifth_just_difference_cents
       @@fifth_just_difference_cents ||= begin
-        equal_tempered = 700
-        just_frequency_ratio = 3.0 / 2
-        just_cents = (::Math.log2 just_frequency_ratio) * 1200
-        (equal_tempered - just_cents).abs
+        frequency_ratio = 3.0 / 2
+        just_difference_cents frequency_ratio, 700
       end
     end
 
-    def fifth_pure_alignment
-      @@fifth_pure_alignment ||= begin
+    def fifth_largest_excess
+      @@fifth_largest_excess ||= begin
         deviation = fifth_set.max * unit_cents
         deviation - fifth_just_difference_cents
       end
@@ -60,6 +58,11 @@ module TemperamentMath
       end
     end
 
+    def just_difference_cents(frequency_ratio, equal_tempered)
+      just_cents = (::Math.log2 frequency_ratio) * 1200
+      (equal_tempered - just_cents).abs
+    end
+
     def octave_size
       12
     end
@@ -77,7 +80,7 @@ module TemperamentMath
       end
 
       rounded = tuning_set.map{|e| e.round 5}
-      puts "#{rounded} #{third_major_flavor_strength_step * 10}% #{fifth_pure_alignment.round 5}"
+      puts "#{rounded} #{third_major_flavor_strength_step * 10}% #{fifth_largest_excess.round 5}"
       nil
     end
 
