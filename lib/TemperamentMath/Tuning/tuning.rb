@@ -29,8 +29,20 @@ module TemperamentMath
       @@deciles ||= 11.times.to_a
     end
 
+    def fifth_just_difference_cents
+      @@fifth_just_difference_cents ||= begin
+        equal_tempered = 700
+        just_frequency_ratio = 3.0 / 2
+        just_cents = (::Math.log2 just_frequency_ratio) * 1200
+        (equal_tempered - just_cents).abs
+      end
+    end
+
     def fifth_pure_alignment
-      @@fifth_pure_alignment ||= 0.54321
+      @@fifth_pure_alignment ||= begin
+        deviation = fifth_set.max * unit_cents
+        deviation - fifth_just_difference_cents
+      end
     end
 
     def fifth_set
@@ -65,7 +77,7 @@ module TemperamentMath
       end
 
       rounded = tuning_set.map{|e| e.round 5}
-      puts "#{rounded} #{third_major_flavor_strength_step * 10}% #{fifth_pure_alignment.round 3}"
+      puts "#{rounded} #{third_major_flavor_strength_step * 10}% #{fifth_pure_alignment.round 5}"
       nil
     end
 
