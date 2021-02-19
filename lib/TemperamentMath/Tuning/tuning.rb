@@ -29,6 +29,10 @@ module TemperamentMath
       @@deciles ||= 11.times.to_a
     end
 
+    def fifth_pure_alignment
+      @@fifth_pure_alignment ||= 0.54321
+    end
+
     def fifth_set
       @@fifth_set ||= begin
         cleaned = ARGV.drop(1).join(' ').delete ',[]'
@@ -61,7 +65,7 @@ module TemperamentMath
       end
 
       rounded = tuning_set.map{|e| e.round 5}
-      puts "#{rounded} #{third_major_flavor_strength_step * 10}%"
+      puts "#{rounded} #{third_major_flavor_strength_step * 10}% #{fifth_pure_alignment.round 3}"
       nil
     end
 
