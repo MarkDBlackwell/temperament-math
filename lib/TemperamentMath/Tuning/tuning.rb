@@ -29,8 +29,8 @@ module TemperamentMath
       @@deciles ||= 11.times.to_a
     end
 
-    def fifth_just_difference_cents
-      @@fifth_just_difference_cents ||= begin
+    def just_difference_cents_fifth
+      @@just_difference_cents_fifth ||= begin
         frequency_ratio = 3.0 / 2
         just_difference_cents frequency_ratio, 700
       end
@@ -39,7 +39,7 @@ module TemperamentMath
     def fifth_largest_excess
       @@fifth_largest_excess ||= begin
         deviation = fifth_set.max * unit_cents
-        deviation - fifth_just_difference_cents
+        deviation - just_difference_cents_fifth
       end
     end
 
@@ -115,8 +115,8 @@ module TemperamentMath
       @@third_major_flavor_strength_step_valid ||= deciles.include? third_major_flavor_strength_step
     end
 
-    def third_major_just_difference_cents
-      @@third_major_just_difference_cents ||= begin
+    def just_difference_cents_third_major
+      @@just_difference_cents_third_major ||= begin
         frequency_ratio = 5.0 / 4
         just_difference_cents frequency_ratio, 400
       end
@@ -127,7 +127,7 @@ module TemperamentMath
     end
 
     def third_major_target_cents
-      @@third_major_target_cents ||= third_major_just_difference_cents * third_major_flavor_strength
+      @@third_major_target_cents ||= just_difference_cents_third_major * third_major_flavor_strength
     end
 
     def third_smallest_enum
