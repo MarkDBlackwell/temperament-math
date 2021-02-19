@@ -60,7 +60,7 @@ module TemperamentMath
 
     def just_difference_cents(frequency_ratio, equal_tempered)
       just_cents = (::Math.log2 frequency_ratio) * 1200
-      (equal_tempered - just_cents).abs
+      (just_cents - equal_tempered).abs
     end
 
     def octave_size
