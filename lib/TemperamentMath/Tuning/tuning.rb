@@ -55,7 +55,7 @@ module TemperamentMath
         return
       end
       rounded = tuning_set.map{|e| e.round 5}
-      puts rounded.inspect
+      puts "#{rounded} #{third_major_flavor_strength_step * 10}%"
       nil
     end
 
@@ -78,8 +78,12 @@ module TemperamentMath
       end
     end
 
-    def third_major_flavor_level
-      @@third_major_flavor_level ||= 0.4
+    def third_major_flavor_strength
+      @@third_major_flavor_strength ||= third_major_flavor_strength_step / 10.0
+    end
+
+    def third_major_flavor_strength_step
+      @@third_major_flavor_strength_step ||= 4
     end
 
     def third_major_just_difference_cents
@@ -96,7 +100,7 @@ module TemperamentMath
     end
 
     def third_major_target_cents
-      @@third_major_target_cents ||= third_major_just_difference_cents * third_major_flavor_level
+      @@third_major_target_cents ||= third_major_just_difference_cents * third_major_flavor_strength
     end
 
     def third_smallest_enum
