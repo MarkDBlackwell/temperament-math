@@ -29,13 +29,6 @@ module TemperamentMath
       @@deciles ||= 11.times.to_a
     end
 
-    def just_difference_cents_fifth
-      @@just_difference_cents_fifth ||= begin
-        frequency_ratio = 3.0 / 2
-        just_difference_cents frequency_ratio, 700
-      end
-    end
-
     def fifth_largest_excess
       @@fifth_largest_excess ||= begin
         deviation = fifth_set.max * unit_cents
@@ -61,6 +54,20 @@ module TemperamentMath
     def just_difference_cents(frequency_ratio, equal_tempered)
       just_cents = (::Math.log2 frequency_ratio) * 1200
       (just_cents - equal_tempered).abs
+    end
+
+    def just_difference_cents_fifth
+      @@just_difference_cents_fifth ||= begin
+        frequency_ratio = 3.0 / 2
+        just_difference_cents frequency_ratio, 700
+      end
+    end
+
+    def just_difference_cents_third_major
+      @@just_difference_cents_third_major ||= begin
+        frequency_ratio = 5.0 / 4
+        just_difference_cents frequency_ratio, 400
+      end
     end
 
     def octave_size
@@ -113,13 +120,6 @@ module TemperamentMath
 
     def third_major_flavor_strength_step_valid?
       @@third_major_flavor_strength_step_valid ||= deciles.include? third_major_flavor_strength_step
-    end
-
-    def just_difference_cents_third_major
-      @@just_difference_cents_third_major ||= begin
-        frequency_ratio = 5.0 / 4
-        just_difference_cents frequency_ratio, 400
-      end
     end
 
     def third_major_size
