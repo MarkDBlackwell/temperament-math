@@ -97,7 +97,7 @@ module TemperamentMath
         prime_factors = clean.map do |e|
           ::Prime.prime_division(e).map &:first
         end
-        clean.zip(prime_factors).any? {|a,b| a == b}
+        clean.zip(prime_factors).any? {|a,b| [a] == b}
       end
     end
 
