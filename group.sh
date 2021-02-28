@@ -21,12 +21,14 @@
 #--------------
 
 set -e
-limit=7
-size=`expr $limit + 3`
+#limit=7
+#size=`expr $limit + 3`
 #for neg in $(seq -$size -1); do
 # for pos in $(seq 1 $size); do
-for neg in $(seq -14 -10); do
-  for pos in $(seq 7 7); do
+#for neg in $(seq -23 -21); do
+for first in $(seq 22 22); do
+  neg=-$first
+  for pos in $(seq 10 10); do
 #   if [ $pos -ge $limit -a $neg -le -$size ]; then
 #     continue
 #   fi
@@ -34,5 +36,3 @@ for neg in $(seq -14 -10); do
     nice ruby lib/TemperamentMath/Calculate/calculate.rb $neg $pos
   done
 done
-
-
