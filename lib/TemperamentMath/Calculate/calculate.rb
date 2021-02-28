@@ -94,10 +94,8 @@ module TemperamentMath
     def fifth_range_prime?
       @@fifth_range_prime ||= begin
         clean = fifth_extremes.map &:abs
-        prime_factors = clean.map do |e|
-          ::Prime.prime_division(e).map &:first
-        end
-        clean.zip(prime_factors).any? {|a,b| [a] == b}
+        pf = clean.map {|e| prime_factors e}
+        pf.any? {|e| e.length <= 1}
       end
     end
 
@@ -208,10 +206,8 @@ module TemperamentMath
     def fifths_are_a_multiple(set)
       return false if fifth_range_prime?
       clean = set.map(&:abs).reject(&:zero?).uniq
-      prime_factors = clean.map do |e|
-        ::Prime.prime_division(e).map &:first
-      end
-      not prime_factors.reduce(&:intersection).empty?
+      pf = clean.map {|e| prime_factors e}
+      not pf.reduce(&:intersection).empty?
     end
 
     def fifths_justified(set)
@@ -267,6 +263,12 @@ module TemperamentMath
         ::File.delete filename
       end
       nil
+    end
+
+    def prime_factors(n)
+      a = ::Prime.prime_division n
+      return [] if a.empty?
+      a.map &:first
     end
 
     def program_announce
