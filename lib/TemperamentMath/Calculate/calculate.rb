@@ -108,7 +108,6 @@ module TemperamentMath
       third_set_write third_set
       @@fifth_sets_length += 1
       out_third_minor.puts "#{@@fifth_sets_length} #{minors}"
-      out_fifth_raw.puts "#{set.join ' '}"
       out_fifth.puts "#{@@fifth_sets_length} #{set}"
       nil
     end
@@ -229,10 +228,6 @@ module TemperamentMath
 
     def out_fifth
       @@out_fifth ||= open 'output-fifth'
-    end
-
-    def out_fifth_raw
-      @@out_fifth_raw ||= open 'output-fifth-raw', true
     end
 
     def out_third
