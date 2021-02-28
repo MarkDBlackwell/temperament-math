@@ -211,9 +211,9 @@ module TemperamentMath
       @@octave_size_half ||= octave_size / 2
     end
 
-    def open(name, bidirectional=false)
-      mode = bidirectional ? 'w+' : 'w'
+    def open(name)
       is_raw = name.end_with? '-raw'
+      mode = is_raw ? 'w+' : 'w'
       suffix = is_raw ? '' : '.txt'
       basename = "#{name}-n#{-fifth_min}-p#{fifth_max}#{suffix}"
       filename = "#{directory_output}/#{basename}"
@@ -239,7 +239,7 @@ module TemperamentMath
     end
 
     def out_third_raw
-      @@out_third_raw ||= open 'output-third-raw', true
+      @@out_third_raw ||= open 'output-third-raw'
     end
 
     def out_tuning
