@@ -167,9 +167,13 @@ module TemperamentMath
     end
 
     def fifth_similar_enough_2_3_4(set)
-      values = set.values_at(*third_smallest_enum_2_3_4)
+      values = set.values_at(*fifth_similar_enough_2_3_4_enum)
       variance = values.max - values.min
       variance <= fifth_similar_enough_2_3_4_target
+    end
+
+    def fifth_similar_enough_2_3_4_enum
+      @@fifth_similar_enough_2_3_4_enum ||= third_smallest_enum.drop(1).to_enum
     end
 
     def fifth_similar_enough_2_3_4_target
@@ -509,10 +513,6 @@ module TemperamentMath
 
     def third_smallest_enum
       @@third_smallest_enum ||= third_major_size.times
-    end
-
-    def third_smallest_enum_2_3_4
-      @@third_smallest_enum_2_3_4 ||= third_smallest_enum.drop(1).to_enum
     end
 
     def third_smallest_fifths_max(set)
