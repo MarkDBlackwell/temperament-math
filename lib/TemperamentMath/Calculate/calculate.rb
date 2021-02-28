@@ -71,6 +71,10 @@ module TemperamentMath
       @@directory_output ||= "#{project_root}/out"
     end
 
+    def fifth_extremes
+      @@fifth_extremes ||= [fifth_min, fifth_max]
+    end
+
     def fifth_large_enough_1(set)
       @@fifth_1 == (third_smallest_fifths_max set)
     end
@@ -84,7 +88,17 @@ module TemperamentMath
     end
 
     def fifth_range
-      @@fifth_range ||= fifth_min..fifth_max
+      @@fifth_range ||= ::Range.new(*fifth_extremes)
+    end
+
+    def fifth_range_prime?
+      @@fifth_range_prime ||= begin
+        clean = fifth_extremes.map &:abs
+        prime_factors = clean.map do |e|
+          ::Prime.prime_division(e).map &:first
+        end
+        clean.zip(prime_factors).any? {|a,b| a == b}
+      end
     end
 
     def fifth_range_valid?
@@ -192,6 +206,7 @@ module TemperamentMath
     end
 
     def fifths_are_a_multiple(set)
+      return false if fifth_range_prime?
       clean = set.map(&:abs).reject(&:zero?).uniq
       prime_factors = clean.map do |e|
         ::Prime.prime_division(e).map &:first
@@ -200,7 +215,7 @@ module TemperamentMath
     end
 
     def fifths_justified(set)
-      [fifth_min, fifth_max].all? {|extreme| set.include? extreme}
+      fifth_extremes.all? {|e| set.include? e}
     end
 
     def octave_size
