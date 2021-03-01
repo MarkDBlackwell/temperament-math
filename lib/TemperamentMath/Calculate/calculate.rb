@@ -371,7 +371,7 @@ module TemperamentMath
         @@third_set_written = true
         @@third_sets_length += 1
         out_third.puts "#{@@third_sets_length} #{set}"
-        out_fifth.puts "Third set #{@@third_sets_length}:"
+        out_fifth.puts "(Makes third set #{@@third_sets_length}):"
       end
       nil
     end
