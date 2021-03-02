@@ -80,11 +80,11 @@ module TemperamentMath
     end
 
     def fifth_max
-      @@fifth_max ||= (2 != ARGV.length) ?  2 : ARGV.last.to_i
+      @@fifth_max ||= (2 != ARGV.length) ?  2 : ARGV.first.to_i
     end
 
     def fifth_min
-      @@fifth_min ||= (2 != ARGV.length) ? -2 : ARGV.first.to_i
+      @@fifth_min ||= (2 != ARGV.length) ? -2 : ARGV.last.to_i
     end
 
     def fifth_range
@@ -226,7 +226,7 @@ module TemperamentMath
       is_raw = name.end_with? '-raw'
       mode = is_raw ? 'w+' : 'w'
       suffix = is_raw ? '' : '.txt'
-      basename = "#{name}-n#{-fifth_min}-p#{fifth_max}#{suffix}"
+      basename = "output-p#{fifth_max}-n#{-fifth_min}-#{name}#{suffix}"
       filename = "#{directory_output}/#{basename}"
       result = ::File.open filename, mode
       @@output_raw << [filename, result] if is_raw
@@ -234,27 +234,27 @@ module TemperamentMath
     end
 
     def out
-      @@out ||= open 'output-main'
+      @@out ||= open 'main'
     end
 
     def out_fifth
-      @@out_fifth ||= open 'output-fifth'
+      @@out_fifth ||= open 'fifth'
     end
 
     def out_third
-      @@out_third ||= open 'output-third'
+      @@out_third ||= open 'third'
     end
 
     def out_third_minor
-      @@out_third_minor ||= open 'output-thirdminor'
+      @@out_third_minor ||= open 'thirdminor'
     end
 
     def out_third_raw
-      @@out_third_raw ||= open 'output-third-raw'
+      @@out_third_raw ||= open 'third-raw'
     end
 
     def out_tuning
-      @@out_tuning ||= open 'output-tuning'
+      @@out_tuning ||= open 'tuning'
     end
 
     def output_raw_delete

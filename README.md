@@ -6,18 +6,20 @@ Copyright (C) 2021 Mark D. Blackwell
 
 ## Usage
 
-`ruby lib/TemperamentMath/Calculate/calculate.rb <minimum fifth> <maximum fifth>`
+`ruby lib/TemperamentMath/Calculate/calculate.rb <maximum fifth> <minimum fifth>`
 
-A possible starting place is to use `-2` and `2`.
+A possible starting place is to use `2` and `-2`.
 
 Then look in directory `out/` for the generated fifth sets,
-which will be in a file, in this case, of the form `*-fifth-n2-p2*`.
+which will be in a file, in this case, of the form `*p2-n2-fifth*`.
 
 Select one; then do:
 
-`ruby lib/TemperamentMath/Tuning/tuning.rb <fifth set>`
+`ruby lib/TemperamentMath/Tuning/tuning.rb <strength> <fifth set>`
 
 There's no need to place single (or double) quotation marks around the fifth set.
+
+The strength is a multiple of 10, from 0 to 100, and indicates percentage. 0% is always equal temperament.
 
 Then you can enter the generated tuning values into your tuner.
 For example, I use Stichting Huygens-Fokker's program, Scala, to tune my harpsichord.

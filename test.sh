@@ -20,14 +20,11 @@
 
 #--------------
 
-ruby -W lib/TemperamentMath/Calculate/calculate.rb -2 2
+ruby -W lib/TemperamentMath/Calculate/calculate.rb 5 -5
 
-diff test/fixture/output-main-n2-p2.txt  out/output-main-n2-p2.txt
-
-diff test/fixture/output-fifth-n2-p2.txt  out/output-fifth-n2-p2.txt
-
-diff test/fixture/output-third-n2-p2.txt  out/output-third-n2-p2.txt
-
-diff test/fixture/output-thirdminor-n2-p2.txt  out/output-thirdminor-n2-p2.txt
+diff test/fixture/main.txt        out/output-p5-n5-main.txt
+diff test/fixture/fifth.txt       out/output-p5-n5-fifth.txt
+diff test/fixture/third.txt       out/output-p5-n5-third.txt
+diff test/fixture/thirdminor.txt  out/output-p5-n5-thirdminor.txt
 
 ruby -W lib/TemperamentMath/Tuning/tuning.rb 4 [-1, 2, -1, 2, -1, 2, -2, 1, -2, 1, -2, 1] | diff test/fixture/tuning.txt -

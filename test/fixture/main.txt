@@ -1,9 +1,9 @@
-A range -2..2 of fifths produces:
+A range -5..5 of fifths produces:
 
-* 1 sets of thirds, falling from
+* 9 sets of thirds, falling from
       G D A E B F# C# G# D# A# F C
 
-* 1 sets of fifths, also falling from
+* 9 sets of fifths, also falling from
       G D A E B F# C# G# D# A# F C
 
 * And corresponding tuning sets, indicating the positions of
