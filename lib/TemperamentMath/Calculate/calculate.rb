@@ -454,8 +454,10 @@ module TemperamentMath
         case state
         when :initial
           state = :small
-          @@third_3, third_edge_3 = @@third_5  + 1, @@third_5  + 1
-          @@third_9, third_edge_9 = @@third_11 - 1, @@third_11 - 1
+          start_bottom = 2 * @@third_5  - @@third_4
+          start_top    = 2 * @@third_11 - @@third_10
+          @@third_3, third_edge_3 = start_bottom, start_bottom
+          @@third_9, third_edge_9 = start_top, start_top
           break unless valid_level_3?
         when :small
           @@third_3 += 1
@@ -487,8 +489,10 @@ module TemperamentMath
         case state
         when :initial
           state = :small
-          @@third_6,  third_edge_6  = @@third_3 + 1, @@third_3 + 1
-          @@third_12, third_edge_12 = @@third_9 - 1, @@third_9 - 1
+          start_bottom = 2 * @@third_3 - @@third_5
+          start_top    = 2 * @@third_9 - @@third_11
+          @@third_6,  third_edge_6  = start_bottom, start_bottom
+          @@third_12, third_edge_12 = start_top, start_top
           break unless valid_level_4?
         when :small
           @@third_6 += 1
