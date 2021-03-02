@@ -575,7 +575,7 @@ module TemperamentMath
               @@third_10 - fifth_span,
               @@third_5 + difference_obligated,
               ].max  &&
-          @@third_5  <=  @@third_4  + fifth_span
+          @@third_5 <= @@third_4 + fifth_span
     end
 
     def valid_level_3?
@@ -589,7 +589,7 @@ module TemperamentMath
               (3 - @@third_5) / 2,
               @@third_3 + difference_obligated,
               ].max  &&
-          @@third_3  <= [@@third_4  + fifth_span, (- 3 - @@third_11) / 2].min
+          @@third_3 <= [@@third_4 + fifth_span, (-3 - @@third_11) / 2].min
     end
 
     def valid_level_4?
@@ -603,22 +603,22 @@ module TemperamentMath
               (1 - @@third_4) / 2,
               @@third_6 + difference_obligated,
               ].max  &&
-          @@third_6  <= [@@third_5  + fifth_span, (- 1 - @@third_10) / 2].min
+          @@third_6 <= [@@third_5 + fifth_span, (-1 - @@third_10) / 2].min
     end
 
     def valid_level_5_6?
       true &&
           valid_level_5_part?  &&
           valid_level_6_part?  &&
-          @@third_2 >= [@@third_1  - fifth_span, @@third_6  + 1].max  &&
-          @@third_7 >= [@@third_8  - fifth_span, @@third_2  + 1].max  &&
-          @@third_1 >=  @@third_12 - fifth_span  &&
-          @@third_8 >= [@@third_9  - fifth_span, @@third_1  + 1].max  &&
-  
-          @@third_2 <=  @@third_3  + fifth_span  &&
-          @@third_7 <=  @@third_6  + fifth_span  &&
-          @@third_1 <=  @@third_2  + fifth_span  &&
-          @@third_8 <= [@@third_7  + fifth_span, @@third_12 - 1].min
+          @@third_2  >= [@@third_1  - fifth_span, @@third_6  + 1].max  &&
+          @@third_7  >= [@@third_8  - fifth_span, @@third_2  + 1].max  &&
+          @@third_1  >=  @@third_12 - fifth_span  &&
+          @@third_8  >= [@@third_9  - fifth_span, @@third_1  + 1].max  &&
+
+          @@third_2  <=  @@third_3  + fifth_span  &&
+          @@third_7  <=  @@third_6  + fifth_span  &&
+          @@third_1  <=  @@third_2  + fifth_span  &&
+          @@third_8  <= [@@third_7  + fifth_span, @@third_12 - 1].min
     end
 
     def valid_level_5_part?
