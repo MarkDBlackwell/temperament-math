@@ -562,63 +562,72 @@ module TemperamentMath
     end
 
     def valid_level_1?
+# Major thirds with levels:
+#   1    2    3    4    5    6    6    5    4     3    2     1
+#   n4 < n5 < n3 < n6 < n2 < n7 < n1 < n8 < n12 < n9 < n11 < n10
+#   E    B    A    F#   D    C#   G    G#   C     D#   F     A#
+#
       @@third_10 >= @@third_4 + octave_size - 1
     end
 
     def valid_level_2?
+      true &&
+          @@third_11 >= @@third_10 - fifth_span  &&
+          @@third_5  <= @@third_4  + fifth_span  &&
+          valid_level_2_part?
+    end
+
+    def valid_level_2_part?
       difference_bottom = @@third_5  - @@third_4
       difference_top    = @@third_10 - @@third_11
       difference_max = [difference_bottom, difference_top].max
       difference_obligated = 4 * (difference_bottom + difference_top) + difference_max
-      true &&
-          @@third_11 >= [
-              @@third_10 - fifth_span,
-              @@third_5 + difference_obligated,
-              ].max  &&
-          @@third_5 <= @@third_4 + fifth_span
+      @@third_11 >= @@third_5 + difference_obligated
     end
 
     def valid_level_3?
+      true &&
+          @@third_9 >= [@@third_10 - fifth_span, ( 3 - @@third_5 ) / 2].max  &&
+          @@third_3 <= [@@third_4  + fifth_span, (-3 - @@third_11) / 2].min  &&
+          valid_level_3_part?
+    end
+
+    def valid_level_3_part?
       difference_bottom = @@third_3  - @@third_5
       difference_top    = @@third_11 - @@third_9
       difference_max = [difference_bottom, difference_top].max
       difference_obligated = 3 * (difference_bottom + difference_top) + difference_max
-      true &&
-          @@third_9 >= [
-              @@third_10 - fifth_span,
-              (3 - @@third_5) / 2,
-              @@third_3 + difference_obligated,
-              ].max  &&
-          @@third_3 <= [@@third_4 + fifth_span, (-3 - @@third_11) / 2].min
+      @@third_9 >= @@third_3 + difference_obligated
     end
 
     def valid_level_4?
+      true &&
+          @@third_12 >= [@@third_11 - fifth_span, ( 1 - @@third_4 ) / 2].max  &&
+          @@third_6  <= [@@third_5  + fifth_span, (-1 - @@third_10) / 2].min  &&
+          valid_level_4_part?
+    end
+
+    def valid_level_4_part?
       difference_bottom = @@third_6 - @@third_3
       difference_top    = @@third_9 - @@third_12
       difference_max = [difference_bottom, difference_top].max
       difference_obligated = 2 * (difference_bottom + difference_top) + difference_max
-      true &&
-          @@third_12 >= [
-              @@third_11 - fifth_span,
-              (1 - @@third_4) / 2,
-              @@third_6 + difference_obligated,
-              ].max  &&
-          @@third_6 <= [@@third_5 + fifth_span, (-1 - @@third_10) / 2].min
+      @@third_12 >= @@third_6 + difference_obligated
     end
 
     def valid_level_5_6?
       true &&
-          valid_level_5_part?  &&
-          valid_level_6_part?  &&
-          @@third_2  >= [@@third_1  - fifth_span, @@third_6  + 1].max  &&
-          @@third_7  >= [@@third_8  - fifth_span, @@third_2  + 1].max  &&
+          @@third_2  >= [@@third_1  - fifth_span, 2 * @@third_6  - @@third_3 ].max  &&
+          @@third_7  >= [@@third_8  - fifth_span, 2 * @@third_2  - @@third_6 ].max  &&
+          @@third_8  >=  @@third_9  - fifth_span  &&
           @@third_1  >=  @@third_12 - fifth_span  &&
-          @@third_8  >= [@@third_9  - fifth_span, @@third_1  + 1].max  &&
 
+          @@third_8  <= [@@third_7  + fifth_span, 2 * @@third_12 - @@third_9 ].min  &&
+          @@third_1  <= [@@third_2  + fifth_span, 2 * @@third_8  - @@third_12].min  &&
           @@third_2  <=  @@third_3  + fifth_span  &&
           @@third_7  <=  @@third_6  + fifth_span  &&
-          @@third_1  <=  @@third_2  + fifth_span  &&
-          @@third_8  <= [@@third_7  + fifth_span, @@third_12 - 1].min
+          valid_level_5_part?  &&
+          valid_level_6_part?
     end
 
     def valid_level_5_part?
@@ -630,15 +639,10 @@ module TemperamentMath
     end
 
     def valid_level_6_part?
-# Major thirds with levels:
-#   1    2    3    4    5    6    6    5    4     3    2     1
-#   n4 < n5 < n3 < n6 < n2 < n7 < n1 < n8 < n12 < n9 < n11 < n10
-#   E    B    A    F#   D    C#   G    G#   C     D#   F     A#
-#
       difference_bottom = @@third_7  - @@third_2
       difference_top    = @@third_8  - @@third_1
-      difference_max = [difference_bottom, difference_top].max
-      @@third_1 >= @@third_7 + difference_max
+      difference_obligated = [difference_bottom, difference_top].max
+      @@third_1 >= @@third_7 + difference_obligated
     end
   end
 end
