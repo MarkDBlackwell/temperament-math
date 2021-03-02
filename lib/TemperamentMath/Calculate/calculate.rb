@@ -377,6 +377,11 @@ module TemperamentMath
     end
 
     def third_sets_build
+# Major thirds with levels:
+#   1    2    3    4    5    6    6    5    4     3    2     1
+#   n4 < n5 < n3 < n6 < n2 < n7 < n1 < n8 < n12 < n9 < n11 < n10
+#   E    B    A    F#   D    C#   G    G#   C     D#   F     A#
+#
       third_sets_build_level_1
       nil
     end
