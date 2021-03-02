@@ -359,8 +359,8 @@ module TemperamentMath
           @@third_5,  @@third_6,  @@third_7,  @@third_8,
           @@third_9,  @@third_10, @@third_11, @@third_12,
           ]
-      return unless set.uniq.length == octave_size
       return unless slope_good? set, thirds_half_top, thirds_half_bottom
+      return unless set.uniq.length == octave_size
 # Print thirds minimally before rewinding and filtering them, while building the fifth sets:
       out_third_raw.puts "#{set.join ' '}"
       nil
@@ -566,34 +566,79 @@ module TemperamentMath
     end
 
     def valid_level_2?
+      difference_bottom = @@third_5  - @@third_4
+      difference_top    = @@third_10 - @@third_11
+      difference_max = [difference_bottom, difference_top].max
+      difference_obligated = 4 * (difference_bottom + difference_top) + difference_max
       true &&
-          @@third_11 >= [@@third_10 - fifth_span, @@third_5 + octave_size - 3].max  &&
+          @@third_11 >= [
+              @@third_10 - fifth_span,
+              @@third_5 + difference_obligated,
+              ].max  &&
           @@third_5  <=  @@third_4  + fifth_span
     end
 
     def valid_level_3?
+      difference_bottom = @@third_3  - @@third_5
+      difference_top    = @@third_11 - @@third_9
+      difference_max = [difference_bottom, difference_top].max
+      difference_obligated = 3 * (difference_bottom + difference_top) + difference_max
       true &&
-          @@third_9  >= [@@third_10 - fifth_span, (  3 - @@third_5 ) / 2, @@third_3 + octave_size - 5].max  &&
+          @@third_9 >= [
+              @@third_10 - fifth_span,
+              (3 - @@third_5) / 2,
+              @@third_3 + difference_obligated,
+              ].max  &&
           @@third_3  <= [@@third_4  + fifth_span, (- 3 - @@third_11) / 2].min
     end
 
     def valid_level_4?
+      difference_bottom = @@third_6 - @@third_3
+      difference_top    = @@third_9 - @@third_12
+      difference_max = [difference_bottom, difference_top].max
+      difference_obligated = 2 * (difference_bottom + difference_top) + difference_max
       true &&
-          @@third_12 >= [@@third_11 - fifth_span, (  1 - @@third_4 ) / 2, @@third_6 + octave_size - 7].max  &&
+          @@third_12 >= [
+              @@third_11 - fifth_span,
+              (1 - @@third_4) / 2,
+              @@third_6 + difference_obligated,
+              ].max  &&
           @@third_6  <= [@@third_5  + fifth_span, (- 1 - @@third_10) / 2].min
     end
 
     def valid_level_5_6?
       true &&
+          valid_level_5_part?  &&
+          valid_level_6_part?  &&
           @@third_2 >= [@@third_1  - fifth_span, @@third_6  + 1].max  &&
           @@third_7 >= [@@third_8  - fifth_span, @@third_2  + 1].max  &&
-          @@third_1 >= [@@third_12 - fifth_span, @@third_7  + 1].max  &&
+          @@third_1 >=  @@third_12 - fifth_span  &&
           @@third_8 >= [@@third_9  - fifth_span, @@third_1  + 1].max  &&
   
           @@third_2 <=  @@third_3  + fifth_span  &&
           @@third_7 <=  @@third_6  + fifth_span  &&
           @@third_1 <=  @@third_2  + fifth_span  &&
           @@third_8 <= [@@third_7  + fifth_span, @@third_12 - 1].min
+    end
+
+    def valid_level_5_part?
+      difference_bottom = @@third_2  - @@third_6
+      difference_top    = @@third_12 - @@third_8
+      difference_max = [difference_bottom, difference_top].max
+      difference_obligated = difference_bottom + difference_top + difference_max
+      @@third_8 >= @@third_2 + difference_obligated
+    end
+
+    def valid_level_6_part?
+# Major thirds with levels:
+#   1    2    3    4    5    6    6    5    4     3    2     1
+#   n4 < n5 < n3 < n6 < n2 < n7 < n1 < n8 < n12 < n9 < n11 < n10
+#   E    B    A    F#   D    C#   G    G#   C     D#   F     A#
+#
+      difference_bottom = @@third_7  - @@third_2
+      difference_top    = @@third_8  - @@third_1
+      difference_max = [difference_bottom, difference_top].max
+      @@third_1 >= @@third_7 + difference_max
     end
   end
 end
