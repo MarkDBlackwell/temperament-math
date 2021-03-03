@@ -400,25 +400,25 @@ module TemperamentMath
         case state
         when :initial
           state = :small
-          @@third_4,  third_edge_4  = third_min, third_min
-          @@third_10, third_edge_10 = third_max, third_max
+          @@third_4,  third_edge_small  = third_min, third_min
+          @@third_10, third_edge_large = third_max, third_max
           break unless valid_level_1?
         when :small
           @@third_4 += 1
           unless valid_level_1?
             state = :large
-            @@third_4 = third_edge_4
-            third_edge_10 -= 1
-            @@third_10 = third_edge_10
+            @@third_4 = third_edge_small
+            third_edge_large -= 1
+            @@third_10 = third_edge_large
             break unless valid_level_1?
           end
         when :large
           @@third_10 -= 1
           unless valid_level_1?
             state = :small
-            @@third_10 = third_edge_10
-            third_edge_4 += 1
-            @@third_4 = third_edge_4
+            @@third_10 = third_edge_large
+            third_edge_small += 1
+            @@third_4 = third_edge_small
             break unless valid_level_1?
           end
         end
@@ -433,25 +433,25 @@ module TemperamentMath
         case state
         when :initial
           state = :small
-          @@third_5,  third_edge_5  = @@third_4  + 1, @@third_4  + 1
-          @@third_11, third_edge_11 = @@third_10 - 1, @@third_10 - 1
+          @@third_5,  third_edge_small  = @@third_4  + 1, @@third_4  + 1
+          @@third_11, third_edge_large = @@third_10 - 1, @@third_10 - 1
           break unless valid_level_2?
         when :small
           @@third_5 += 1
           unless valid_level_2?
             state = :large
-            @@third_5 = third_edge_5
-            third_edge_11 -= 1
-            @@third_11 = third_edge_11
+            @@third_5 = third_edge_small
+            third_edge_large -= 1
+            @@third_11 = third_edge_large
             break unless valid_level_2?
           end
         when :large
           @@third_11 -= 1
           unless valid_level_2?
             state = :small
-            @@third_11 = third_edge_11
-            third_edge_5 += 1
-            @@third_5 = third_edge_5
+            @@third_11 = third_edge_large
+            third_edge_small += 1
+            @@third_5 = third_edge_small
             break unless valid_level_2?
           end
         end
@@ -468,25 +468,25 @@ module TemperamentMath
           state = :small
           start_bottom = 2 * @@third_5  - @@third_4
           start_top    = 2 * @@third_11 - @@third_10
-          @@third_3, third_edge_3 = start_bottom, start_bottom
-          @@third_9, third_edge_9 = start_top, start_top
+          @@third_3, third_edge_small = start_bottom, start_bottom
+          @@third_9, third_edge_large = start_top, start_top
           break unless valid_level_3?
         when :small
           @@third_3 += 1
           unless valid_level_3?
             state = :large
-            @@third_3 = third_edge_3
-            third_edge_9 -= 1
-            @@third_9 = third_edge_9
+            @@third_3 = third_edge_small
+            third_edge_large -= 1
+            @@third_9 = third_edge_large
             break unless valid_level_3?
           end
         when :large
           @@third_9 -= 1
           unless valid_level_3?
             state = :small
-            @@third_9 = third_edge_9
-            third_edge_3 += 1
-            @@third_3 = third_edge_3
+            @@third_9 = third_edge_large
+            third_edge_small += 1
+            @@third_3 = third_edge_small
             break unless valid_level_3?
           end
         end
@@ -503,39 +503,31 @@ module TemperamentMath
           state = :small
           start_bottom = 2 * @@third_3 - @@third_5
           start_top    = 2 * @@third_9 - @@third_11
-          @@third_6,  third_edge_6  = start_bottom, start_bottom
-          @@third_12, third_edge_12 = start_top, start_top
+          @@third_6,  third_edge_small  = start_bottom, start_bottom
+          @@third_12, third_edge_large = start_top, start_top
+# Levels 5 and 6 go in and out of validity.
           break unless valid_level_4?
         when :small
           @@third_6 += 1
           unless valid_level_4?
             state = :large
-            @@third_6 = third_edge_6
-            third_edge_12 -= 1
-            @@third_12 = third_edge_12
+            @@third_6 = third_edge_small
+            third_edge_large -= 1
+            @@third_12 = third_edge_large
             break unless valid_level_4?
           end
         when :large
           @@third_12 -= 1
           unless valid_level_4?
             state = :small
-            @@third_12 = third_edge_12
-            third_edge_6 += 1
-            @@third_6 = third_edge_6
+            @@third_12 = third_edge_large
+            third_edge_small += 1
+            @@third_6 = third_edge_small
             break unless valid_level_4?
           end
         end
-        third_sets_build_level_5_6
+        third_set_save if valid_level_5_6?
       end
-      nil
-    end
-
-    def third_sets_build_level_5_6
-      @@third_1 = - @@third_5 - @@third_9
-      @@third_2 = - @@third_6 - @@third_10
-      @@third_7 = - @@third_3 - @@third_11
-      @@third_8 = - @@third_4 - @@third_12
-      third_set_save if valid_level_5_6?
       nil
     end
 
@@ -574,11 +566,6 @@ module TemperamentMath
     end
 
     def valid_level_1?
-# Major thirds with levels:
-#   1    2    3    4    5    6    6    5    4     3    2     1
-#   n4 < n5 < n3 < n6 < n2 < n7 < n1 < n8 < n12 < n9 < n11 < n10
-#   E    B    A    F#   D    C#   G    G#   C     D#   F     A#
-#
       @@third_10 >= @@third_4 + octave_size - 1
     end
 
@@ -628,6 +615,10 @@ module TemperamentMath
     end
 
     def valid_level_5_6?
+      @@third_1 = - @@third_5 - @@third_9
+      @@third_2 = - @@third_6 - @@third_10
+      @@third_7 = - @@third_3 - @@third_11
+      @@third_8 = - @@third_4 - @@third_12
       true &&
           @@third_2  >= [@@third_1  - fifth_span, 2 * @@third_6  - @@third_3 ].max  &&
           @@third_7  >= [@@third_8  - fifth_span, 2 * @@third_2  - @@third_6 ].max  &&
