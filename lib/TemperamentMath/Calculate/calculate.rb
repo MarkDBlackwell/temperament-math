@@ -40,11 +40,13 @@ module TemperamentMath
       out.puts '      G D A E B F# C# G# D# A# F C'
       return if @@third_sets_length.zero?
 
+      out.flush
       out.puts
       out.puts "* #{delimit @@fifth_sets_length} sets of fifths, also falling from"
       out.puts '      G D A E B F# C# G# D# A# F C'
       return if @@fifth_sets_length.zero?
 
+      out.flush
       out.puts
       out.puts '* And corresponding tuning sets, indicating the positions of'
       out.puts '      C# D D# E F F# G G# A A# B C'
@@ -120,7 +122,9 @@ module TemperamentMath
       third_set_write third_set
       @@fifth_sets_length += 1
       out_third_minor.puts "#{@@fifth_sets_length} #{minors}"
+      out_third_minor.flush
       out_fifth.puts "#{@@fifth_sets_length} #{set}"
+      out_fifth.flush
       nil
     end
 
@@ -291,6 +295,7 @@ module TemperamentMath
         return
       end
       out.puts "A range #{fifth_range} of fifths produces:"
+      out.flush
       @@output_raw = []
       build
       output_raw_delete
@@ -371,7 +376,9 @@ module TemperamentMath
         @@third_set_written = true
         @@third_sets_length += 1
         out_third.puts "#{@@third_sets_length} #{set}"
+        out_third.flush
         out_fifth.puts "(Makes third set #{@@third_sets_length}):"
+        out_fifth.flush
       end
       nil
     end
