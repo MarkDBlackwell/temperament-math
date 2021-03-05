@@ -101,6 +101,22 @@ module TemperamentMath
       end
     end
 
+    def fifth_range_tailored_construct(third_set)
+      octave_enum.map do |offset|
+        structure = fifth_range_tailored_structure.map do |index|
+          (index + offset) % octave_size
+        end
+        a, b, c, d = third_set.values_at(*structure)
+        smallest = [0, a - b, c - d].max + fifth_min
+        largest  = [0, a - b, c - d].min + fifth_max
+        ::Range.new smallest, largest
+      end
+    end
+
+    def fifth_range_tailored_structure
+      @@fifth_range_tailored_structure ||= [4, 5, 1, 12].map &:pred
+    end
+
     def fifth_range_valid?
       @@fifth_range_valid ||= fifth_min.negative? && fifth_max.positive?
     end
@@ -139,24 +155,21 @@ module TemperamentMath
         @@third_1,  @@third_2,  @@third_3,  @@third_4,
         @@third_5,  @@third_6,  @@third_7,  @@third_8,
         @@third_9,  @@third_10, @@third_11, @@third_12 = third_set
-        fifth_range_tailored = []
-        fifth_range_tailored.push ::Range.new(*fifth_extremes)
-        fifth_range_tailored.push ::Range.new(*fifth_extremes)
-        fifth_range_tailored.push ::Range.new(*fifth_extremes)
+        tailored = fifth_range_tailored_construct third_set
 # Pick a fifth; calculate two other fifths:
-        fifth_range_tailored.at(0).each do |f1|
+        tailored.at(0).each do |f1|
           @@fifth_1 = f1
           @@fifth_5 = @@third_5 - @@third_4 + @@fifth_1
           @@fifth_9 = @@third_9 - @@third_8 + @@fifth_5
           next unless [@@fifth_5, @@fifth_9].all? {|e| fifth_range.include? e}
 # Pick a fifth; calculate two other fifths:
-          fifth_range_tailored.at(1).each do |f2|
+          tailored.at(1).each do |f2|
             @@fifth_2 = f2
             @@fifth_6  = @@third_6 - @@third_5 + @@fifth_2
             @@fifth_10 = @@third_10 - @@third_9 + @@fifth_6
             next unless [@@fifth_6, @@fifth_10].all? {|e| fifth_range.include? e}
 # Pick a fifth; calculate two other fifths:
-            fifth_range_tailored.at(2).each do |f3|
+            tailored.at(2).each do |f3|
               @@fifth_3 = f3
               @@fifth_7  = @@third_7 - @@third_6 + @@fifth_3
               @@fifth_11 = @@third_11 - @@third_10 + @@fifth_7
@@ -221,6 +234,10 @@ module TemperamentMath
 
     def fifths_justified(set)
       fifth_extremes.all? {|e| set.include? e}
+    end
+
+    def octave_enum
+      @@octave_enum ||= octave_size.times
     end
 
     def octave_size
@@ -341,7 +358,7 @@ module TemperamentMath
     end
 
     def third_minor_set(fifth_set)
-      octave_size.times.map do |position|
+      octave_enum.map do |position|
         indexes = third_minor_set_indexes.at position
         - fifth_set.values_at(*indexes).sum
       end
@@ -351,7 +368,7 @@ module TemperamentMath
 # Circle of fifths: G D A E B F# C# G# D# A# F C
 # Subtracting three fifths from C gives D# (for example).
       @@third_minor_set_indexes ||= begin
-        octave_size.times.map do |position|
+        octave_enum.map do |position|
           third_minor_size.times.map do |i|
             (position.succ + i) % octave_size
           end
