@@ -369,7 +369,7 @@ module TemperamentMath
 # Subtracting three fifths from C gives D# (for example).
       @@third_minor_set_indexes ||= begin
         octave_enum.map do |position|
-          third_minor_size.times.map do |i|
+          third_minor_enum.map do |i|
             (position.succ + i) % octave_size
           end
         end
@@ -378,6 +378,10 @@ module TemperamentMath
 
     def third_minor_size
       3
+    end
+
+    def third_minor_enum
+      @@third_minor_enum ||= third_minor_size.times
     end
 
     def third_set_save
