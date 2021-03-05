@@ -139,20 +139,23 @@ module TemperamentMath
         @@third_1,  @@third_2,  @@third_3,  @@third_4,
         @@third_5,  @@third_6,  @@third_7,  @@third_8,
         @@third_9,  @@third_10, @@third_11, @@third_12 = third_set
+        fifth_range_f1 = ::Range.new(*fifth_extremes)
+        fifth_range_f2 = ::Range.new(*fifth_extremes)
+        fifth_range_f3 = ::Range.new(*fifth_extremes)
 # Pick a fifth; calculate two other fifths:
-        fifth_range.each do |f1|
+        fifth_range_f1.each do |f1|
           @@fifth_1 = f1
           @@fifth_5 = @@third_5 - @@third_4 + @@fifth_1
           @@fifth_9 = @@third_9 - @@third_8 + @@fifth_5
           next unless [@@fifth_5, @@fifth_9].all? {|e| fifth_range.include? e}
 # Pick a fifth; calculate two other fifths:
-          fifth_range.each do |f2|
+          fifth_range_f2.each do |f2|
             @@fifth_2 = f2
             @@fifth_6  = @@third_6 - @@third_5 + @@fifth_2
             @@fifth_10 = @@third_10 - @@third_9 + @@fifth_6
             next unless [@@fifth_6, @@fifth_10].all? {|e| fifth_range.include? e}
 # Pick a fifth; calculate two other fifths:
-            fifth_range.each do |f3|
+            fifth_range_f3.each do |f3|
               @@fifth_3 = f3
               @@fifth_7  = @@third_7 - @@third_6 + @@fifth_3
               @@fifth_11 = @@third_11 - @@third_10 + @@fifth_7
