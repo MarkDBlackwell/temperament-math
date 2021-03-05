@@ -131,6 +131,7 @@ module TemperamentMath
     def fifth_sets_build
       @@third_sets_length = 0
       @@fifth_sets_length = 0
+      out_third_raw.flush
       out_third_raw.rewind
       out_third_raw.each do |line|
         @@third_set_written = false
