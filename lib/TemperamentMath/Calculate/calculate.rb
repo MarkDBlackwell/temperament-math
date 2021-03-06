@@ -121,7 +121,7 @@ module TemperamentMath
       @@fifth_range_valid ||= fifth_min.negative? && fifth_max.positive?
     end
 
-    def fifth_set_save(third_set)
+    def fifth_set_save(third_set, tailored)
       set = [
           @@fifth_1,  @@fifth_2,  @@fifth_3,  @@fifth_4,
           @@fifth_5,  @@fifth_6,  @@fifth_7,  @@fifth_8,
@@ -135,7 +135,7 @@ module TemperamentMath
       minors = third_minor_set set
       return unless minors.uniq.length == octave_size
       return unless slope_good? minors, thirds_minor_half_top, thirds_minor_half_bottom
-      third_set_write third_set
+      third_set_write third_set, tailored
       @@fifth_sets_length += 1
       out_third_minor.puts "#{@@fifth_sets_length} #{minors}"
       out_third_minor.flush
@@ -191,7 +191,7 @@ module TemperamentMath
                   @@fifth_7  + @@fifth_8  + @@fifth_9  + @@fifth_10 == @@third_10  &&
                   @@fifth_8  + @@fifth_9  + @@fifth_10 + @@fifth_11 == @@third_11  &&
                   @@fifth_9  + @@fifth_10 + @@fifth_11 + @@fifth_12 == @@third_12
-              fifth_set_save third_set
+              fifth_set_save third_set, tailored
             end
           end
         end
@@ -265,6 +265,10 @@ module TemperamentMath
 
     def out_fifth
       @@out_fifth ||= open 'fifth'
+    end
+
+    def out_tailored
+      @@out_tailored ||= open 'tailored'
     end
 
     def out_third
@@ -397,12 +401,14 @@ module TemperamentMath
       nil
     end
 
-    def third_set_write(set)
+    def third_set_write(set, tailored)
       unless @@third_set_written
         @@third_set_written = true
         @@third_sets_length += 1
         out_third.puts "#{@@third_sets_length} #{set}"
         out_third.flush
+        out_tailored.puts "#{@@third_sets_length} #{tailored}"
+        out_tailored.flush
         out_fifth.puts "(Makes third set #{@@third_sets_length}):"
         out_fifth.flush
       end
