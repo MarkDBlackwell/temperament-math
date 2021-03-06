@@ -93,6 +93,10 @@ module TemperamentMath
       @@fifth_range ||= ::Range.new(*fifth_extremes)
     end
 
+    def fifth_range_double
+      @@fifth_range_double ||= ::Range.new(- fifth_span, fifth_span)
+    end
+
     def fifth_range_prime?
       @@fifth_range_prime ||= begin
         clean = fifth_extremes.map &:abs
@@ -388,6 +392,18 @@ module TemperamentMath
       @@third_minor_enum ||= third_minor_size.times
     end
 
+    def third_set_check(set)
+      sums = octave_enum.map do |offset|
+        structure = fifth_range_tailored_structure.map do |index|
+          (index + offset) % octave_size
+        end
+# [4, 5, 1, 12]
+        a, b, c, d = set.values_at(*structure)
+        a + d - b - c
+      end
+      sums.all? {|e| fifth_range_double.include? e}
+    end
+
     def third_set_save
       set = [
           @@third_1,  @@third_2,  @@third_3,  @@third_4,
@@ -396,6 +412,7 @@ module TemperamentMath
           ]
       return unless slope_good? set, thirds_half_top, thirds_half_bottom
       return unless set.uniq.length == octave_size
+      return unless third_set_check set
 # Print thirds minimally before rewinding and filtering them, while building the fifth sets:
       out_third_raw.puts "#{set.join ' '}"
       nil
