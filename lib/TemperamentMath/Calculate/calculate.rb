@@ -404,6 +404,36 @@ module TemperamentMath
       sums.all? {|e| fifth_range_double.include? e}
     end
 
+    def third_set_check_5_6
+      true &&
+          @@third_2  >= [@@third_1  - fifth_span, 2 * @@third_6  - @@third_3 ].max  &&
+          @@third_7  >= [@@third_8  - fifth_span, 2 * @@third_2  - @@third_6 ].max  &&
+          @@third_8  >=  @@third_9  - fifth_span  &&
+          @@third_1  >=  @@third_12 - fifth_span  &&
+
+          @@third_8  <= [@@third_7  + fifth_span, 2 * @@third_12 - @@third_9 ].min  &&
+          @@third_1  <= [@@third_2  + fifth_span, 2 * @@third_8  - @@third_12].min  &&
+          @@third_2  <=  @@third_3  + fifth_span  &&
+          @@third_7  <=  @@third_6  + fifth_span  &&
+          third_set_check_5_part  &&
+          third_set_check_6_part
+    end
+
+    def third_set_check_5_part
+      difference_bottom = @@third_2  - @@third_6
+      difference_top    = @@third_12 - @@third_8
+      difference_max = [difference_bottom, difference_top].max
+      difference_obligated = difference_bottom + difference_top + difference_max
+      @@third_8 >= @@third_2 + difference_obligated
+    end
+
+    def third_set_check_6_part
+      difference_bottom = @@third_7  - @@third_2
+      difference_top    = @@third_8  - @@third_1
+      difference_obligated = [difference_bottom, difference_top].max
+      @@third_1 >= @@third_7 + difference_obligated
+    end
+
     def third_set_save
       return unless third_set_check_5_6
       set = [
@@ -702,36 +732,6 @@ module TemperamentMath
       difference_max = [difference_bottom, difference_top].max
       difference_obligated = 2 * (difference_bottom + difference_top) + difference_max
       @@third_12 >= @@third_6 + difference_obligated
-    end
-
-    def third_set_check_5_6
-      true &&
-          @@third_2  >= [@@third_1  - fifth_span, 2 * @@third_6  - @@third_3 ].max  &&
-          @@third_7  >= [@@third_8  - fifth_span, 2 * @@third_2  - @@third_6 ].max  &&
-          @@third_8  >=  @@third_9  - fifth_span  &&
-          @@third_1  >=  @@third_12 - fifth_span  &&
-
-          @@third_8  <= [@@third_7  + fifth_span, 2 * @@third_12 - @@third_9 ].min  &&
-          @@third_1  <= [@@third_2  + fifth_span, 2 * @@third_8  - @@third_12].min  &&
-          @@third_2  <=  @@third_3  + fifth_span  &&
-          @@third_7  <=  @@third_6  + fifth_span  &&
-          third_set_check_5_part  &&
-          third_set_check_6_part
-    end
-
-    def third_set_check_5_part
-      difference_bottom = @@third_2  - @@third_6
-      difference_top    = @@third_12 - @@third_8
-      difference_max = [difference_bottom, difference_top].max
-      difference_obligated = difference_bottom + difference_top + difference_max
-      @@third_8 >= @@third_2 + difference_obligated
-    end
-
-    def third_set_check_6_part
-      difference_bottom = @@third_7  - @@third_2
-      difference_top    = @@third_8  - @@third_1
-      difference_obligated = [difference_bottom, difference_top].max
-      @@third_1 >= @@third_7 + difference_obligated
     end
   end
 end
