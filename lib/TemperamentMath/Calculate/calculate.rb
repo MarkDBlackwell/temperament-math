@@ -405,6 +405,7 @@ module TemperamentMath
     end
 
     def third_set_save
+      return unless third_set_check_5_6
       set = [
           @@third_1,  @@third_2,  @@third_3,  @@third_4,
           @@third_5,  @@third_6,  @@third_7,  @@third_8,
@@ -563,12 +564,12 @@ module TemperamentMath
             break unless valid_level_3?
           end
         end
-        third_sets_build_level_4
+        third_sets_build_level_4_5_6
       end
       nil
     end
 
-    def third_sets_build_level_4
+    def third_sets_build_level_4_5_6
       state = :initial
       while true
         case state
@@ -579,10 +580,10 @@ module TemperamentMath
           @@third_6,  third_edge_small = start_bottom, start_bottom
           @@third_12, third_edge_large = start_top, start_top
 # Levels 5 and 6 go in and out of validity.
-          break unless valid_level_4?
+          break unless valid_level_4_5_6?
         when :small
           @@third_6 += 1
-          unless valid_level_4?
+          unless valid_level_4_5_6?
             state = :large
             @@third_6 = third_edge_small
             third_edge_large -= 1
@@ -593,11 +594,11 @@ module TemperamentMath
                 @@third_4 + (4 * fifth_span),
                 @@third_3 + (3 * fifth_span),
                 ].min
-            break unless valid_level_4?
+            break unless valid_level_4_5_6?
           end
         when :large
           @@third_12 -= 1
-          unless valid_level_4?
+          unless valid_level_4_5_6?
             state = :small
             @@third_12 = third_edge_large
             third_edge_small += 1
@@ -608,10 +609,10 @@ module TemperamentMath
                 @@third_10 - (4 * fifth_span),
                 @@third_9  - (3 * fifth_span),
                 ].max
-            break unless valid_level_4?
+            break unless valid_level_4_5_6?
           end
         end
-        third_set_save if valid_level_5_6?
+        third_set_save
       end
       nil
     end
@@ -684,7 +685,11 @@ module TemperamentMath
       @@third_9 >= @@third_3 + difference_obligated
     end
 
-    def valid_level_4?
+    def valid_level_4_5_6?
+      @@third_1 = - @@third_5 - @@third_9
+      @@third_2 = - @@third_6 - @@third_10
+      @@third_7 = - @@third_3 - @@third_11
+      @@third_8 = - @@third_4 - @@third_12
       true &&
           @@third_12 >= [@@third_11 - fifth_span, ( 1 - @@third_4 ) / 2].max  &&
           @@third_6  <= [@@third_5  + fifth_span, (-1 - @@third_10) / 2].min  &&
@@ -699,11 +704,7 @@ module TemperamentMath
       @@third_12 >= @@third_6 + difference_obligated
     end
 
-    def valid_level_5_6?
-      @@third_1 = - @@third_5 - @@third_9
-      @@third_2 = - @@third_6 - @@third_10
-      @@third_7 = - @@third_3 - @@third_11
-      @@third_8 = - @@third_4 - @@third_12
+    def third_set_check_5_6
       true &&
           @@third_2  >= [@@third_1  - fifth_span, 2 * @@third_6  - @@third_3 ].max  &&
           @@third_7  >= [@@third_8  - fifth_span, 2 * @@third_2  - @@third_6 ].max  &&
@@ -714,11 +715,11 @@ module TemperamentMath
           @@third_1  <= [@@third_2  + fifth_span, 2 * @@third_8  - @@third_12].min  &&
           @@third_2  <=  @@third_3  + fifth_span  &&
           @@third_7  <=  @@third_6  + fifth_span  &&
-          valid_level_5_part?  &&
-          valid_level_6_part?
+          third_set_check_5_part  &&
+          third_set_check_6_part
     end
 
-    def valid_level_5_part?
+    def third_set_check_5_part
       difference_bottom = @@third_2  - @@third_6
       difference_top    = @@third_12 - @@third_8
       difference_max = [difference_bottom, difference_top].max
@@ -726,7 +727,7 @@ module TemperamentMath
       @@third_8 >= @@third_2 + difference_obligated
     end
 
-    def valid_level_6_part?
+    def third_set_check_6_part
       difference_bottom = @@third_7  - @@third_2
       difference_top    = @@third_8  - @@third_1
       difference_obligated = [difference_bottom, difference_top].max
