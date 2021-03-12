@@ -789,10 +789,16 @@ module TemperamentMath
       true &&
           @@third_12 >= [
              @@third_11 - fifth_span,
+             - @@third_4 - @@third_9 - fifth_span,
+             - @@third_5 - @@third_9 - fifth_span,
+             @@third_11 + @@third_3 - @@third_4 - fifth_span,
              (1 - @@third_4) / 2,
              ].max  &&
           @@third_6 <= [
              @@third_5 + fifth_span,
+             - @@third_11 - @@third_3 + fifth_span,
+             - @@third_10 - @@third_3 + fifth_span,
+             - @@third_10 + @@third_5 + @@third_9 + fifth_span,
              (-1 - @@third_10) / 2,
              ].min  &&
           valid_level_4_part?
