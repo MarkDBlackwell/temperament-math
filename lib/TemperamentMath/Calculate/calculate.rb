@@ -406,13 +406,25 @@ module TemperamentMath
 
     def third_set_check_5_6
       true &&
-          @@third_2  >= [@@third_1  - fifth_span, 2 * @@third_6  - @@third_3 ].max  &&
-          @@third_7  >= [@@third_8  - fifth_span, 2 * @@third_2  - @@third_6 ].max  &&
+          @@third_2  >= [
+              @@third_1 - fifth_span,
+              2 * @@third_6 - @@third_3,
+              ].max  &&
+          @@third_7  >= [
+              @@third_8 - fifth_span,
+              2 * @@third_2 - @@third_6,
+              ].max  &&
           @@third_8  >=  @@third_9  - fifth_span  &&
           @@third_1  >=  @@third_12 - fifth_span  &&
 
-          @@third_8  <= [@@third_7  + fifth_span, 2 * @@third_12 - @@third_9 ].min  &&
-          @@third_1  <= [@@third_2  + fifth_span, 2 * @@third_8  - @@third_12].min  &&
+          @@third_8  <= [
+              @@third_7 + fifth_span,
+              2 * @@third_12 - @@third_9,
+              ].min  &&
+          @@third_1  <= [
+              @@third_2 + fifth_span,
+              2 * @@third_8 - @@third_12,
+              ].min  &&
           @@third_2  <=  @@third_3  + fifth_span  &&
           @@third_7  <=  @@third_6  + fifth_span  &&
           third_set_check_5_part  &&
@@ -701,9 +713,17 @@ module TemperamentMath
     end
 
     def valid_level_3?
+      @@third_7 = - @@third_11 - @@third_3
+      @@third_1 = - @@third_5  - @@third_9
       true &&
-          @@third_9 >= [@@third_10 - fifth_span, ( 3 - @@third_5 ) / 2].max  &&
-          @@third_3 <= [@@third_4  + fifth_span, (-3 - @@third_11) / 2].min  &&
+          @@third_9 >= [
+             @@third_10 - fifth_span,
+             (3 - @@third_5) / 2,
+             ].max  &&
+          @@third_3 <= [
+             @@third_4 + fifth_span,
+             (-3 - @@third_11) / 2,
+             ].min  &&
           valid_level_3_part?
     end
 
@@ -716,13 +736,17 @@ module TemperamentMath
     end
 
     def valid_level_4_5_6?
-      @@third_1 = - @@third_5 - @@third_9
-      @@third_2 = - @@third_6 - @@third_10
-      @@third_7 = - @@third_3 - @@third_11
-      @@third_8 = - @@third_4 - @@third_12
+      @@third_2 = - @@third_10 - @@third_6
+      @@third_8 = - @@third_4  - @@third_12
       true &&
-          @@third_12 >= [@@third_11 - fifth_span, ( 1 - @@third_4 ) / 2].max  &&
-          @@third_6  <= [@@third_5  + fifth_span, (-1 - @@third_10) / 2].min  &&
+          @@third_12 >= [
+             @@third_11 - fifth_span,
+             (1 - @@third_4) / 2,
+             ].max  &&
+          @@third_6 <= [
+             @@third_5 + fifth_span,
+             (-1 - @@third_10) / 2,
+             ].min  &&
           valid_level_4_part?
     end
 
