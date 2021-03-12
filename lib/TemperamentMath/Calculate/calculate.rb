@@ -229,6 +229,22 @@ module TemperamentMath
       @@fifth_span ||= (fifth_max - fifth_min).abs
     end
 
+    def fifth_span_five
+      @@fifth_span_five ||= fifth_span * 5
+    end
+
+    def fifth_span_four
+      @@fifth_span_four ||= fifth_span * 4
+    end
+
+    def fifth_span_six
+      @@fifth_span_six ||= fifth_span * 6
+    end
+
+    def fifth_span_three
+      @@fifth_span_three ||= fifth_span * 3
+    end
+
     def fifths_are_a_multiple(set)
       return false if fifth_range_prime?
       clean = set.map(&:abs).reject(&:zero?).uniq
@@ -503,7 +519,7 @@ module TemperamentMath
             third_edge_large -= 1
             @@third_10 = [
                 third_edge_large,
-                @@third_4 + (6 * fifth_span),
+                @@third_4 + fifth_span_six,
                 ].min
             break unless valid_level_1?
           end
@@ -515,7 +531,7 @@ module TemperamentMath
             third_edge_small += 1
             @@third_4 = [
                 third_edge_small,
-                @@third_10 - (6 * fifth_span),
+                @@third_10 - fifth_span_six,
                 ].max
             break unless valid_level_1?
           end
@@ -542,8 +558,8 @@ module TemperamentMath
             third_edge_large -= 1
             @@third_11 = [
                 third_edge_large,
-                @@third_5 + (6 * fifth_span),
-                @@third_4 + (5 * fifth_span),
+                @@third_5 + fifth_span_six,
+                @@third_4 + fifth_span_five,
                 ].min
             break unless valid_level_2?
           end
@@ -555,8 +571,8 @@ module TemperamentMath
             third_edge_small += 1
             @@third_5 = [
                 third_edge_small,
-                @@third_11 - (6 * fifth_span),
-                @@third_10 - (5 * fifth_span),
+                @@third_11 - fifth_span_six,
+                @@third_10 - fifth_span_five,
                 ].max
             break unless valid_level_2?
           end
@@ -585,9 +601,9 @@ module TemperamentMath
             third_edge_large -= 1
             @@third_9 = [
                 third_edge_large,
-                @@third_3 + (6 * fifth_span),
-                @@third_4 + (5 * fifth_span),
-                @@third_5 + (4 * fifth_span),
+                @@third_3 + fifth_span_six,
+                @@third_4 + fifth_span_five,
+                @@third_5 + fifth_span_four,
                 ].min
             break unless valid_level_3?
           end
@@ -599,9 +615,9 @@ module TemperamentMath
             third_edge_small += 1
             @@third_3 = [
                 third_edge_small,
-                @@third_9  - (6 * fifth_span),
-                @@third_10 - (5 * fifth_span),
-                @@third_11 - (4 * fifth_span),
+                @@third_9  - fifth_span_six,
+                @@third_10 - fifth_span_five,
+                @@third_11 - fifth_span_four,
                 ].max
             break unless valid_level_3?
           end
@@ -631,10 +647,10 @@ module TemperamentMath
             third_edge_large -= 1
             @@third_12 = [
                 third_edge_large,
-                @@third_6 + (6 * fifth_span),
-                @@third_5 + (5 * fifth_span),
-                @@third_4 + (4 * fifth_span),
-                @@third_3 + (3 * fifth_span),
+                @@third_6 + fifth_span_six,
+                @@third_5 + fifth_span_five,
+                @@third_4 + fifth_span_four,
+                @@third_3 + fifth_span_three,
                 ].min
             break unless valid_level_4_5_6?
           end
@@ -646,10 +662,10 @@ module TemperamentMath
             third_edge_small += 1
             @@third_6 = [
                 third_edge_small,
-                @@third_12 - (6 * fifth_span),
-                @@third_11 - (5 * fifth_span),
-                @@third_10 - (4 * fifth_span),
-                @@third_9  - (3 * fifth_span),
+                @@third_12 - fifth_span_six,
+                @@third_11 - fifth_span_five,
+                @@third_10 - fifth_span_four,
+                @@third_9  - fifth_span_three,
                 ].max
             break unless valid_level_4_5_6?
           end
