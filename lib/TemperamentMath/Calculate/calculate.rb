@@ -357,6 +357,26 @@ module TemperamentMath
       end.all?
     end
 
+    def third_build_1
+      @@third_1 = - @@third_5  - @@third_9
+      nil
+    end
+
+    def third_build_2
+      @@third_2 = - @@third_10 - @@third_6
+      nil
+    end
+
+    def third_build_7
+      @@third_7 = - @@third_11 - @@third_3
+      nil
+    end
+
+    def third_build_8
+      @@third_8 = - @@third_4 - @@third_12
+      nil
+    end
+
     def third_largest_enum
       @@third_largest_enum ||= begin
         third_smallest_enum.map do |i|
@@ -592,12 +612,16 @@ module TemperamentMath
           start_top    = 2 * @@third_11 - @@third_10
           @@third_3, third_edge_small = start_bottom, start_bottom
           @@third_9, third_edge_large = start_top, start_top
+          third_build_7
+          third_build_1
           break unless valid_level_3_6?
         when :small
           @@third_3 += 1
+          third_build_7
           unless valid_level_3_6?
             state = :large
             @@third_3 = third_edge_small
+            third_build_7
             third_edge_large -= 1
             @@third_9 = [
                 third_edge_large,
@@ -605,13 +629,16 @@ module TemperamentMath
                 @@third_4 + fifth_span_five,
                 @@third_5 + fifth_span_four,
                 ].min
+            third_build_1
             break unless valid_level_3_6?
           end
         when :large
           @@third_9 -= 1
+          third_build_1
           unless valid_level_3_6?
             state = :small
             @@third_9 = third_edge_large
+            third_build_1
             third_edge_small += 1
             @@third_3 = [
                 third_edge_small,
@@ -619,6 +646,7 @@ module TemperamentMath
                 @@third_10 - fifth_span_five,
                 @@third_11 - fifth_span_four,
                 ].max
+            third_build_7
             break unless valid_level_3_6?
           end
         end
@@ -729,8 +757,6 @@ module TemperamentMath
     end
 
     def valid_level_3_6?
-      @@third_7 = - @@third_11 - @@third_3
-      @@third_1 = - @@third_5  - @@third_9
       true &&
           @@third_9 >= [
              @@third_10 - fifth_span,
@@ -752,8 +778,8 @@ module TemperamentMath
     end
 
     def valid_level_4_5?
-      @@third_2 = - @@third_10 - @@third_6
-      @@third_8 = - @@third_4  - @@third_12
+      third_build_2
+      third_build_8
       true &&
           @@third_12 >= [
              @@third_11 - fifth_span,
