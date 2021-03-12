@@ -665,13 +665,17 @@ module TemperamentMath
           start_top    = 2 * @@third_9 - @@third_11
           @@third_6,  third_edge_small = start_bottom, start_bottom
           @@third_12, third_edge_large = start_top, start_top
+          third_build_2
+          third_build_8
 # Levels 5 and 6 go in and out of validity.
           break unless valid_level_4_5?
         when :small
           @@third_6 += 1
+          third_build_2
           unless valid_level_4_5?
             state = :large
             @@third_6 = third_edge_small
+            third_build_2
             third_edge_large -= 1
             @@third_12 = [
                 third_edge_large,
@@ -680,13 +684,16 @@ module TemperamentMath
                 @@third_4 + fifth_span_four,
                 @@third_3 + fifth_span_three,
                 ].min
+            third_build_8
             break unless valid_level_4_5?
           end
         when :large
           @@third_12 -= 1
+          third_build_8
           unless valid_level_4_5?
             state = :small
             @@third_12 = third_edge_large
+            third_build_8
             third_edge_small += 1
             @@third_6 = [
                 third_edge_small,
@@ -695,6 +702,7 @@ module TemperamentMath
                 @@third_10 - fifth_span_four,
                 @@third_9  - fifth_span_three,
                 ].max
+            third_build_2
             break unless valid_level_4_5?
           end
         end
@@ -778,8 +786,6 @@ module TemperamentMath
     end
 
     def valid_level_4_5?
-      third_build_2
-      third_build_8
       true &&
           @@third_12 >= [
              @@third_11 - fifth_span,
