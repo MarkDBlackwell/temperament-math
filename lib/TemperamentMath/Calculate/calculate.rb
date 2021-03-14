@@ -155,7 +155,9 @@ module TemperamentMath
       out_third_raw.rewind
       out_third_raw.each do |line|
         @@third_set_written = false
-        third_set = line.split(' ').map &:to_i
+        all = line.split(' ').map &:to_i
+        key = all.first
+        third_set = all.drop 1
         @@third_1,  @@third_2,  @@third_3,  @@third_4,
         @@third_5,  @@third_6,  @@third_7,  @@third_8,
         @@third_9,  @@third_10, @@third_11, @@third_12 = third_set
@@ -482,6 +484,10 @@ module TemperamentMath
       @@third_1 >= @@third_7 + difference_obligated
     end
 
+    def third_key_build(set)
+      0
+    end
+
     def third_set_save
       return unless third_set_check_5_6
       set = [
@@ -492,8 +498,9 @@ module TemperamentMath
       return unless slope_good? set, thirds_half_top, thirds_half_bottom
       return unless set.uniq.length == octave_size
       return unless third_set_check set
+      key = third_key_build set
 # Print thirds minimally before rewinding and filtering them, while building the fifth sets:
-      out_third_raw.puts "#{set.join ' '}"
+      out_third_raw.puts "#{key} #{set.join ' '}"
       nil
     end
 
@@ -717,6 +724,10 @@ module TemperamentMath
 
     def third_smallest_fifths_max(set)
       set.values_at(*third_smallest_enum).max
+    end
+
+    def third_span
+      @@third_span ||= (third_max - third_min).abs
     end
 
     def thirds_half_bottom
