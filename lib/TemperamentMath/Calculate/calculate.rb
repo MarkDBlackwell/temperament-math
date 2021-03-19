@@ -160,24 +160,24 @@ module TemperamentMath
           fifth_set[0] = f1
           fifth_set[4] = third_set.at(4) - third_set.at(3) + fifth_set.at(0)
           fifth_set[8] = third_set.at(8) - third_set.at(7) + fifth_set.at(4)
-          next unless [fifth_set.at(4), fifth_set.at(8)].all? {|e| fifth_range.include? e}
+          next unless [4, 8].all? {|i| fifth_range.include? fifth_set.at i}
 # Pick a fifth; calculate two other fifths:
           tailored.at(1).each do |f2|
             fifth_set[1] = f2
             fifth_set[5] = third_set.at(5) - third_set.at(4) + fifth_set.at(1)
             fifth_set[9] = third_set.at(9) - third_set.at(8) + fifth_set.at(5)
-            next unless [fifth_set.at(5), fifth_set.at(9)].all? {|e| fifth_range.include? e}
+            next unless [5, 9].all? {|i| fifth_range.include? fifth_set.at i}
 # Pick a fifth; calculate two other fifths:
             tailored.at(2).each do |f3|
               fifth_set[2] = f3
               fifth_set[6]  = third_set.at(6)  - third_set.at(5) + fifth_set.at(2)
               fifth_set[10] = third_set.at(10) - third_set.at(9) + fifth_set.at(6)
-              next unless [fifth_set.at(6), fifth_set.at(10)].all? {|e| fifth_range.include? e}
+              next unless [6, 10].all? {|i| fifth_range.include? fifth_set.at i}
 # Calculate three fifths:
               fifth_set[3]  = third_set.at(3)  - fifth_set.at(0) - fifth_set.at(1) - fifth_set.at(2)
               fifth_set[7]  = third_set.at(7)  - third_set.at(6)  + fifth_set.at(3)
               fifth_set[11] = third_set.at(11) - third_set.at(10) + fifth_set.at(7)
-              next unless [fifth_set.at(3), fifth_set.at(7), fifth_set.at(11)].all? {|e| fifth_range.include? e}
+              next unless [3, 7, 11].all? {|i| fifth_range.include? fifth_set.at i}
               next unless fifths_make_thirds fifth_set, third_set
               fifth_set_save fifth_set, third_set, tailored
             end
