@@ -180,23 +180,12 @@ module TemperamentMath
               @@fifth_8  = @@third_8 - @@third_7 + @@fifth_4
               @@fifth_12 = @@third_12 - @@third_11 + @@fifth_8
               next unless [@@fifth_4, @@fifth_8, @@fifth_12].all? {|e| fifth_range.include? e}
-              next unless true &&
-                  @@fifth_10 + @@fifth_11 + @@fifth_12 + @@fifth_1  == @@third_1   &&
-                  @@fifth_11 + @@fifth_12 + @@fifth_1  + @@fifth_2  == @@third_2   &&
-                  @@fifth_12 + @@fifth_1  + @@fifth_2  + @@fifth_3  == @@third_3   &&
-                  @@fifth_2  + @@fifth_3  + @@fifth_4  + @@fifth_5  == @@third_5   &&
-                  @@fifth_3  + @@fifth_4  + @@fifth_5  + @@fifth_6  == @@third_6   &&
-                  @@fifth_4  + @@fifth_5  + @@fifth_6  + @@fifth_7  == @@third_7   &&
-                  @@fifth_5  + @@fifth_6  + @@fifth_7  + @@fifth_8  == @@third_8   &&
-                  @@fifth_6  + @@fifth_7  + @@fifth_8  + @@fifth_9  == @@third_9   &&
-                  @@fifth_7  + @@fifth_8  + @@fifth_9  + @@fifth_10 == @@third_10  &&
-                  @@fifth_8  + @@fifth_9  + @@fifth_10 + @@fifth_11 == @@third_11  &&
-                  @@fifth_9  + @@fifth_10 + @@fifth_11 + @@fifth_12 == @@third_12
               fifth_set = [
                   @@fifth_1,  @@fifth_2,  @@fifth_3,  @@fifth_4,
                   @@fifth_5,  @@fifth_6,  @@fifth_7,  @@fifth_8,
                   @@fifth_9,  @@fifth_10, @@fifth_11, @@fifth_12,
                   ]
+              next unless fifths_make_thirds fifth_set, third_set
               fifth_set_save fifth_set, third_set, tailored
             end
           end
@@ -252,6 +241,21 @@ module TemperamentMath
       clean = set.map(&:abs).reject(&:zero?).uniq
       pf = clean.map {|e| prime_factors e}
       not pf.reduce(&:intersection).empty?
+    end
+
+    def fifths_make_thirds(fifth_set, third_set)
+      true &&
+          @@fifth_10 + @@fifth_11 + @@fifth_12 + @@fifth_1  == @@third_1   &&
+          @@fifth_11 + @@fifth_12 + @@fifth_1  + @@fifth_2  == @@third_2   &&
+          @@fifth_12 + @@fifth_1  + @@fifth_2  + @@fifth_3  == @@third_3   &&
+          @@fifth_2  + @@fifth_3  + @@fifth_4  + @@fifth_5  == @@third_5   &&
+          @@fifth_3  + @@fifth_4  + @@fifth_5  + @@fifth_6  == @@third_6   &&
+          @@fifth_4  + @@fifth_5  + @@fifth_6  + @@fifth_7  == @@third_7   &&
+          @@fifth_5  + @@fifth_6  + @@fifth_7  + @@fifth_8  == @@third_8   &&
+          @@fifth_6  + @@fifth_7  + @@fifth_8  + @@fifth_9  == @@third_9   &&
+          @@fifth_7  + @@fifth_8  + @@fifth_9  + @@fifth_10 == @@third_10  &&
+          @@fifth_8  + @@fifth_9  + @@fifth_10 + @@fifth_11 == @@third_11  &&
+          @@fifth_9  + @@fifth_10 + @@fifth_11 + @@fifth_12 == @@third_12
     end
 
     def fifths_justified(set)
