@@ -244,18 +244,12 @@ module TemperamentMath
     end
 
     def fifths_make_thirds(fifth_set, third_set)
-      true &&
-          @@fifth_10 + @@fifth_11 + @@fifth_12 + @@fifth_1  == @@third_1   &&
-          @@fifth_11 + @@fifth_12 + @@fifth_1  + @@fifth_2  == @@third_2   &&
-          @@fifth_12 + @@fifth_1  + @@fifth_2  + @@fifth_3  == @@third_3   &&
-          @@fifth_2  + @@fifth_3  + @@fifth_4  + @@fifth_5  == @@third_5   &&
-          @@fifth_3  + @@fifth_4  + @@fifth_5  + @@fifth_6  == @@third_6   &&
-          @@fifth_4  + @@fifth_5  + @@fifth_6  + @@fifth_7  == @@third_7   &&
-          @@fifth_5  + @@fifth_6  + @@fifth_7  + @@fifth_8  == @@third_8   &&
-          @@fifth_6  + @@fifth_7  + @@fifth_8  + @@fifth_9  == @@third_9   &&
-          @@fifth_7  + @@fifth_8  + @@fifth_9  + @@fifth_10 == @@third_10  &&
-          @@fifth_8  + @@fifth_9  + @@fifth_10 + @@fifth_11 == @@third_11  &&
-          @@fifth_9  + @@fifth_10 + @@fifth_11 + @@fifth_12 == @@third_12
+      octave_enum.map do |falling|
+        indexes = third_major_enum.map do |i|
+          (falling - i) % octave_size
+        end
+        third_set.at(falling) == fifth_set.values_at(*indexes).sum
+      end.all?
     end
 
     def fifths_justified(set)
@@ -399,6 +393,10 @@ module TemperamentMath
       set.values_at(*third_largest_enum).min
     end
 
+    def third_major_enum
+      @@third_major_enum ||= third_major_size.times
+    end
+
     def third_major_size
       4
     end
@@ -430,12 +428,12 @@ module TemperamentMath
       end
     end
 
-    def third_minor_size
-      3
-    end
-
     def third_minor_enum
       @@third_minor_enum ||= third_minor_size.times
+    end
+
+    def third_minor_size
+      3
     end
 
     def third_set_check(set)
@@ -727,7 +725,7 @@ module TemperamentMath
     end
 
     def third_smallest_enum
-      @@third_smallest_enum ||= third_major_size.times
+      @@third_smallest_enum ||= third_major_enum
     end
 
     def third_smallest_fifths_max(set)
