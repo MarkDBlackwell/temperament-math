@@ -78,7 +78,7 @@ module TemperamentMath
     end
 
     def fifth_large_enough_1(set)
-      @@fifth_1 == (third_smallest_fifths_max set)
+      third_smallest_fifths_max(set) == @@fifth_1
     end
 
     def fifth_max
