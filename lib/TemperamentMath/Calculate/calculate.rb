@@ -78,7 +78,7 @@ module TemperamentMath
     end
 
     def fifth_large_enough_1(set)
-      third_smallest_fifths_max(set) == @@fifth_1
+      third_smallest_fifths_max(set) == set.at(0)
     end
 
     def fifth_max
@@ -157,34 +157,30 @@ module TemperamentMath
         @@third_5,  @@third_6,  @@third_7,  @@third_8,
         @@third_9,  @@third_10, @@third_11, @@third_12 = third_set
         tailored = fifth_range_tailored_construct third_set
+        fifth_set = ::Array.new octave_size
 # Pick a fifth; calculate two other fifths:
         tailored.at(0).each do |f1|
-          @@fifth_1 = f1
-          @@fifth_5 = @@third_5 - @@third_4 + @@fifth_1
-          @@fifth_9 = @@third_9 - @@third_8 + @@fifth_5
-          next unless [@@fifth_5, @@fifth_9].all? {|e| fifth_range.include? e}
+          fifth_set[0] = f1
+          fifth_set[4] = @@third_5 - @@third_4 + fifth_set.at(0)
+          fifth_set[8] = @@third_9 - @@third_8 + fifth_set.at(4)
+          next unless [fifth_set.at(4), fifth_set.at(8)].all? {|e| fifth_range.include? e}
 # Pick a fifth; calculate two other fifths:
           tailored.at(1).each do |f2|
-            @@fifth_2 = f2
-            @@fifth_6  = @@third_6 - @@third_5 + @@fifth_2
-            @@fifth_10 = @@third_10 - @@third_9 + @@fifth_6
-            next unless [@@fifth_6, @@fifth_10].all? {|e| fifth_range.include? e}
+            fifth_set[1] = f2
+            fifth_set[5] = @@third_6  - @@third_5 + fifth_set.at(1)
+            fifth_set[9] = @@third_10 - @@third_9 + fifth_set.at(5)
+            next unless [fifth_set.at(5), fifth_set.at(9)].all? {|e| fifth_range.include? e}
 # Pick a fifth; calculate two other fifths:
             tailored.at(2).each do |f3|
-              @@fifth_3 = f3
-              @@fifth_7  = @@third_7 - @@third_6 + @@fifth_3
-              @@fifth_11 = @@third_11 - @@third_10 + @@fifth_7
-              next unless [@@fifth_7, @@fifth_11].all? {|e| fifth_range.include? e}
+              fifth_set[2] = f3
+              fifth_set[6]  = @@third_7  - @@third_6 + fifth_set.at(2)
+              fifth_set[10] = @@third_11 - @@third_10 + fifth_set.at(6)
+              next unless [fifth_set.at(6), fifth_set.at(10)].all? {|e| fifth_range.include? e}
 # Calculate three fifths:
-              @@fifth_4  = @@third_4 - @@fifth_1 - @@fifth_2 - @@fifth_3
-              @@fifth_8  = @@third_8 - @@third_7 + @@fifth_4
-              @@fifth_12 = @@third_12 - @@third_11 + @@fifth_8
-              next unless [@@fifth_4, @@fifth_8, @@fifth_12].all? {|e| fifth_range.include? e}
-              fifth_set = [
-                  @@fifth_1,  @@fifth_2,  @@fifth_3,  @@fifth_4,
-                  @@fifth_5,  @@fifth_6,  @@fifth_7,  @@fifth_8,
-                  @@fifth_9,  @@fifth_10, @@fifth_11, @@fifth_12,
-                  ]
+              fifth_set[3]  = @@third_4  - fifth_set.at(0) - fifth_set.at(1) - fifth_set.at(2)
+              fifth_set[7]  = @@third_8  - @@third_7  + fifth_set.at(3)
+              fifth_set[11] = @@third_12 - @@third_11 + fifth_set.at(7)
+              next unless [fifth_set.at(3), fifth_set.at(7), fifth_set.at(11)].all? {|e| fifth_range.include? e}
               next unless fifths_make_thirds fifth_set, third_set
               fifth_set_save fifth_set, third_set, tailored
             end
@@ -213,7 +209,7 @@ module TemperamentMath
 
     def fifth_small_enough_11_12(set)
       minimum = third_largest_fifths_min set
-      [@@fifth_11, @@fifth_12].all? {|e| e <= minimum}
+      [10, 11].all? {|i| set.at(i) <= minimum}
     end
 
     def fifth_span
