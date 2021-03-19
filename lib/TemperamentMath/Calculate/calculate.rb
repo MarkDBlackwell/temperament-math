@@ -150,11 +150,11 @@ module TemperamentMath
       out_third_raw.rewind
       out_third_raw.each do |line|
         @@third_set_written = false
+        fifth_set = ::Array.new octave_size
         all = line.split(' ').map &:to_i
-        key = all.first
+##      key = all.first
         third_set = all.drop 1
         tailored = fifth_range_tailored_construct third_set
-        fifth_set = ::Array.new octave_size
 # Pick a fifth; calculate two other fifths:
         tailored.at(0).each do |f1|
           fifth_set[0] = f1
@@ -484,7 +484,7 @@ module TemperamentMath
     end
 
     def third_key_build(set)
-      0
+      0 # TODO
     end
 
     def third_set_save
