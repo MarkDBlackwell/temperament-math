@@ -125,12 +125,7 @@ module TemperamentMath
       @@fifth_range_valid ||= fifth_min.negative? && fifth_max.positive?
     end
 
-    def fifth_set_save(third_set, tailored)
-      set = [
-          @@fifth_1,  @@fifth_2,  @@fifth_3,  @@fifth_4,
-          @@fifth_5,  @@fifth_6,  @@fifth_7,  @@fifth_8,
-          @@fifth_9,  @@fifth_10, @@fifth_11, @@fifth_12,
-          ]
+    def fifth_set_save(set, third_set, tailored)
       return unless fifths_justified set
       return unless fifth_large_enough_1 set
       return unless fifth_similar_enough_2_3_4 set
@@ -197,7 +192,12 @@ module TemperamentMath
                   @@fifth_7  + @@fifth_8  + @@fifth_9  + @@fifth_10 == @@third_10  &&
                   @@fifth_8  + @@fifth_9  + @@fifth_10 + @@fifth_11 == @@third_11  &&
                   @@fifth_9  + @@fifth_10 + @@fifth_11 + @@fifth_12 == @@third_12
-              fifth_set_save third_set, tailored
+              fifth_set = [
+                  @@fifth_1,  @@fifth_2,  @@fifth_3,  @@fifth_4,
+                  @@fifth_5,  @@fifth_6,  @@fifth_7,  @@fifth_8,
+                  @@fifth_9,  @@fifth_10, @@fifth_11, @@fifth_12,
+                  ]
+              fifth_set_save fifth_set, third_set, tailored
             end
           end
         end
