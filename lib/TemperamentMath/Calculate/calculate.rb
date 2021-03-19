@@ -351,10 +351,14 @@ module TemperamentMath
     end
 
     def slope_good?(set, half_top, half_bottom)
+      pair = 2
       triplet = 3
-      [half_top, half_bottom].flat_map do |half|
-        set.values_at(*half).each_cons(triplet).map do |a, b, c|
-          (a - b).abs <= (b - c).abs
+      polarities = [1, -1]
+      polarities.zip([half_top, half_bottom]).flat_map do |polarity, half|
+        set.values_at(*half).each_cons(triplet).map do |abc|
+          pairs = abc.each_cons pair
+          differences = pairs.map {|e| (e.first - e.last) * polarity}
+          differences.first <= differences.last
         end
       end.all?
     end
