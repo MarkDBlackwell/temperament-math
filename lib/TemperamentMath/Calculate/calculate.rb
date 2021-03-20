@@ -34,7 +34,6 @@ module TemperamentMath
 
     def build
       third_sets_build
-      fifth_sets_build
       out.puts
       out.puts "* #{delimit @@third_sets_length} sets of thirds, falling from"
       out.puts '      G D A E B F# C# G# D# A# F C'
@@ -547,6 +546,7 @@ module TemperamentMath
 #   E    B    A    F#   D    C#   G    G#   C     D#   F     A#
 #
       third_sets_build_level_1
+      fifth_sets_build
       nil
     end
 
