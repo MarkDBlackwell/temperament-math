@@ -118,7 +118,12 @@ module TemperamentMath
     end
 
     def fifth_range_tailored_offset_optimum(tailored)
-      0
+      triplet = 3
+      extra_length = triplet.pred
+      sizes = tailored.map &:size
+      padded = sizes + (sizes.take extra_length)
+      indexed = padded.each_cons(triplet).each_with_index.map &:push
+      indexed.sort.first.last
     end
 
     def fifth_range_tailored_structure
