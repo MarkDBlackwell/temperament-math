@@ -155,52 +155,56 @@ module TemperamentMath
         third_set = all.drop 1
         tailored = fifth_range_tailored_construct third_set
         fifth_set = ::Array.new octave_size
-        fifth_sets_build_1 third_set, tailored, fifth_set
+        level = 0
+        fifth_sets_build_0 third_set, tailored, fifth_set, level
       end
       nil
     end
 
-    def fifth_sets_build_1(third_set, tailored, fifth_set)
+    def fifth_sets_build_0(third_set, tailored, fifth_set, level)
 # Pick a fifth; calculate two other fifths:
-      i, j, k = transpose group, 0
+      i, j, k = transpose group, level
       get(tailored, i).each do |f1|
         fifth_set[i] = f1
         fifth_set[j] = get(third_set, j) - get(third_set, j - 1) + get(fifth_set, i)
         fifth_set[k] = get(third_set, k) - get(third_set, k - 1) + get(fifth_set, j)
         next unless [j, k].all? {|m| get(tailored, m).include? get fifth_set, m}
-        fifth_sets_build_2 third_set, tailored, fifth_set
+        level = 1
+        fifth_sets_build_1 third_set, tailored, fifth_set, level
       end
     end
 
-    def fifth_sets_build_2(third_set, tailored, fifth_set)
+    def fifth_sets_build_1(third_set, tailored, fifth_set, level)
 # Pick a fifth; calculate two other fifths:
-      i, j, k = transpose group, 1
+      i, j, k = transpose group, level
       get(tailored, i).each do |f2|
         fifth_set[i] = f2
         fifth_set[j] = get(third_set, j) - get(third_set, j - 1) + get(fifth_set, i)
         fifth_set[k] = get(third_set, k) - get(third_set, k - 1) + get(fifth_set, j)
         next unless [j, k].all? {|m| get(tailored, m).include? get fifth_set, m}
-        fifth_sets_build_3 third_set, tailored, fifth_set
+        level = 2
+        fifth_sets_build_2 third_set, tailored, fifth_set, level
       end
     end
 
-    def fifth_sets_build_3(third_set, tailored, fifth_set)
+    def fifth_sets_build_2(third_set, tailored, fifth_set, level)
 # Pick a fifth; calculate two other fifths:
-      i, j, k = transpose group, 2
+      i, j, k = transpose group, level
       get(tailored, i).each do |f3|
         fifth_set[i] = f3
         fifth_set[j] = get(third_set, j) - get(third_set, j - 1) + get(fifth_set, i)
         fifth_set[k] = get(third_set, k) - get(third_set, k - 1) + get(fifth_set, j)
         next unless [j, k].all? {|m| get(tailored, m).include? get fifth_set, m}
-        next unless fifth_sets_build_4 third_set, tailored, fifth_set
+        level = 3
+        next unless fifth_sets_build_3 third_set, tailored, fifth_set, level
         next unless fifths_make_thirds fifth_set, third_set
         fifth_set_save third_set, tailored, fifth_set
       end
     end
 
-    def fifth_sets_build_4(third_set, tailored, fifth_set)
+    def fifth_sets_build_3(third_set, tailored, fifth_set, level)
 # Calculate three fifths:
-      i, j, k = transpose group, 3
+      i, j, k = transpose group, level
       fifth_set[i] = get(third_set, i) - get(fifth_set, i - 1) - get(fifth_set, i - 2) - get(fifth_set, i - 3)
       fifth_set[j] = get(third_set, j) - get(third_set, j - 1) + get(fifth_set, i)
       fifth_set[k] = get(third_set, k) - get(third_set, k - 1) + get(fifth_set, j)
