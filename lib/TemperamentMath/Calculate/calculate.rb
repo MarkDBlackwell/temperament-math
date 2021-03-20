@@ -236,6 +236,10 @@ module TemperamentMath
       not pf.reduce(&:intersection).empty?
     end
 
+    def fifths_justified(set)
+      fifth_extremes.all? {|e| set.include? e}
+    end
+
     def fifths_make_thirds(fifth_set, third_set)
       octave_enum.map do |falling|
         indexes = third_major_enum.map do |i|
@@ -245,8 +249,8 @@ module TemperamentMath
       end.all?
     end
 
-    def fifths_justified(set)
-      fifth_extremes.all? {|e| set.include? e}
+    def get(set, index)
+      set.at(index % octave_size)
     end
 
     def octave_enum
@@ -374,6 +378,10 @@ module TemperamentMath
       nil
     end
 
+    def third_key_build(set)
+      0 # TODO
+    end
+
     def third_largest_enum
       @@third_largest_enum ||= begin
         third_smallest_enum.map do |i|
@@ -402,6 +410,10 @@ module TemperamentMath
       @@third_min ||= third_major_size * fifth_min
     end
 
+    def third_minor_enum
+      @@third_minor_enum ||= third_minor_size.times
+    end
+
     def third_minor_set(fifth_set)
       octave_enum.map do |position|
         indexes = third_minor_set_indexes.at position
@@ -419,10 +431,6 @@ module TemperamentMath
           end
         end
       end
-    end
-
-    def third_minor_enum
-      @@third_minor_enum ||= third_minor_size.times
     end
 
     def third_minor_size
@@ -481,10 +489,6 @@ module TemperamentMath
       difference_top    = @@third_8  - @@third_1
       difference_obligated = [difference_bottom, difference_top].max
       @@third_1 >= @@third_7 + difference_obligated
-    end
-
-    def third_key_build(set)
-      0 # TODO
     end
 
     def third_set_save
