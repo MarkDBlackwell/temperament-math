@@ -117,6 +117,10 @@ module TemperamentMath
       end
     end
 
+    def fifth_range_tailored_offset_optimum(tailored)
+      0
+    end
+
     def fifth_range_tailored_structure
       @@fifth_range_tailored_structure ||= [4, 5, 1, 12].map &:pred
     end
@@ -156,7 +160,7 @@ module TemperamentMath
         tailored = fifth_range_tailored_construct third_set
         fifth_set = ::Array.new octave_size
         level = 0
-        offset = 0
+        offset = fifth_range_tailored_offset_optimum tailored
         fifth_sets_build_part level, offset, third_set, tailored, fifth_set
       end
       nil
