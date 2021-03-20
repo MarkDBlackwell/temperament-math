@@ -162,49 +162,55 @@ module TemperamentMath
     end
 
     def fifth_sets_build_0(level, third_set, tailored, fifth_set)
-# Pick a fifth; calculate two other fifths:
       i, j, k = transpose group, level
-      level += 1
+# Pick a fifth; calculate two other fifths:
       get(tailored, i).each do |fifth|
         fifth_set[i] = fifth
         fifth_set[j] = get(third_set, j) - get(third_set, j - 1) + get(fifth_set, i)
         fifth_set[k] = get(third_set, k) - get(third_set, k - 1) + get(fifth_set, j)
         next unless [j, k].all? {|m| get(tailored, m).include? get fifth_set, m}
-        fifth_sets_build_1 level, third_set, tailored, fifth_set
+        case level
+        when 0
+          fifth_sets_build_1 level + 1, third_set, tailored, fifth_set
+        end
       end
     end
 
     def fifth_sets_build_1(level, third_set, tailored, fifth_set)
-# Pick a fifth; calculate two other fifths:
       i, j, k = transpose group, level
-      level += 1
+# Pick a fifth; calculate two other fifths:
       get(tailored, i).each do |fifth|
         fifth_set[i] = fifth
         fifth_set[j] = get(third_set, j) - get(third_set, j - 1) + get(fifth_set, i)
         fifth_set[k] = get(third_set, k) - get(third_set, k - 1) + get(fifth_set, j)
         next unless [j, k].all? {|m| get(tailored, m).include? get fifth_set, m}
-        fifth_sets_build_2 level, third_set, tailored, fifth_set
+        case level
+        when 1
+          fifth_sets_build_2 level + 1, third_set, tailored, fifth_set
+        end
       end
     end
 
     def fifth_sets_build_2(level, third_set, tailored, fifth_set)
-# Pick a fifth; calculate two other fifths:
       i, j, k = transpose group, level
-      level += 1
+# Pick a fifth; calculate two other fifths:
       get(tailored, i).each do |fifth|
         fifth_set[i] = fifth
         fifth_set[j] = get(third_set, j) - get(third_set, j - 1) + get(fifth_set, i)
         fifth_set[k] = get(third_set, k) - get(third_set, k - 1) + get(fifth_set, j)
         next unless [j, k].all? {|m| get(tailored, m).include? get fifth_set, m}
-        next unless fifth_sets_build_3 level, third_set, tailored, fifth_set
-        next unless fifths_make_thirds fifth_set, third_set
-        fifth_set_save third_set, tailored, fifth_set
+        case level
+        when 2
+          next unless fifth_sets_build_3 level + 1, third_set, tailored, fifth_set
+          next unless fifths_make_thirds fifth_set, third_set
+          fifth_set_save third_set, tailored, fifth_set
+        end
       end
     end
 
     def fifth_sets_build_3(level, third_set, tailored, fifth_set)
-# Calculate three fifths:
       i, j, k = transpose group, level
+# Calculate three fifths:
       fifth_set[i] = get(third_set, i) - get(fifth_set, i - 1) - get(fifth_set, i - 2) - get(fifth_set, i - 3)
       fifth_set[j] = get(third_set, j) - get(third_set, j - 1) + get(fifth_set, i)
       fifth_set[k] = get(third_set, k) - get(third_set, k - 1) + get(fifth_set, j)
