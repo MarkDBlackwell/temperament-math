@@ -185,6 +185,8 @@ module TemperamentMath
           next unless fifth_sets_build_calculate third_set, tailored, fifth_set
           next unless fifths_make_thirds fifth_set, third_set
           fifth_set_save third_set, tailored, fifth_set
+        else
+          ::Kernel.fail
         end
       end
     end
