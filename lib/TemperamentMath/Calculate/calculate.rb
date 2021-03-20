@@ -151,25 +151,6 @@ module TemperamentMath
       nil
     end
 
-    def fifth_sets_build
-      @@third_sets_length = 0
-      @@fifth_sets_length = 0
-      out_third_raw.flush
-      out_third_raw.rewind
-      out_third_raw.each do |line|
-        @@third_set_written = false
-        all = line.split(' ').map &:to_i
-##      key = all.first
-        third_set = all.drop 1
-        tailored = fifth_range_tailored_construct third_set
-        fifth_set = ::Array.new octave_size
-        level = 0
-        offset = fifth_range_tailored_offset_optimum tailored
-        fifth_sets_build_part level, offset, third_set, tailored, fifth_set
-      end
-      nil
-    end
-
     def fifth_sets_build_calculate(offset, third_set, tailored, fifth_set)
       i, j, k = transpose group, offset + 3
 # Calculate three fifths:
@@ -540,13 +521,27 @@ module TemperamentMath
     end
 
     def third_sets_build
+      @@third_sets_length = 0
+      @@fifth_sets_length = 0
 # Major thirds with levels:
 #   1    2    3    4    5    6    6    5    4     3    2     1
 #   n4 < n5 < n3 < n6 < n2 < n7 < n1 < n8 < n12 < n9 < n11 < n10
 #   E    B    A    F#   D    C#   G    G#   C     D#   F     A#
 #
       third_sets_build_level_1
-      fifth_sets_build
+      out_third_raw.flush
+      out_third_raw.rewind
+      out_third_raw.each do |line|
+        @@third_set_written = false
+        all = line.split(' ').map &:to_i
+##      key = all.first
+        third_set = all.drop 1
+        tailored = fifth_range_tailored_construct third_set
+        fifth_set = ::Array.new octave_size
+        level = 0
+        offset = fifth_range_tailored_offset_optimum tailored
+        fifth_sets_build_part level, offset, third_set, tailored, fifth_set
+      end
       nil
     end
 
