@@ -377,10 +377,6 @@ module TemperamentMath
       nil
     end
 
-    def third_key_build(set)
-      0 # TODO
-    end
-
     def third_largest_enum
       @@third_largest_enum ||= begin
         third_smallest_enum.map do |i|
@@ -500,9 +496,8 @@ module TemperamentMath
       return unless slope_good? set, thirds_half_top, thirds_half_bottom
       return unless set.uniq.length == octave_size
       return unless third_set_check set
-      key = third_key_build set
 # Print thirds minimally before rewinding and filtering them, while building the fifth sets:
-      out_third_raw.puts "#{key} #{set.join ' '}"
+      out_third_raw.puts "#{set.join ' '}"
       nil
     end
 
@@ -533,9 +528,7 @@ module TemperamentMath
       out_third_raw.rewind
       out_third_raw.each do |line|
         @@third_set_written = false
-        all = line.split(' ').map &:to_i
-##      key = all.first
-        third_set = all.drop 1
+        third_set = line.split(' ').map &:to_i
         tailored = fifth_range_tailored_construct third_set
         fifth_set = ::Array.new octave_size
         level = 0
