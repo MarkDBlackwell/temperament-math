@@ -165,8 +165,8 @@ module TemperamentMath
 # Pick a fifth; calculate two other fifths:
       i, j, k = transpose group, level
       level += 1
-      get(tailored, i).each do |f1|
-        fifth_set[i] = f1
+      get(tailored, i).each do |fifth|
+        fifth_set[i] = fifth
         fifth_set[j] = get(third_set, j) - get(third_set, j - 1) + get(fifth_set, i)
         fifth_set[k] = get(third_set, k) - get(third_set, k - 1) + get(fifth_set, j)
         next unless [j, k].all? {|m| get(tailored, m).include? get fifth_set, m}
@@ -178,8 +178,8 @@ module TemperamentMath
 # Pick a fifth; calculate two other fifths:
       i, j, k = transpose group, level
       level += 1
-      get(tailored, i).each do |f2|
-        fifth_set[i] = f2
+      get(tailored, i).each do |fifth|
+        fifth_set[i] = fifth
         fifth_set[j] = get(third_set, j) - get(third_set, j - 1) + get(fifth_set, i)
         fifth_set[k] = get(third_set, k) - get(third_set, k - 1) + get(fifth_set, j)
         next unless [j, k].all? {|m| get(tailored, m).include? get fifth_set, m}
@@ -191,8 +191,8 @@ module TemperamentMath
 # Pick a fifth; calculate two other fifths:
       i, j, k = transpose group, level
       level += 1
-      get(tailored, i).each do |f3|
-        fifth_set[i] = f3
+      get(tailored, i).each do |fifth|
+        fifth_set[i] = fifth
         fifth_set[j] = get(third_set, j) - get(third_set, j - 1) + get(fifth_set, i)
         fifth_set[k] = get(third_set, k) - get(third_set, k - 1) + get(fifth_set, j)
         next unless [j, k].all? {|m| get(tailored, m).include? get fifth_set, m}
