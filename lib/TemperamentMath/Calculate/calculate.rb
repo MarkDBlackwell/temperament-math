@@ -148,12 +148,16 @@ module TemperamentMath
     end
 
     def fifth_sets_build
+      third_sets_read = 0
       @@third_sets_length = 0
       @@fifth_sets_length = 0
       out_third_raw.flush
       out_third_raw.rewind
       out_third_raw.each do |line|
         @@third_set_written = false
+        third_sets_read += 1
+        out_progress.puts third_sets_read
+        out_progress.flush
         all = line.split(' ').map &:to_i
 ##      key = all.first
         third_set = all.drop 1
@@ -194,6 +198,7 @@ module TemperamentMath
           ::Kernel.fail
         end
       end
+      nil
     end
 
     def fifth_similar_enough_2_3_4(set)
@@ -295,6 +300,10 @@ module TemperamentMath
 
     def out_fifth
       @@out_fifth ||= open 'fifth'
+    end
+
+    def out_progress
+      @@out_progress ||= open 'progress-raw'
     end
 
     def out_tailored
