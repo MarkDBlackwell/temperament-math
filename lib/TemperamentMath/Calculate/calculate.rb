@@ -488,16 +488,16 @@ module TemperamentMath
 
     def third_set_save
       return unless third_set_check_5_6
-      set = [
+      third_set = [
           @@third_1,  @@third_2,  @@third_3,  @@third_4,
           @@third_5,  @@third_6,  @@third_7,  @@third_8,
           @@third_9,  @@third_10, @@third_11, @@third_12,
           ]
-      return unless slope_good? set, thirds_half_top, thirds_half_bottom
-      return unless set.uniq.length == octave_size
-      return unless third_set_check set
+      return unless slope_good? third_set, thirds_half_top, thirds_half_bottom
+      return unless third_set.uniq.length == octave_size
+      return unless third_set_check third_set
 # Print thirds minimally before rewinding and filtering them, while building the fifth sets:
-      out_third_raw.puts "#{set.join ' '}"
+      out_third_raw.puts "#{third_set.join ' '}"
       nil
     end
 
