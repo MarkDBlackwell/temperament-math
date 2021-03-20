@@ -156,13 +156,14 @@ module TemperamentMath
         tailored = fifth_range_tailored_construct third_set
         fifth_set = ::Array.new octave_size
         level = 0
-        fifth_sets_build_part level, third_set, tailored, fifth_set
+        offset = 0
+        fifth_sets_build_part level, offset, third_set, tailored, fifth_set
       end
       nil
     end
 
-    def fifth_sets_build_calculate(third_set, tailored, fifth_set)
-      i, j, k = transpose group, 3
+    def fifth_sets_build_calculate(offset, third_set, tailored, fifth_set)
+      i, j, k = transpose group, offset + 3
 # Calculate three fifths:
       fifth_set[i] = third_set.at(i) - get(fifth_set, i - 1) - get(fifth_set, i - 2) - get(fifth_set, i - 3)
       fifth_set[j] = third_set.at(j) - get(third_set, j - 1) + fifth_set.at(i)
@@ -170,8 +171,8 @@ module TemperamentMath
       [i, j, k].all? {|m| tailored.at(m).include? fifth_set.at m}
     end
 
-    def fifth_sets_build_part(level, third_set, tailored, fifth_set)
-      i, j, k = transpose group, level
+    def fifth_sets_build_part(level, offset, third_set, tailored, fifth_set)
+      i, j, k = transpose group, offset + level
 # Pick a fifth; calculate two other fifths:
       tailored.at(i).each do |fifth|
         fifth_set[i] = fifth
@@ -180,9 +181,9 @@ module TemperamentMath
         next unless [j, k].all? {|m| tailored.at(m).include? fifth_set.at m}
         case level
         when 0, 1
-          fifth_sets_build_part level + 1, third_set, tailored, fifth_set
+          fifth_sets_build_part level + 1, offset, third_set, tailored, fifth_set
         when 2
-          next unless fifth_sets_build_calculate third_set, tailored, fifth_set
+          next unless fifth_sets_build_calculate offset, third_set, tailored, fifth_set
           next unless fifths_make_thirds fifth_set, third_set
           fifth_set_save third_set, tailored, fifth_set
         else
