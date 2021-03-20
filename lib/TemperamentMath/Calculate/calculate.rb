@@ -156,12 +156,12 @@ module TemperamentMath
         tailored = fifth_range_tailored_construct third_set
         fifth_set = ::Array.new octave_size
         level = 0
-        fifth_sets_build_0 level, third_set, tailored, fifth_set
+        fifth_sets_build_part level, third_set, tailored, fifth_set
       end
       nil
     end
 
-    def fifth_sets_build_0(level, third_set, tailored, fifth_set)
+    def fifth_sets_build_part(level, third_set, tailored, fifth_set)
       i, j, k = transpose group, level
 # Pick a fifth; calculate two other fifths:
       get(tailored, i).each do |fifth|
@@ -171,35 +171,9 @@ module TemperamentMath
         next unless [j, k].all? {|m| get(tailored, m).include? get fifth_set, m}
         case level
         when 0
-          fifth_sets_build_1 level + 1, third_set, tailored, fifth_set
-        end
-      end
-    end
-
-    def fifth_sets_build_1(level, third_set, tailored, fifth_set)
-      i, j, k = transpose group, level
-# Pick a fifth; calculate two other fifths:
-      get(tailored, i).each do |fifth|
-        fifth_set[i] = fifth
-        fifth_set[j] = get(third_set, j) - get(third_set, j - 1) + get(fifth_set, i)
-        fifth_set[k] = get(third_set, k) - get(third_set, k - 1) + get(fifth_set, j)
-        next unless [j, k].all? {|m| get(tailored, m).include? get fifth_set, m}
-        case level
+          fifth_sets_build_part level + 1, third_set, tailored, fifth_set
         when 1
-          fifth_sets_build_2 level + 1, third_set, tailored, fifth_set
-        end
-      end
-    end
-
-    def fifth_sets_build_2(level, third_set, tailored, fifth_set)
-      i, j, k = transpose group, level
-# Pick a fifth; calculate two other fifths:
-      get(tailored, i).each do |fifth|
-        fifth_set[i] = fifth
-        fifth_set[j] = get(third_set, j) - get(third_set, j - 1) + get(fifth_set, i)
-        fifth_set[k] = get(third_set, k) - get(third_set, k - 1) + get(fifth_set, j)
-        next unless [j, k].all? {|m| get(tailored, m).include? get fifth_set, m}
-        case level
+          fifth_sets_build_part level + 1, third_set, tailored, fifth_set
         when 2
           next unless fifth_sets_build_3 level + 1, third_set, tailored, fifth_set
           next unless fifths_make_thirds fifth_set, third_set
