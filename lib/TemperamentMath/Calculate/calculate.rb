@@ -164,16 +164,11 @@ module TemperamentMath
     def fifth_sets_build_1(fifth_set, third_set, tailored, group)
 # Pick a fifth; calculate two other fifths:
         i, j, k = transpose group, 0
-#       tailored.at(0).each do |f1|
         get(tailored, i).each do |f1|
-          fifth_set[0] = f1
-##        fifth_set[i] = f1
-          fifth_set[4] = get(third_set, 4) - get(third_set, 3) + get(fifth_set, 0)
-##        fifth_set[j] = get(third_set, j) - get(third_set, j - 1) + get(fifth_set, i)
-          fifth_set[8] = get(third_set, 8) - get(third_set, 7) + get(fifth_set, 4)
-##        fifth_set[k] = get(third_set, k) - get(third_set, k - 1) + get(fifth_set, j)
-          next unless [4, 8].all? {|i| get(tailored, i).include? get fifth_set, i}
-##        next unless [j, k].all? {|m| get(tailored, m).include? get fifth_set, m}
+          fifth_set[i] = f1
+          fifth_set[j] = get(third_set, j) - get(third_set, j - 1) + get(fifth_set, i)
+          fifth_set[k] = get(third_set, k) - get(third_set, k - 1) + get(fifth_set, j)
+          next unless [j, k].all? {|m| get(tailored, m).include? get fifth_set, m}
           fifth_sets_build_2 fifth_set, third_set, tailored, group
         end
     end
@@ -181,15 +176,10 @@ module TemperamentMath
     def fifth_sets_build_2(fifth_set, third_set, tailored, group)
 # Pick a fifth; calculate two other fifths:
           i, j, k = transpose group, 1
-#         tailored.at(1).each do |f2|
           get(tailored, i).each do |f2|
-#           fifth_set[1] = f2
             fifth_set[i] = f2
-#           fifth_set[5] = get(third_set, 5) - get(third_set, 4) + get(fifth_set, 1)
             fifth_set[j] = get(third_set, j) - get(third_set, j - 1) + get(fifth_set, i)
-#           fifth_set[9] = get(third_set, 9) - get(third_set, 8) + get(fifth_set, 5)
             fifth_set[k] = get(third_set, k) - get(third_set, k - 1) + get(fifth_set, j)
-#           next unless [5, 9].all? {|i| get(tailored, i).include? get fifth_set, i}
             next unless [j, k].all? {|m| get(tailored, m).include? get fifth_set, m}
             fifth_sets_build_3 fifth_set, third_set, tailored, group
       end
@@ -198,15 +188,10 @@ module TemperamentMath
     def fifth_sets_build_3(fifth_set, third_set, tailored, group)
 # Pick a fifth; calculate two other fifths:
             i, j, k = transpose group, 2
-#           tailored.at(2).each do |f3|
             get(tailored, i).each do |f3|
-              fifth_set[2] = f3
-##            fifth_set[i] = f3
-#             fifth_set[6]  = get(third_set, 6)  - get(third_set, 5) + get(fifth_set, 2)
+              fifth_set[i] = f3
               fifth_set[j] = get(third_set, j) - get(third_set, j - 1) + get(fifth_set, i)
-#             fifth_set[10] = get(third_set, 10) - get(third_set, 9) + get(fifth_set, 6)
               fifth_set[k] = get(third_set, k) - get(third_set, k - 1) + get(fifth_set, j)
-#             next unless [6, 10].all? {|i| get(tailored, i).include? get fifth_set, i}
               next unless [j, k].all? {|m| get(tailored, m).include? get fifth_set, m}
               next unless fifth_sets_build_4 fifth_set, third_set, tailored, group
               next unless fifths_make_thirds fifth_set, third_set
@@ -217,17 +202,10 @@ module TemperamentMath
     def fifth_sets_build_4(fifth_set, third_set, tailored, group)
 # Calculate three fifths:
               i, j, k = transpose group, 3
-#             fifth_set[3]  = get(third_set, 3)  - get(fifth_set, 0)  - get(fifth_set, 1) - get(fifth_set, 2)
               fifth_set[i] = get(third_set, i) - get(fifth_set, i - 1) - get(fifth_set, i - 2) - get(fifth_set, i - 3)
-#             fifth_set[7]  = get(third_set, 7)  - get(third_set, 6)  + get(fifth_set, 3)
               fifth_set[j] = get(third_set, j) - get(third_set, j - 1) + get(fifth_set, i)
-#             fifth_set[11] = get(third_set, 11) - get(third_set, 10) + get(fifth_set, 7)
               fifth_set[k] = get(third_set, k) - get(third_set, k - 1) + get(fifth_set, j)
-#             next unless [3, 7, 11].all? {|i| get(tailored, i).include? get fifth_set, i}
               [i, j, k].all? {|m| get(tailored, m).include? get fifth_set, m}
-    end
-
-    def fifth_sets_build_5(fifth_set, third_set, tailored, group)
     end
 
     def fifth_similar_enough_2_3_4(set)
