@@ -354,13 +354,13 @@ module TemperamentMath
       pair = 2
       triplet = 3
       polarities = [1, -1]
-      polarities.zip([half_top, half_bottom]).flat_map do |polarity, half|
-        set.values_at(*half).each_cons(triplet).map do |abc|
+      polarities.zip([half_top, half_bottom]).all? do |polarity, half|
+        set.values_at(*half).each_cons(triplet).all? do |abc|
           pairs = abc.each_cons pair
           differences = pairs.map {|e| (e.first - e.last) * polarity}
           differences.first <= differences.last
         end
-      end.all?
+      end
     end
 
     def third_build_1
