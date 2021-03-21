@@ -439,11 +439,9 @@ module TemperamentMath
     end
 
     def third_set_check(set)
-      octave_enum.all? do |offset|
-        structure = fifth_range_tailored_structure.map do |index|
-          (index + offset) % octave_size
-        end
+      octave_enum.all? do |index|
 # [4, 5, 1, 12]
+        structure = third_set_check_indexes.at index
         a, b, c, d = set.values_at(*structure)
         sum = a + d - b - c
         fifth_range_double.include? sum
@@ -490,6 +488,16 @@ module TemperamentMath
       difference_top    = @@third_8  - @@third_1
       difference_obligated = [difference_bottom, difference_top].max
       @@third_1 >= @@third_7 + difference_obligated
+    end
+
+    def third_set_check_indexes
+      @@third_set_check_indexes ||= begin
+        octave_enum.map do |index|
+          fifth_range_tailored_structure.map do |offset|
+            (index + offset) % octave_size
+          end
+        end
+      end
     end
 
     def third_set_save
