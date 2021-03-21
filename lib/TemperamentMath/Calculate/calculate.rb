@@ -338,9 +338,7 @@ module TemperamentMath
       end
       out.puts "A range #{fifth_range} of fifths produces:"
       out.flush
-      @@output_raw = []
       build
-      output_raw_delete
       nil
     end
 
@@ -516,6 +514,7 @@ module TemperamentMath
     end
 
     def third_sets_build
+      @@output_raw = []
       @@third_sets_length = 0
       @@fifth_sets_length = 0
 # Major thirds with levels:
@@ -535,6 +534,7 @@ module TemperamentMath
         offset = fifth_range_tailored_offset_optimum tailored
         fifth_sets_build_part level, offset, third_set, tailored, fifth_set
       end
+      output_raw_delete
       nil
     end
 
