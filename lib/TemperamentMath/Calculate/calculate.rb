@@ -494,8 +494,12 @@ module TemperamentMath
       return unless slope_good? third_set, thirds_half_top, thirds_half_bottom
       return unless third_set.uniq.length == octave_size
       return unless third_set_check third_set
-# Print thirds minimally before rewinding and filtering them, while building the fifth sets:
-      out_third_raw.puts "#{third_set.join ' '}"
+      @@third_set_written = false
+      tailored = fifth_range_tailored_construct third_set
+      fifth_set = ::Array.new octave_size
+      level = 0
+      offset = fifth_range_tailored_offset_optimum tailored
+      fifth_sets_build_part level, offset, third_set, tailored, fifth_set
       nil
     end
 
@@ -523,17 +527,6 @@ module TemperamentMath
 #   E    B    A    F#   D    C#   G    G#   C     D#   F     A#
 #
       third_sets_build_level_1
-      out_third_raw.flush
-      out_third_raw.rewind
-      out_third_raw.each do |line|
-        @@third_set_written = false
-        third_set = line.split(' ').map &:to_i
-        tailored = fifth_range_tailored_construct third_set
-        fifth_set = ::Array.new octave_size
-        level = 0
-        offset = fifth_range_tailored_offset_optimum tailored
-        fifth_sets_build_part level, offset, third_set, tailored, fifth_set
-      end
       output_raw_delete
       nil
     end
