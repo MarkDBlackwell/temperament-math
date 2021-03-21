@@ -214,8 +214,11 @@ module TemperamentMath
     def fifths_are_a_multiple?(set)
       return false if fifth_range_prime?
       clean = set.map(&:abs).reject(&:zero?).uniq
-      pf = clean.map {|e| prime_factors e}
-      not pf.reduce(&:intersection).empty?
+      memo = prime_factors clean.first
+      clean.drop(1).any? do |fifth|
+        memo = memo.intersection(prime_factors fifth)
+        memo.empty?
+      end
     end
 
     def fifths_justified?(set)
@@ -307,7 +310,7 @@ module TemperamentMath
     end
 
     def prime_factors(n)
-      a = ::Prime.prime_division n
+      a = ::Prime.prime_division n, ::Prime::EratosthenesGenerator.new
       return [] if a.empty?
       a.map &:first
     end
