@@ -56,7 +56,7 @@ module TemperamentMath
       @@fifth_extremes ||= [fifth_min, fifth_max]
     end
 
-    def fifth_large_enough_1(set)
+    def fifth_large_enough_1?(set)
       third_smallest_fifths_max(set) == set.at(0)
     end
 
@@ -121,11 +121,11 @@ module TemperamentMath
     end
 
     def fifth_set_save(third_set, tailored, set)
-      return unless fifths_justified set
-      return unless fifth_large_enough_1 set
-      return unless fifth_similar_enough_2_3_4 set
-      return unless fifth_small_enough_11_12 set
-      return if fifths_are_a_multiple set
+      return unless fifths_justified? set
+      return unless fifth_large_enough_1? set
+      return unless fifth_similar_enough_2_3_4? set
+      return unless fifth_small_enough_11_12? set
+      return if fifths_are_a_multiple? set
       minors = third_minor_set set
       return unless minors.uniq.length == octave_size
       return unless slope_good? minors, thirds_minor_half_top, thirds_minor_half_bottom
@@ -169,7 +169,7 @@ module TemperamentMath
       nil
     end
 
-    def fifth_similar_enough_2_3_4(set)
+    def fifth_similar_enough_2_3_4?(set)
       values = set.values_at(*fifth_similar_enough_2_3_4_enum)
       variance = values.max - values.min
       variance <= fifth_similar_enough_2_3_4_target
@@ -186,7 +186,7 @@ module TemperamentMath
       end
     end
 
-    def fifth_small_enough_11_12(set)
+    def fifth_small_enough_11_12?(set)
       minimum = third_largest_fifths_min set
       [10, 11].all? {|i| set.at(i) <= minimum}
     end
@@ -211,14 +211,14 @@ module TemperamentMath
       @@fifth_span_three ||= fifth_span * 3
     end
 
-    def fifths_are_a_multiple(set)
+    def fifths_are_a_multiple?(set)
       return false if fifth_range_prime?
       clean = set.map(&:abs).reject(&:zero?).uniq
       pf = clean.map {|e| prime_factors e}
       not pf.reduce(&:intersection).empty?
     end
 
-    def fifths_justified(set)
+    def fifths_justified?(set)
       fifth_extremes.all? {|e| set.include? e}
     end
 
