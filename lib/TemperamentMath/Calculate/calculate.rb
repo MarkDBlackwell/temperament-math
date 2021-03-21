@@ -85,10 +85,7 @@ module TemperamentMath
     end
 
     def fifth_range_tailored_construct(third_set)
-      octave_enum.map do |offset|
-        structure = fifth_range_tailored_structure.map do |index|
-          (index + offset) % octave_size
-        end
+      fifth_range_tailored_structure_indexes.map do |structure|
         a, b, c, d = third_set.values_at(*structure)
         smallest = [0, a - b, c - d].max + fifth_min
         largest  = [0, a - b, c - d].min + fifth_max
@@ -107,6 +104,16 @@ module TemperamentMath
 
     def fifth_range_tailored_structure
       @@fifth_range_tailored_structure ||= [4, 5, 1, 12].map &:pred
+    end
+
+    def fifth_range_tailored_structure_indexes
+      @@fifth_range_tailored_structure_indexes ||= begin
+        octave_enum.map do |index|
+          fifth_range_tailored_structure.map do |offset|
+            (index + offset) % octave_size
+          end
+        end
+      end
     end
 
     def fifth_range_valid?
@@ -440,7 +447,7 @@ module TemperamentMath
 
     def third_set_check(set)
 # [4, 5, 1, 12]
-      third_set_check_indexes.each_with_index.all? do |structure, index|
+      fifth_range_tailored_structure_indexes.each_with_index.all? do |structure, index|
         a, b, c, d = set.values_at(*structure)
         sum = a + d - b - c
         fifth_range_double.include? sum
@@ -487,16 +494,6 @@ module TemperamentMath
       difference_top    = @@third_8  - @@third_1
       difference_obligated = [difference_bottom, difference_top].max
       @@third_1 >= @@third_7 + difference_obligated
-    end
-
-    def third_set_check_indexes
-      @@third_set_check_indexes ||= begin
-        octave_enum.map do |index|
-          fifth_range_tailored_structure.map do |offset|
-            (index + offset) % octave_size
-          end
-        end
-      end
     end
 
     def third_set_save
