@@ -32,8 +32,7 @@ module TemperamentMath
   module Calculate
     extend self
 
-    def build
-      third_sets_build
+    def report
       out.puts
       out.puts "* #{delimit @@third_sets_length} sets of thirds, falling from"
       out.puts '      G D A E B F# C# G# D# A# F C'
@@ -338,7 +337,8 @@ module TemperamentMath
       end
       out.puts "A range #{fifth_range} of fifths produces:"
       out.flush
-      build
+      third_sets_build
+      report
       nil
     end
 
