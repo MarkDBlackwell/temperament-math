@@ -32,25 +32,6 @@ module TemperamentMath
   module Calculate
     extend self
 
-    def report
-      out.puts
-      out.puts "* #{delimit @@third_sets_length} sets of thirds, falling from"
-      out.puts '      G D A E B F# C# G# D# A# F C'
-      return if @@third_sets_length.zero?
-
-      out.flush
-      out.puts
-      out.puts "* #{delimit @@fifth_sets_length} sets of fifths, also falling from"
-      out.puts '      G D A E B F# C# G# D# A# F C'
-      return if @@fifth_sets_length.zero?
-
-      out.flush
-      out.puts
-      out.puts '* And corresponding tuning sets, indicating the positions of'
-      out.puts '      C# D D# E F F# G G# A A# B C'
-      nil
-    end
-
     def delimit(n)
       n.to_s.gsub delimit_regexp, ','
     end
@@ -326,6 +307,25 @@ module TemperamentMath
 
     def project_root
       @@project_root ||= ::File.dirname ::File.realpath "#{__FILE__}/../../.."
+    end
+
+    def report
+      out.puts
+      out.puts "* #{delimit @@third_sets_length} sets of thirds, falling from"
+      out.puts '      G D A E B F# C# G# D# A# F C'
+      return if @@third_sets_length.zero?
+
+      out.flush
+      out.puts
+      out.puts "* #{delimit @@fifth_sets_length} sets of fifths, also falling from"
+      out.puts '      G D A E B F# C# G# D# A# F C'
+      return if @@fifth_sets_length.zero?
+
+      out.flush
+      out.puts
+      out.puts '* And corresponding tuning sets, indicating the positions of'
+      out.puts '      C# D D# E F F# G G# A A# B C'
+      nil
     end
 
     def run_calculate
