@@ -439,15 +439,15 @@ module TemperamentMath
     end
 
     def third_set_check(set)
-      sums = octave_enum.map do |offset|
+      octave_enum.all? do |offset|
         structure = fifth_range_tailored_structure.map do |index|
           (index + offset) % octave_size
         end
 # [4, 5, 1, 12]
         a, b, c, d = set.values_at(*structure)
-        a + d - b - c
+        sum = a + d - b - c
+        fifth_range_double.include? sum
       end
-      sums.all? {|e| fifth_range_double.include? e}
     end
 
     def third_set_check_5_6
