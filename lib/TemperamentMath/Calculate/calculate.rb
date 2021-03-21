@@ -153,7 +153,7 @@ module TemperamentMath
           fifth_sets_build_part level + 1, offset, third_set, tailored, fifth_set
         when 2
           next unless fifth_sets_build_calculate offset, third_set, tailored, fifth_set
-          next unless fifths_make_thirds fifth_set, third_set
+          next unless fifths_make_thirds? fifth_set, third_set
           fifth_set_save third_set, tailored, fifth_set
         else
           ::Kernel.fail
@@ -215,13 +215,21 @@ module TemperamentMath
       fifth_extremes.all? {|e| set.include? e}
     end
 
-    def fifths_make_thirds(fifth_set, third_set)
-      octave_enum.map do |falling|
-        indexes = third_major_enum.map do |i|
-          (falling - i) % octave_size
+    def fifths_make_thirds?(fifth_set, third_set)
+      third_set.each_with_index.all? do |third, i|
+        indexes = fifths_make_thirds_indexes.at i
+        fifth_set.values_at(*indexes).sum == third
+      end
+    end
+
+    def fifths_make_thirds_indexes
+      @@fifths_make_thirds_indexes ||= begin
+        octave_enum.map do |falling|
+          third_major_enum.map do |i|
+            (falling - i) % octave_size
+          end
         end
-        third_set.at(falling) == fifth_set.values_at(*indexes).sum
-      end.all?
+      end
     end
 
     def get(array, index)
