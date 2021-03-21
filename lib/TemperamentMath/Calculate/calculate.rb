@@ -439,9 +439,8 @@ module TemperamentMath
     end
 
     def third_set_check(set)
-      octave_enum.all? do |index|
 # [4, 5, 1, 12]
-        structure = third_set_check_indexes.at index
+      third_set_check_indexes.each_with_index.all? do |structure, index|
         a, b, c, d = set.values_at(*structure)
         sum = a + d - b - c
         fifth_range_double.include? sum
