@@ -448,10 +448,10 @@ module TemperamentMath
       3
     end
 
-    def third_set_check(set)
+    def third_set_check(third_set)
 # [4, 5, 1, 12]
       fifth_range_tailored_structure_indexes.each_with_index.all? do |structure, index|
-        a, b, c, d = set.values_at(*structure)
+        a, b, c, d = third_set.values_at(*structure)
         sum = a + d - b - c
         fifth_range_double.include? sum
       end
