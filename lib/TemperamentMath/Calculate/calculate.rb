@@ -56,8 +56,8 @@ module TemperamentMath
       @@fifth_extremes ||= [fifth_min, fifth_max]
     end
 
-    def fifth_large_enough_1?(set)
-      third_smallest_fifths_max(set) == set.at(0)
+    def fifth_large_enough_1?(fifth_set)
+      third_smallest_fifths_max(fifth_set) == fifth_set.at(0)
     end
 
     def fifth_max
@@ -120,20 +120,20 @@ module TemperamentMath
       @@fifth_range_valid ||= fifth_min.negative? && fifth_max.positive?
     end
 
-    def fifth_set_save(third_set, tailored, set)
-      return unless fifths_justified? set
-      return unless fifth_large_enough_1? set
-      return unless fifth_similar_enough_2_3_4? set
-      return unless fifth_small_enough_11_12? set
-      return if fifths_are_a_multiple? set
-      minors = third_minor_set set
+    def fifth_set_save(third_set, tailored, fifth_set)
+      return unless fifths_justified? fifth_set
+      return unless fifth_large_enough_1? fifth_set
+      return unless fifth_similar_enough_2_3_4? fifth_set
+      return unless fifth_small_enough_11_12? fifth_set
+      return if fifths_are_a_multiple? fifth_set
+      minors = third_minor_set fifth_set
       return unless minors.uniq.length == octave_size
       return unless slope_good? minors, thirds_minor_half_top, thirds_minor_half_bottom
       third_set_write third_set, tailored
       @@fifth_sets_length += 1
       out_third_minor.puts "#{@@fifth_sets_length} #{minors}"
       out_third_minor.flush
-      out_fifth.puts "#{@@fifth_sets_length} #{set}"
+      out_fifth.puts "#{@@fifth_sets_length} #{fifth_set}"
       out_fifth.flush
       nil
     end
@@ -141,9 +141,9 @@ module TemperamentMath
     def fifth_sets_build_calculate(offset, third_set, tailored, fifth_set)
       i, j, k = transpose group, offset + 3
 # Calculate three fifths:
-      fifth_set[i] = third_set.at(i) - get(fifth_set, i - 1) - get(fifth_set, i - 2) - get(fifth_set, i - 3)
-      fifth_set[j] = third_set.at(j) - get(third_set, j - 1) + fifth_set.at(i)
-      fifth_set[k] = third_set.at(k) - get(third_set, k - 1) + fifth_set.at(j)
+      fifth_set[i] = third_set.at(i) - get_in_circle(fifth_set, i - 1) - get_in_circle(fifth_set, i - 2) - get_in_circle(fifth_set, i - 3)
+      fifth_set[j] = third_set.at(j) - get_in_circle(third_set, j - 1) + fifth_set.at(i)
+      fifth_set[k] = third_set.at(k) - get_in_circle(third_set, k - 1) + fifth_set.at(j)
       [i, j, k].all? {|m| tailored.at(m).include? fifth_set.at m}
     end
 
@@ -152,8 +152,8 @@ module TemperamentMath
 # Pick a fifth; calculate two other fifths:
       tailored.at(i).each do |fifth|
         fifth_set[i] = fifth
-        fifth_set[j] = third_set.at(j) - get(third_set, j - 1) + fifth_set.at(i)
-        fifth_set[k] = third_set.at(k) - get(third_set, k - 1) + fifth_set.at(j)
+        fifth_set[j] = third_set.at(j) - get_in_circle(third_set, j - 1) + fifth_set.at(i)
+        fifth_set[k] = third_set.at(k) - get_in_circle(third_set, k - 1) + fifth_set.at(j)
         next unless [j, k].all? {|m| tailored.at(m).include? fifth_set.at m}
         case level
         when 0, 1
@@ -169,8 +169,8 @@ module TemperamentMath
       nil
     end
 
-    def fifth_similar_enough_2_3_4?(set)
-      values = set.values_at(*fifth_similar_enough_2_3_4_enum)
+    def fifth_similar_enough_2_3_4?(fifth_set)
+      values = fifth_set.values_at(*fifth_similar_enough_2_3_4_enum)
       variance = values.max - values.min
       variance <= fifth_similar_enough_2_3_4_target
     end
@@ -186,9 +186,9 @@ module TemperamentMath
       end
     end
 
-    def fifth_small_enough_11_12?(set)
-      minimum = third_largest_fifths_min set
-      [10, 11].all? {|i| set.at(i) <= minimum}
+    def fifth_small_enough_11_12?(fifth_set)
+      minimum = third_largest_fifths_min fifth_set
+      [10, 11].all? {|i| fifth_set.at(i) <= minimum}
     end
 
     def fifth_span
@@ -211,9 +211,9 @@ module TemperamentMath
       @@fifth_span_three ||= fifth_span * 3
     end
 
-    def fifths_are_a_multiple?(set)
+    def fifths_are_a_multiple?(fifth_set)
       return false if fifth_range_prime?
-      clean = set.map(&:abs).reject(&:zero?).uniq
+      clean = fifth_set.map(&:abs).reject(&:zero?).uniq
       memo = prime_factors clean.first
       clean.drop(1).any? do |fifth|
         memo = memo.intersection(prime_factors fifth)
@@ -221,8 +221,8 @@ module TemperamentMath
       end
     end
 
-    def fifths_justified?(set)
-      fifth_extremes.all? {|e| set.include? e}
+    def fifths_justified?(fifth_set)
+      fifth_extremes.all? {|e| fifth_set.include? e}
     end
 
     def fifths_make_thirds?(fifth_set, third_set)
@@ -242,7 +242,7 @@ module TemperamentMath
       end
     end
 
-    def get(array, index)
+    def get_in_circle(array, index)
       array.at(index % octave_size)
     end
 
@@ -401,8 +401,8 @@ module TemperamentMath
       end
     end
 
-    def third_largest_fifths_min(set)
-      set.values_at(*third_largest_enum).min
+    def third_largest_fifths_min(fifth_set)
+      fifth_set.values_at(*third_largest_enum).min
     end
 
     def third_major_enum
@@ -498,7 +498,7 @@ module TemperamentMath
       @@third_1 >= @@third_7 + difference_obligated
     end
 
-    def third_set_save
+    def third_set_check_fifth_sets_build
       return unless third_set_check_5_6
       third_set = [
           @@third_1,  @@third_2,  @@third_3,  @@third_4,
@@ -517,11 +517,11 @@ module TemperamentMath
       nil
     end
 
-    def third_set_write(set, tailored)
+    def third_set_write(third_set, tailored)
       unless @@third_set_written
         @@third_set_written = true
         @@third_sets_length += 1
-        out_third.puts "#{@@third_sets_length} #{set}"
+        out_third.puts "#{@@third_sets_length} #{third_set}"
         out_third.flush
         out_tailored.puts "#{@@third_sets_length} #{tailored}"
         out_tailored.flush
@@ -546,7 +546,7 @@ module TemperamentMath
     end
 
     def third_sets_build_level_1
-# Walk disjointedly from both ends.
+# Crawl disjointedly from both ends.
       state = :initial
       while true
         case state
@@ -730,7 +730,7 @@ module TemperamentMath
             break unless valid_level_4_5?
           end
         end
-        third_set_save
+        third_set_check_fifth_sets_build
       end
       nil
     end
@@ -739,8 +739,8 @@ module TemperamentMath
       @@third_smallest_enum ||= third_major_enum
     end
 
-    def third_smallest_fifths_max(set)
-      set.values_at(*third_smallest_enum).max
+    def third_smallest_fifths_max(fifth_set)
+      fifth_set.values_at(*third_smallest_enum).max
     end
 
     def third_span
