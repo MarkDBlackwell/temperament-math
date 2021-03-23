@@ -426,8 +426,7 @@ module TemperamentMath
     end
 
     def third_minor_set(fifth_set)
-      octave_enum.map do |position|
-        indexes = third_minor_set_indexes.at position
+      third_minor_set_indexes.map do |indexes|
         - fifth_set.values_at(*indexes).sum
       end
     end
