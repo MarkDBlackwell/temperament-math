@@ -373,6 +373,22 @@ module TemperamentMath
       end
     end
 
+    def third_10_min
+      @@third_10_min ||= (fifth_max * 2.9).round
+    end
+
+    def third_11_min
+      @@third_11_min ||= (fifth_max * 2.7).round
+    end
+
+    def third_4_max
+      @@third_4_max ||= (fifth_min * 2.9).round
+    end
+
+    def third_5_max
+      @@third_5_max ||= (fifth_min * 2.4).round
+    end
+
     def third_build_1
       @@third_1 = - @@third_5  - @@third_9
       nil
@@ -780,7 +796,12 @@ module TemperamentMath
     end
 
     def valid_level_1?
-      @@third_10 >= @@third_4 + octave_size - 1
+      true &&
+          @@third_10 >= [
+              @@third_4 + octave_size - 1,
+              third_10_min,
+              ].max  &&
+          @@third_4 <= third_4_max
     end
 
     def valid_level_2?
@@ -788,8 +809,12 @@ module TemperamentMath
           @@third_11 >= [
               @@third_10 - fifth_span,
               valid_level_2_third_11_min,
+              third_11_min,
               ].max  &&
-          @@third_5  <= @@third_4  + fifth_span
+          @@third_5 <= [
+              @@third_4 + fifth_span,
+              third_5_max,
+              ].min
     end
 
     def valid_level_2_third_11_min
