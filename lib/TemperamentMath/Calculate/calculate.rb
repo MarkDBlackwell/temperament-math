@@ -799,7 +799,7 @@ module TemperamentMath
       true &&
           @@third_10 >= [
               @@third_4 + octave_size - 1,
-              third_10_min,
+#             third_10_min,
               ].max  &&
           @@third_4 <= third_4_max
     end
@@ -809,11 +809,11 @@ module TemperamentMath
           @@third_11 >= [
               @@third_10 - fifth_span,
               valid_level_2_third_11_min,
-              third_11_min,
+#             third_11_min,
               ].max  &&
           @@third_5 <= [
               @@third_4 + fifth_span,
-              third_5_max,
+#             third_5_max,
               ].min
     end
 
