@@ -788,7 +788,7 @@ module TemperamentMath
           @@third_11 >= [
               @@third_10 - fifth_span,
               valid_level_2_third_11_min,
-              ].min  &&
+              ].max  &&
           @@third_5  <= @@third_4  + fifth_span
     end
 
@@ -803,14 +803,14 @@ module TemperamentMath
     def valid_level_3_6?
       true &&
           @@third_9 >= [
-             @@third_10 - fifth_span,
-             (3 - @@third_5) / 2,
-             valid_level_3_third_9_min,
-             ].max  &&
+              @@third_10 - fifth_span,
+              (3 - @@third_5) / 2,
+              valid_level_3_third_9_min,
+              ].max  &&
           @@third_3 <= [
-             @@third_4 + fifth_span,
-             (-3 - @@third_11) / 2,
-             ].min
+              @@third_4 + fifth_span,
+              (-3 - @@third_11) / 2,
+              ].min
     end
 
     def valid_level_3_third_9_min
@@ -824,20 +824,20 @@ module TemperamentMath
     def valid_level_4_5?
       true &&
           @@third_12 >= [
-             @@third_11 - fifth_span,
-             - @@third_4 - @@third_9 - fifth_span,
-             - @@third_5 - @@third_9 - fifth_span,
-             @@third_11 + @@third_3 - @@third_4 - fifth_span,
-             (1 - @@third_4) / 2,
-             valid_level_4_third_12_min,
-             ].max  &&
+              @@third_11 - fifth_span,
+              - @@third_4 - @@third_9 - fifth_span,
+              - @@third_5 - @@third_9 - fifth_span,
+              @@third_11 + @@third_3 - @@third_4 - fifth_span,
+              (1 - @@third_4) / 2,
+              valid_level_4_third_12_min,
+              ].max  &&
           @@third_6 <= [
-             @@third_5 + fifth_span,
-             - @@third_11 - @@third_3 + fifth_span,
-             - @@third_10 - @@third_3 + fifth_span,
-             - @@third_10 + @@third_5 + @@third_9 + fifth_span,
-             (-1 - @@third_10) / 2,
-             ].min
+              @@third_5 + fifth_span,
+              - @@third_11 - @@third_3 + fifth_span,
+              - @@third_10 - @@third_3 + fifth_span,
+              - @@third_10 + @@third_5 + @@third_9 + fifth_span,
+              (-1 - @@third_10) / 2,
+              ].min
     end
 
     def valid_level_4_third_12_min
