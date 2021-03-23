@@ -215,6 +215,7 @@ module TemperamentMath
       return false if fifth_range_prime?
       clean = fifth_set.map(&:abs).reject(&:zero?).uniq
       memo = prime_factors clean.first
+      return false if memo.empty?
       clean.drop(1).any? do |fifth|
         memo = memo.intersection(prime_factors fifth)
         memo.empty?
@@ -310,9 +311,13 @@ module TemperamentMath
     end
 
     def prime_factors(n)
-      a = ::Prime.prime_division n, ::Prime::EratosthenesGenerator.new
+      a = ::Prime.prime_division n, prime_factors_generator
       return [] if a.empty?
       a.map &:first
+    end
+
+    def prime_factors_generator
+      @@prime_factors_generator ||= ::Prime::EratosthenesGenerator.new
     end
 
     def program_announce
