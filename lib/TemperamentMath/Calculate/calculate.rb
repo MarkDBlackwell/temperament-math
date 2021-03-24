@@ -79,8 +79,11 @@ module TemperamentMath
     def fifth_range_prime?
       @@fifth_range_prime ||= begin
         clean = fifth_extremes.map &:abs
-        pf = clean.map {|e| prime_factors e}
-        pf.any? {|e| e.length <= 1}
+        factors = clean.map {|e| prime_factors e}
+        return false if factors.any? &:empty?
+        factors.zip(clean).any? do |e, fifth|
+          1 == e.length && e.first == fifth
+        end
       end
     end
 
@@ -216,7 +219,7 @@ module TemperamentMath
       clean = fifth_set.map(&:abs).reject(&:zero?).uniq
       memo = prime_factors clean.first
       return false if memo.empty?
-      clean.drop(1).any? do |fifth|
+      not clean.drop(1).any? do |fifth|
         memo = memo.intersection(prime_factors fifth)
         memo.empty?
       end
@@ -317,7 +320,11 @@ module TemperamentMath
     end
 
     def prime_factors_generator
-      @@prime_factors_generator ||= ::Prime::EratosthenesGenerator.new
+# Prime::EratosthenesGenerator doesn't work.
+#     @@prime_factors_generator ||= ::Prime::Generator23.new
+#     @@prime_factors_generator ||= ::Prime::EratosthenesGenerator.new
+#     ::Prime::EratosthenesGenerator.new
+      ::Prime::Generator23.new
     end
 
     def program_announce
