@@ -81,8 +81,8 @@ module TemperamentMath
         clean = fifth_extremes.map &:abs
         factors = clean.map {|e| prime_factors e}
         return false if factors.any? &:empty?
-        factors.zip(clean).any? do |e, fifth|
-          1 == e.length && e.first == fifth
+        clean.zip(factors).any? do |fifth, prime|
+          [fifth] == prime
         end
       end
     end
@@ -218,8 +218,7 @@ module TemperamentMath
       return false if fifth_range_prime?
       clean = fifth_set.map(&:abs).reject(&:zero?).uniq
       memo = prime_factors clean.first
-      return false if memo.empty?
-      not clean.drop(1).any? do |fifth|
+      not clean.any? do |fifth|
         memo = memo.intersection(prime_factors fifth)
         memo.empty?
       end
