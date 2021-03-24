@@ -76,13 +76,13 @@ module TemperamentMath
       @@fifth_range_double ||= ::Range.new(- fifth_span, fifth_span)
     end
 
-    def fifth_range_prime?
-      @@fifth_range_prime ||= begin
+    def fifth_range_has_prime?
+      @@fifth_range_has_prime ||= begin
         clean = fifth_extremes.map &:abs
         factors = clean.map {|e| prime_factors e}
         return true if factors.any? &:empty?
-        clean.zip(factors).any? do |fifth, prime|
-          [fifth] == prime
+        clean.zip(factors).any? do |fifth, prime_list|
+          [fifth] == prime_list
         end
       end
     end
@@ -213,7 +213,7 @@ module TemperamentMath
     end
 
     def fifths_are_a_multiple?(fifth_set)
-      return false if fifth_range_prime?
+      return false if fifth_range_has_prime?
       clean = fifth_set.map(&:abs).reject(&:zero?).uniq
       memo = prime_factors clean.first
       not clean.any? do |fifth|
