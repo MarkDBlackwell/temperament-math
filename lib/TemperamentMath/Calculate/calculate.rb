@@ -80,7 +80,7 @@ module TemperamentMath
       @@fifth_range_prime ||= begin
         clean = fifth_extremes.map &:abs
         factors = clean.map {|e| prime_factors e}
-        return false if factors.any? &:empty?
+        return true if factors.any? &:empty?
         clean.zip(factors).any? do |fifth, prime|
           [fifth] == prime
         end
@@ -110,11 +110,9 @@ module TemperamentMath
     end
 
     def fifth_range_tailored_structure_indexes
-      @@fifth_range_tailored_structure_indexes ||= begin
-        octave_enum.map do |index|
-          fifth_range_tailored_structure.map do |offset|
-            (index + offset) % octave_size
-          end
+      @@fifth_range_tailored_structure_indexes ||= octave_enum.map do |index|
+        fifth_range_tailored_structure.map do |offset|
+          (index + offset) % octave_size
         end
       end
     end
@@ -236,11 +234,9 @@ module TemperamentMath
     end
 
     def fifths_make_thirds_indexes
-      @@fifths_make_thirds_indexes ||= begin
-        octave_enum.map do |falling|
-          third_major_enum.map do |i|
-            (falling - i) % octave_size
-          end
+      @@fifths_make_thirds_indexes ||= octave_enum.map do |falling|
+        third_major_enum.map do |i|
+          (falling - i) % octave_size
         end
       end
     end
@@ -422,11 +418,9 @@ module TemperamentMath
     end
 
     def third_largest_enum
-      @@third_largest_enum ||= begin
-        third_smallest_enum.map do |i|
-          (i + octave_size_half) % octave_size
-        end.to_enum
-      end
+      @@third_largest_enum ||= third_smallest_enum.map do |i|
+        (i + octave_size_half) % octave_size
+      end.to_enum
     end
 
     def third_largest_fifths_min(fifth_set)
@@ -462,11 +456,9 @@ module TemperamentMath
     def third_minor_set_indexes
 # Circle of fifths: G D A E B F# C# G# D# A# F C
 # Subtracting three fifths from C gives D# (for example).
-      @@third_minor_set_indexes ||= begin
-        octave_enum.map do |position|
-          third_minor_enum.map do |i|
-            (position.succ + i) % octave_size
-          end
+      @@third_minor_set_indexes ||= octave_enum.map do |position|
+        third_minor_enum.map do |i|
+          (position.succ + i) % octave_size
         end
       end
     end
