@@ -56,6 +56,16 @@ module TemperamentMath
       @@fifth_extremes ||= [fifth_min, fifth_max]
     end
 
+    def fifth_extremes_has_prime?
+      @@fifth_extremes_has_prime ||= begin
+        clean = fifth_extremes.map &:abs
+        factors = clean.map {|e| prime_factors e}
+        clean.zip(factors).any? do |fifth, prime_list|
+          [fifth] == prime_list
+        end
+      end
+    end
+
     def fifth_large_enough_1?(fifth_set)
       third_smallest_fifths_max(fifth_set) == fifth_set.at(0)
     end
@@ -74,17 +84,6 @@ module TemperamentMath
 
     def fifth_range_double
       @@fifth_range_double ||= ::Range.new(- fifth_span, fifth_span)
-    end
-
-    def fifth_range_has_prime?
-      @@fifth_range_has_prime ||= begin
-        clean = fifth_extremes.map &:abs
-        factors = clean.map {|e| prime_factors e}
-        return true if factors.any? &:empty?
-        clean.zip(factors).any? do |fifth, prime_list|
-          [fifth] == prime_list
-        end
-      end
     end
 
     def fifth_range_tailored_construct(third_set)
@@ -213,7 +212,7 @@ module TemperamentMath
     end
 
     def fifths_are_a_multiple?(fifth_set)
-      return false if fifth_range_has_prime?
+      return false if fifth_extremes_has_prime? # Elsewhere, the inclusion of fifth extremes is required.
       clean = fifth_set.map(&:abs).reject(&:zero?).uniq
       memo = prime_factors clean.first
       not clean.any? do |fifth|
