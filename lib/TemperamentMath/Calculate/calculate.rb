@@ -279,6 +279,10 @@ module TemperamentMath
       @@out_fifth ||= open 'fifth'
     end
 
+    def out_progress_raw
+      @@out_progress_raw ||= open 'progress-raw'
+    end
+
     def out_tailored
       @@out_tailored ||= open 'tailored'
     end
@@ -327,6 +331,12 @@ module TemperamentMath
       puts 'Copyright (C) 2021 Mark D. Blackwell.'
       puts 'This program comes with ABSOLUTELY NO WARRANTY; for details see the file, LICENSE.'
       puts 'Output is in directory, "out/"'
+      nil
+    end
+
+    def progress_track
+      out_progress_raw.puts @@third_4
+      out_progress_raw.flush
       nil
     end
 
@@ -574,6 +584,7 @@ module TemperamentMath
           @@third_4,  third_edge_small = third_min, third_min
           @@third_10, third_edge_large = third_max, third_max
           break unless valid_level_1?
+          progress_track
         when :small
           @@third_4 += 1
           unless valid_level_1?
@@ -597,6 +608,7 @@ module TemperamentMath
                 @@third_10 - fifth_span_six,
                 ].max
             break unless valid_level_1?
+            progress_track
           end
         end
         third_sets_build_level_2
