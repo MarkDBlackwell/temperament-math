@@ -135,6 +135,8 @@ module TemperamentMath
       out_third_minor.flush
       out_fifth.puts "#{@@fifth_sets_length} #{fifth_set}"
       out_fifth.flush
+      out_combined.puts "#{fifth_set}   #{third_set}"
+      out_combined.flush
       nil
     end
 
@@ -273,6 +275,10 @@ module TemperamentMath
 
     def out
       @@out ||= open 'main'
+    end
+
+    def out_combined
+      @@out_combined ||= open 'combined'
     end
 
     def out_fifth
