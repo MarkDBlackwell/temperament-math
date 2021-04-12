@@ -117,7 +117,12 @@ module TemperamentMath
     end
 
     def fifth_range_valid?
-      @@fifth_range_valid ||= fifth_min.negative? && fifth_max.positive?
+      @@fifth_range_valid ||= begin
+        true &&
+            fifth_min.negative?  &&
+            fifth_max.positive?  &&
+            fifth_max.abs <= fifth_min.abs
+      end
     end
 
     def fifth_set_save(third_set, tailored, fifth_set)
