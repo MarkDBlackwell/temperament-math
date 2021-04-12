@@ -22,10 +22,11 @@
 
 ruby -W lib/TemperamentMath/Calculate/calculate.rb 6 -6
 
+diff test/fixture/combined.txt    out/output-p6-n6-combined.txt
+diff test/fixture/fifth.txt       out/output-p6-n6-fifth.txt
 diff test/fixture/main.txt        out/output-p6-n6-main.txt
+diff test/fixture/tailored.txt    out/output-p6-n6-tailored.txt
 diff test/fixture/thirdminor.txt  out/output-p6-n6-thirdminor.txt
 diff test/fixture/third.txt       out/output-p6-n6-third.txt
-diff test/fixture/fifth.txt       out/output-p6-n6-fifth.txt
-diff test/fixture/tailored.txt    out/output-p6-n6-tailored.txt
 
 ruby -W lib/TemperamentMath/Tuning/tuning.rb 4 [-1, 2, -1, 2, -1, 2, -2, 1, -2, 1, -2, 1] | diff test/fixture/tuning.txt -

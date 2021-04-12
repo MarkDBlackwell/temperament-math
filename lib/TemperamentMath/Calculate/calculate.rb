@@ -832,6 +832,7 @@ module TemperamentMath
               valid_level_2_third_11_min,
               third_11_min,
               ].max  &&
+          @@third_11 == @@third_10 - 1  &&
           @@third_5 <= [
               @@third_4 + fifth_span,
               third_5_max,
@@ -853,6 +854,7 @@ module TemperamentMath
               (3 - @@third_5) / 2,
               valid_level_3_third_9_min,
               ].max  &&
+          @@third_9 == @@third_11 - 1  &&
           @@third_3 <= [
               @@third_4 + fifth_span,
               (-3 - @@third_11) / 2,
