@@ -884,6 +884,8 @@ module TemperamentMath
               (1 - @@third_4) / 2,
               valid_level_4_third_12_min,
               ].max  &&
+          @@third_12 == @@third_9 - 1  &&
+          @@third_8 == @@third_12 - 1  &&
           @@third_6 <= [
               @@third_5 + fifth_span,
               - @@third_11 - @@third_3 + fifth_span,
