@@ -29,6 +29,13 @@ module TemperamentMath
       @@deciles ||= 11.times.to_a
     end
 
+    def fifth_g_excess
+      @@fifth_g_excess ||= begin
+        deviation = fifth_set.first * unit_cents
+        deviation - just_difference_cents_fifth
+      end
+    end
+
     def fifth_largest_excess
       @@fifth_largest_excess ||= begin
         deviation = fifth_set.max * unit_cents
@@ -87,7 +94,7 @@ module TemperamentMath
       end
 
       rounded = tuning_set.map{|e| e.round 5}
-      puts "#{rounded} #{third_major_flavor_strength_step * 10}% #{fifth_largest_excess.round 5}"
+      puts "#{rounded} #{third_major_flavor_strength_step * 10}% #{fifth_largest_excess.round 5} #{fifth_g_excess.round 5}"
       nil
     end
 
