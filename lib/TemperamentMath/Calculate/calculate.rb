@@ -405,10 +405,6 @@ module TemperamentMath
       @@third_10_min ||= (fifth_max * 2.9).round
     end
 
-    def third_11_min
-      @@third_11_min ||= (fifth_max * 2.7).round
-    end
-
     def third_4_max
       @@third_4_max ||= (fifth_min * 2.9).round
     end
@@ -832,58 +828,42 @@ module TemperamentMath
 
     def valid_level_2?
       true &&
-          @@third_11 >= [
-              @@third_10 - fifth_span,
-              valid_level_2_third_11_min,
-              third_11_min,
-              ].max  &&
           @@third_11 == @@third_10 - 1  &&
           @@third_5 <= [
               @@third_4 + fifth_span,
               third_5_max,
+              valid_level_2_third_5_max,
               ].min
     end
 
-    def valid_level_2_third_11_min
+    def valid_level_2_third_5_max
       difference_bottom = @@third_5  - @@third_4
       difference_top    = @@third_10 - @@third_11
       difference_max = [difference_bottom, difference_top].max
       difference_obligated = 4 * (difference_bottom + difference_top) + difference_max
-      @@third_5 + difference_obligated
+      @@third_11 - difference_obligated
     end
 
     def valid_level_3_6?
       true &&
-          @@third_9 >= [
-              @@third_10 - fifth_span,
-              (3 - @@third_5) / 2,
-              valid_level_3_third_9_min,
-              ].max  &&
           @@third_9 == @@third_11 - 1  &&
           @@third_3 <= [
               @@third_4 + fifth_span,
               (-3 - @@third_11) / 2,
+              valid_level_3_third_3_max,
               ].min
     end
 
-    def valid_level_3_third_9_min
+    def valid_level_3_third_3_max
       difference_bottom = @@third_3  - @@third_5
       difference_top    = @@third_11 - @@third_9
       difference_max = [difference_bottom, difference_top].max
       difference_obligated = 3 * (difference_bottom + difference_top) + difference_max
-      @@third_3 + difference_obligated
+      @@third_9 - difference_obligated
     end
 
     def valid_level_4_5?
       true &&
-          @@third_12 >= [
-              @@third_11 - fifth_span,
-              - @@third_4 - @@third_9 - fifth_span,
-              - @@third_5 - @@third_9 - fifth_span,
-              @@third_11 + @@third_3 - @@third_4 - fifth_span,
-              (1 - @@third_4) / 2,
-              valid_level_4_third_12_min,
-              ].max  &&
           @@third_12 == @@third_9 - 1  &&
           @@third_8 == @@third_12 - 1  &&
           @@third_6 <= [
@@ -892,15 +872,16 @@ module TemperamentMath
               - @@third_10 - @@third_3 + fifth_span,
               - @@third_10 + @@third_5 + @@third_9 + fifth_span,
               (-1 - @@third_10) / 2,
+              valid_level_4_third_6_max,
               ].min
     end
 
-    def valid_level_4_third_12_min
+    def valid_level_4_third_6_max
       difference_bottom = @@third_6 - @@third_3
       difference_top    = @@third_9 - @@third_12
       difference_max = [difference_bottom, difference_top].max
       difference_obligated = 2 * (difference_bottom + difference_top) + difference_max
-      @@third_6 + difference_obligated
+      @@third_12 - difference_obligated
     end
   end
 end
