@@ -305,7 +305,10 @@ module TemperamentMath
     def output_raw_delete
       @@output_raw.each do |filename, handle|
         handle.close
-        ::File.delete filename
+        begin
+          ::File.delete filename
+        rescue
+        end
       end
       nil
     end
