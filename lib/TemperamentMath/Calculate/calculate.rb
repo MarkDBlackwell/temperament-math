@@ -129,7 +129,7 @@ module TemperamentMath
       end
     end
 
-    def fifth_set_save(third_set, tailored, fifth_set)
+    def fifth_set_save(third_set, fifth_set)
       return unless fifths_justified? fifth_set
       return unless fifth_large_enough_1? fifth_set
       return unless fifth_similar_enough_2_3_4? fifth_set
@@ -138,7 +138,7 @@ module TemperamentMath
       minors = third_minor_set fifth_set
       return unless minors.uniq.length == octave_size
       return unless slope_good? minors, thirds_minor_half_top, thirds_minor_half_bottom
-      third_set_write third_set, tailored
+      third_set_write third_set
       @@fifth_sets_length += 1
       out_third_minor.puts "#{@@fifth_sets_length} #{minors}"
       out_third_minor.flush
@@ -172,7 +172,7 @@ module TemperamentMath
         when 2
           next unless fifth_sets_build_calculate offset, third_set, tailored, fifth_set
           next unless fifths_make_thirds? fifth_set, third_set
-          fifth_set_save third_set, tailored, fifth_set
+          fifth_set_save third_set, fifth_set
         else
           ::Kernel.fail
         end
@@ -292,10 +292,6 @@ module TemperamentMath
 
     def out_progress_raw
       @@out_progress_raw ||= open 'progress-raw'
-    end
-
-    def out_tailored
-      @@out_tailored ||= open 'tailored'
     end
 
     def out_third
@@ -562,14 +558,12 @@ module TemperamentMath
       nil
     end
 
-    def third_set_write(third_set, tailored)
+    def third_set_write(third_set)
       unless @@third_set_written
         @@third_set_written = true
         @@third_sets_length += 1
         out_third.puts "#{@@third_sets_length} #{third_set}"
         out_third.flush
-        out_tailored.puts "#{@@third_sets_length} #{tailored}"
-        out_tailored.flush
         out_fifth.puts "(Makes third set #{@@third_sets_length}):"
         out_fifth.flush
       end
