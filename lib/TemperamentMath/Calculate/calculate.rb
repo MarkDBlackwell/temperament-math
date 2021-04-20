@@ -577,43 +577,20 @@ module TemperamentMath
     end
 
     def third_sets_build_level_1
-# Crawl disjointedly from both ends.
       state = :initial
       while true
         case state
         when :initial
-          state = :small
-          start_top = third_max
-          @@third_10, third_edge_large = start_top, start_top
-          start_bottom = third_4_calculated
-          @@third_4, third_edge_small = start_bottom, start_bottom
+          state = :large
+          @@third_10 = third_max
+          @@third_4 = third_4_calculated
           break unless valid_level_1?
           progress_track
-        when :small
-          @@third_4 += 1
-          unless valid_level_1?
-            state = :large
-            @@third_4 = third_edge_small
-            third_edge_large -= 1
-            @@third_10 = [
-                third_edge_large,
-                @@third_4 + fifth_span_times_six,
-                ].min
-            break unless valid_level_1?
-          end
         when :large
           @@third_10 -= 1
-          unless valid_level_1?
-            state = :small
-            @@third_10 = third_edge_large
-            third_edge_small += 1
-            @@third_4 = [
-                third_edge_small,
-                @@third_10 - fifth_span_times_six,
-                ].max
-            break unless valid_level_1?
-            progress_track
-          end
+          @@third_4 = third_4_calculated
+          break unless valid_level_1?
+          progress_track
         end
         third_sets_build_level_2
       end
@@ -621,6 +598,7 @@ module TemperamentMath
     end
 
     def third_sets_build_level_2
+# Crawl disjointedly from both ends.
       state = :initial
       while true
         case state
@@ -822,7 +800,7 @@ module TemperamentMath
               @@third_4 + octave_size - 1,
               third_10_min,
               ].max  &&
-#         @@third_4 == third_4_calculated  &&  # TODO: make this work.
+          @@third_4 == third_4_calculated  &&
           @@third_4 <= third_4_max
     end
 
