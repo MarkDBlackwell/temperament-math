@@ -32,6 +32,10 @@ module TemperamentMath
   module Calculate
     extend self
 
+    def arguments_valid?
+      @@arguments_valid ||= 2 == ARGV.length
+    end
+
     def delimit(n)
       n.to_s.gsub delimit_regexp, ','
     end
@@ -67,15 +71,15 @@ module TemperamentMath
     end
 
     def fifth_large_enough_1?(fifth_set)
-      third_smallest_fifths_max(fifth_set) == fifth_set.at(0)
+      fifth_set.first == third_smallest_fifths_max(fifth_set)
     end
 
     def fifth_max
-      @@fifth_max ||= (2 != ARGV.length) ?  2 : ARGV.first.to_i
+      @@fifth_max ||= ARGV.first.to_i
     end
 
     def fifth_min
-      @@fifth_min ||= (2 != ARGV.length) ? -2 : ARGV.last.to_i
+      @@fifth_min ||= ARGV.last.to_i
     end
 
     def fifth_range
@@ -376,6 +380,11 @@ module TemperamentMath
 
     def run_calculate
       program_announce
+      unless arguments_valid?
+        puts
+        puts "Error: Invalid arguments: \`#{ARGV.join ' '}'."
+        return
+      end
       unless fifth_range_valid?
         puts
         puts "Error: Invalid fifth range: #{fifth_range}."
