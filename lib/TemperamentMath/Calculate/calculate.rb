@@ -314,13 +314,9 @@ module TemperamentMath
       prime_factors_memo[n]
     end
 
-    def prime_factors_generator
-      ::Prime::EratosthenesGenerator.new
-    end
-
     def prime_factors_memo
       @@prime_factors_memo ||= ::Hash.new do |hash, key|
-        a = ::Prime.prime_division key, prime_factors_generator
+        a = ::Prime.prime_division key
         hash[key] = a.empty? ? a : (a.map &:first)
       end
     end
