@@ -206,22 +206,6 @@ module TemperamentMath
       @@fifth_span ||= fifth_max - fifth_min
     end
 
-    def fifth_span_times_five
-      @@fifth_span_times_five ||= fifth_span * 5
-    end
-
-    def fifth_span_times_four
-      @@fifth_span_times_four ||= fifth_span * 4
-    end
-
-    def fifth_span_times_six
-      @@fifth_span_times_six ||= fifth_span * 6
-    end
-
-    def fifth_span_times_three
-      @@fifth_span_times_three ||= fifth_span * 3
-    end
-
     def fifths_are_a_multiple?(fifth_set)
       return false if fifth_extremes_have_prime? # Elsewhere, the inclusion of fifth extremes is required.
       clean = fifth_set.map(&:abs).reject(&:zero?).uniq
@@ -402,7 +386,8 @@ module TemperamentMath
     end
 
     def third_4_calculated
-      - (@@third_10 * 2 - 7)
+# Level 1 from 1:
+      - @@third_10 * 2 + 7
     end
 
     def third_5_max
@@ -410,22 +395,26 @@ module TemperamentMath
     end
 
     def third_build_1
-      @@third_1 = - (@@third_5 + @@third_9)
+# Level 6 from 2 and 1:
+      @@third_1 = - (@@third_5 + @@third_10 - 2)
       nil
     end
 
     def third_build_2
+# Level 5 from 4 and 1:
       @@third_2 = - (@@third_6 + @@third_10)
       nil
     end
 
     def third_build_7
-      @@third_7 = - (@@third_3 + @@third_11)
+# Level 6 from 3 and 1:
+      @@third_7 = - (@@third_3 + @@third_10 - 1)
       nil
     end
 
-    def third_build_8
-      @@third_8 = - (@@third_4 + @@third_12)
+    def third_build_largest(high)
+      array = 5.times.map {|i| high - i}
+      @@third_10, @@third_11, @@third_9, @@third_12, @@third_8 = array
       nil
     end
 
@@ -581,12 +570,12 @@ module TemperamentMath
         case state
         when :initial
           state = :large
-          @@third_10 = third_max
+          third_build_largest third_max
           @@third_4 = third_4_calculated
           break unless valid_level_1?
           progress_track
         when :large
-          @@third_10 -= 1
+          third_build_largest @@third_10 - 1
           @@third_4 = third_4_calculated
           break unless valid_level_1?
           progress_track
@@ -597,43 +586,17 @@ module TemperamentMath
     end
 
     def third_sets_build_level_2
-# Crawl disjointedly from both ends.
       state = :initial
       while true
         case state
         when :initial
           state = :small
-          start_top = @@third_10 - 1
-          @@third_11, third_edge_large = start_top, start_top
           start_bottom = @@third_4 + 1
-          @@third_5, third_edge_small = start_bottom, start_bottom
+          @@third_5 = start_bottom
           break unless valid_level_2?
         when :small
           @@third_5 += 1
-          unless valid_level_2?
-            state = :large
-            @@third_5 = third_edge_small
-            third_edge_large -= 1
-            @@third_11 = [
-                third_edge_large,
-                @@third_5 + fifth_span_times_six,
-                @@third_4 + fifth_span_times_five,
-                ].min
-            break unless valid_level_2?
-          end
-        when :large
-          @@third_11 -= 1
-          unless valid_level_2?
-            state = :small
-            @@third_11 = third_edge_large
-            third_edge_small += 1
-            @@third_5 = [
-                third_edge_small,
-                @@third_11 - fifth_span_times_six,
-                @@third_10 - fifth_span_times_five,
-                ].max
-            break unless valid_level_2?
-          end
+          break unless valid_level_2?
         end
         third_sets_build_level_3_6
       end
@@ -646,47 +609,15 @@ module TemperamentMath
         case state
         when :initial
           state = :small
-          start_top = 2 * @@third_11 - @@third_10
-          @@third_9, third_edge_large = start_top, start_top
           start_bottom = 2 * @@third_5  - @@third_4
-          @@third_3, third_edge_small = start_bottom, start_bottom
+          @@third_3 = start_bottom
           third_build_7
           third_build_1
           break unless valid_level_3_6?
         when :small
           @@third_3 += 1
           third_build_7
-          unless valid_level_3_6?
-            state = :large
-            @@third_3 = third_edge_small
-            third_build_7
-            third_edge_large -= 1
-            @@third_9 = [
-                third_edge_large,
-                @@third_3 + fifth_span_times_six,
-                @@third_4 + fifth_span_times_five,
-                @@third_5 + fifth_span_times_four,
-                ].min
-            third_build_1
-            break unless valid_level_3_6?
-          end
-        when :large
-          @@third_9 -= 1
-          third_build_1
-          unless valid_level_3_6?
-            state = :small
-            @@third_9 = third_edge_large
-            third_build_1
-            third_edge_small += 1
-            @@third_3 = [
-                third_edge_small,
-                @@third_9  - fifth_span_times_six,
-                @@third_10 - fifth_span_times_five,
-                @@third_11 - fifth_span_times_four,
-                ].max
-            third_build_7
-            break unless valid_level_3_6?
-          end
+          break unless valid_level_3_6?
         end
         third_sets_build_level_4_5
       end
@@ -699,50 +630,15 @@ module TemperamentMath
         case state
         when :initial
           state = :small
-          start_top = 2 * @@third_9 - @@third_11
-          @@third_12, third_edge_large = start_top, start_top
           start_bottom = 2 * @@third_3 - @@third_5
-          @@third_6, third_edge_small = start_bottom, start_bottom
+          @@third_6 = start_bottom
           third_build_2
-          third_build_8
 # Levels 5 and 6 go in and out of validity.
           break unless valid_level_4_5?
         when :small
           @@third_6 += 1
           third_build_2
-          unless valid_level_4_5?
-            state = :large
-            @@third_6 = third_edge_small
-            third_build_2
-            third_edge_large -= 1
-            @@third_12 = [
-                third_edge_large,
-                @@third_6 + fifth_span_times_six,
-                @@third_5 + fifth_span_times_five,
-                @@third_4 + fifth_span_times_four,
-                @@third_3 + fifth_span_times_three,
-                ].min
-            third_build_8
-            break unless valid_level_4_5?
-          end
-        when :large
-          @@third_12 -= 1
-          third_build_8
-          unless valid_level_4_5?
-            state = :small
-            @@third_12 = third_edge_large
-            third_build_8
-            third_edge_small += 1
-            @@third_6 = [
-                third_edge_small,
-                @@third_12 - fifth_span_times_six,
-                @@third_11 - fifth_span_times_five,
-                @@third_10 - fifth_span_times_four,
-                @@third_9  - fifth_span_times_three,
-                ].max
-            third_build_2
-            break unless valid_level_4_5?
-          end
+          break unless valid_level_4_5?
         end
         third_set_check_fifth_sets_build
       end
