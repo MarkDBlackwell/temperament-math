@@ -402,10 +402,6 @@ module TemperamentMath
       - (@@third_10 * 2 - 7)
     end
 
-    def third_4_max
-      @@third_4_max ||= (fifth_min * 2.9).round
-    end
-
     def third_5_max
       @@third_5_max ||= (fifth_min * 2.4).round
     end
@@ -796,12 +792,11 @@ module TemperamentMath
 
     def valid_level_1?
       true &&
+          @@third_4 == third_4_calculated  &&
           @@third_10 >= [
               @@third_4 + octave_size - 1,
               third_10_min,
-              ].max  &&
-          @@third_4 == third_4_calculated  &&
-          @@third_4 <= third_4_max
+              ].max
     end
 
     def valid_level_2?
