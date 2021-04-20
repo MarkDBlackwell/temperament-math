@@ -60,8 +60,8 @@ module TemperamentMath
       @@fifth_extremes ||= [fifth_min, fifth_max]
     end
 
-    def fifth_extremes_has_prime?
-      @@fifth_extremes_has_prime ||= begin
+    def fifth_extremes_have_prime?
+      @@fifth_extremes_have_prime ||= begin
         absolute = fifth_extremes.map &:abs
         factors = absolute.map {|e| prime_factors e}
         absolute.zip(factors).any? do |fifth, prime_list|
@@ -150,7 +150,7 @@ module TemperamentMath
     end
 
     def fifth_sets_build_calculate(offset, third_set, tailored, fifth_set)
-      i, j, k = transpose group, offset + 3
+      i, j, k = transpose ring, offset + 3
 # Calculate three fifths:
       fifth_set[i] = third_set.at(i) - get_in_circle(fifth_set, i - 1) - get_in_circle(fifth_set, i - 2) - get_in_circle(fifth_set, i - 3)
       fifth_set[j] = third_set.at(j) - get_in_circle(third_set, j - 1) + fifth_set.at(i)
@@ -159,7 +159,7 @@ module TemperamentMath
     end
 
     def fifth_sets_build_part(level, offset, third_set, tailored, fifth_set)
-      i, j, k = transpose group, offset + level
+      i, j, k = transpose ring, offset + level
 # Pick a fifth; calculate two other fifths:
       tailored.at(i).each do |fifth|
         fifth_set[i] = fifth
@@ -199,7 +199,7 @@ module TemperamentMath
 
     def fifth_small_enough_11_12?(fifth_set)
       minimum = third_largest_fifths_min fifth_set
-      [10, 11].all? {|i| fifth_set.at(i) <= minimum}
+      [11, 12].map(&:pred).all? {|i| fifth_set.at(i) <= minimum}
     end
 
     def fifth_span
@@ -223,7 +223,7 @@ module TemperamentMath
     end
 
     def fifths_are_a_multiple?(fifth_set)
-      return false if fifth_extremes_has_prime? # Elsewhere, the inclusion of fifth extremes is required.
+      return false if fifth_extremes_have_prime? # Elsewhere, the inclusion of fifth extremes is required.
       clean = fifth_set.map(&:abs).reject(&:zero?).uniq
       memo = prime_factors clean.first
       not clean.any? do |fifth|
@@ -244,19 +244,15 @@ module TemperamentMath
     end
 
     def fifths_make_thirds_indexes
-      @@fifths_make_thirds_indexes ||= octave_enum.map do |falling|
+      @@fifths_make_thirds_indexes ||= octave_enum.map do |highest|
         third_major_enum.map do |i|
-          (falling - i) % octave_size
+          (highest - i) % octave_size
         end
       end
     end
 
     def get_in_circle(array, index)
       array.at(index % octave_size)
-    end
-
-    def group
-      @@group ||= [0, 4, 8]
     end
 
     def octave_enum
@@ -376,6 +372,10 @@ module TemperamentMath
       out.puts '* And corresponding tuning sets, indicating the positions of'
       out.puts '      C# D D# E F F# G G# A A# B C'
       nil
+    end
+
+    def ring
+      @@ring ||= [0, 4, 8]
     end
 
     def run_calculate
