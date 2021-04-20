@@ -302,14 +302,6 @@ module TemperamentMath
       @@out_third_minor ||= open 'thirdminor'
     end
 
-    def out_third_raw
-      @@out_third_raw ||= open 'third-raw'
-    end
-
-    def out_tuning
-      @@out_tuning ||= open 'tuning'
-    end
-
     def output_raw_delete
       @@output_raw.each do |filename, handle|
         handle.close
