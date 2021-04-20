@@ -58,9 +58,9 @@ module TemperamentMath
 
     def fifth_extremes_has_prime?
       @@fifth_extremes_has_prime ||= begin
-        clean = fifth_extremes.map &:abs
-        factors = clean.map {|e| prime_factors e}
-        clean.zip(factors).any? do |fifth, prime_list|
+        absolute = fifth_extremes.map &:abs
+        factors = absolute.map {|e| prime_factors e}
+        absolute.zip(factors).any? do |fifth, prime_list|
           [fifth] == prime_list
         end
       end
@@ -121,7 +121,7 @@ module TemperamentMath
         true &&
             fifth_min.negative?  &&
             fifth_max.positive?  &&
-            fifth_max.abs <= fifth_min.abs
+            fifth_min.abs >= fifth_max
       end
     end
 
@@ -199,23 +199,23 @@ module TemperamentMath
     end
 
     def fifth_span
-      @@fifth_span ||= (fifth_max - fifth_min).abs
+      @@fifth_span ||= fifth_max - fifth_min
     end
 
-    def fifth_span_five
-      @@fifth_span_five ||= fifth_span * 5
+    def fifth_span_times_five
+      @@fifth_span_times_five ||= fifth_span * 5
     end
 
-    def fifth_span_four
-      @@fifth_span_four ||= fifth_span * 4
+    def fifth_span_times_four
+      @@fifth_span_times_four ||= fifth_span * 4
     end
 
-    def fifth_span_six
-      @@fifth_span_six ||= fifth_span * 6
+    def fifth_span_times_six
+      @@fifth_span_times_six ||= fifth_span * 6
     end
 
-    def fifth_span_three
-      @@fifth_span_three ||= fifth_span * 3
+    def fifth_span_times_three
+      @@fifth_span_times_three ||= fifth_span * 3
     end
 
     def fifths_are_a_multiple?(fifth_set)
@@ -600,7 +600,7 @@ module TemperamentMath
             third_edge_large -= 1
             @@third_10 = [
                 third_edge_large,
-                @@third_4 + fifth_span_six,
+                @@third_4 + fifth_span_times_six,
                 ].min
             break unless valid_level_1?
           end
@@ -612,7 +612,7 @@ module TemperamentMath
             third_edge_small += 1
             @@third_4 = [
                 third_edge_small,
-                @@third_10 - fifth_span_six,
+                @@third_10 - fifth_span_times_six,
                 ].max
             break unless valid_level_1?
             progress_track
@@ -640,8 +640,8 @@ module TemperamentMath
             third_edge_large -= 1
             @@third_11 = [
                 third_edge_large,
-                @@third_5 + fifth_span_six,
-                @@third_4 + fifth_span_five,
+                @@third_5 + fifth_span_times_six,
+                @@third_4 + fifth_span_times_five,
                 ].min
             break unless valid_level_2?
           end
@@ -653,8 +653,8 @@ module TemperamentMath
             third_edge_small += 1
             @@third_5 = [
                 third_edge_small,
-                @@third_11 - fifth_span_six,
-                @@third_10 - fifth_span_five,
+                @@third_11 - fifth_span_times_six,
+                @@third_10 - fifth_span_times_five,
                 ].max
             break unless valid_level_2?
           end
@@ -687,9 +687,9 @@ module TemperamentMath
             third_edge_large -= 1
             @@third_9 = [
                 third_edge_large,
-                @@third_3 + fifth_span_six,
-                @@third_4 + fifth_span_five,
-                @@third_5 + fifth_span_four,
+                @@third_3 + fifth_span_times_six,
+                @@third_4 + fifth_span_times_five,
+                @@third_5 + fifth_span_times_four,
                 ].min
             third_build_1
             break unless valid_level_3_6?
@@ -704,9 +704,9 @@ module TemperamentMath
             third_edge_small += 1
             @@third_3 = [
                 third_edge_small,
-                @@third_9  - fifth_span_six,
-                @@third_10 - fifth_span_five,
-                @@third_11 - fifth_span_four,
+                @@third_9  - fifth_span_times_six,
+                @@third_10 - fifth_span_times_five,
+                @@third_11 - fifth_span_times_four,
                 ].max
             third_build_7
             break unless valid_level_3_6?
@@ -741,10 +741,10 @@ module TemperamentMath
             third_edge_large -= 1
             @@third_12 = [
                 third_edge_large,
-                @@third_6 + fifth_span_six,
-                @@third_5 + fifth_span_five,
-                @@third_4 + fifth_span_four,
-                @@third_3 + fifth_span_three,
+                @@third_6 + fifth_span_times_six,
+                @@third_5 + fifth_span_times_five,
+                @@third_4 + fifth_span_times_four,
+                @@third_3 + fifth_span_times_three,
                 ].min
             third_build_8
             break unless valid_level_4_5?
@@ -759,10 +759,10 @@ module TemperamentMath
             third_edge_small += 1
             @@third_6 = [
                 third_edge_small,
-                @@third_12 - fifth_span_six,
-                @@third_11 - fifth_span_five,
-                @@third_10 - fifth_span_four,
-                @@third_9  - fifth_span_three,
+                @@third_12 - fifth_span_times_six,
+                @@third_11 - fifth_span_times_five,
+                @@third_10 - fifth_span_times_four,
+                @@third_9  - fifth_span_times_three,
                 ].max
             third_build_2
             break unless valid_level_4_5?
@@ -782,7 +782,7 @@ module TemperamentMath
     end
 
     def third_span
-      @@third_span ||= (third_max - third_min).abs
+      @@third_span ||= third_max - third_min
     end
 
     def thirds_half_bottom
