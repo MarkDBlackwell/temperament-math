@@ -398,6 +398,10 @@ module TemperamentMath
       @@third_10_min ||= (fifth_max * 2.9).round
     end
 
+    def third_4_calculated
+      - (@@third_10 * 2 - 7)
+    end
+
     def third_4_max
       @@third_4_max ||= (fifth_min * 2.9).round
     end
@@ -579,7 +583,11 @@ module TemperamentMath
         case state
         when :initial
           state = :small
+#         start_bottom = third_4_calculated
+#         @@third_4,  third_edge_small = start_bottom, start_bottom
           @@third_4,  third_edge_small = third_min, third_min
+#         start_top = third_max
+#         @@third_10, third_edge_large = start_top, start_top
           @@third_10, third_edge_large = third_max, third_max
           break unless valid_level_1?
           progress_track
@@ -620,7 +628,11 @@ module TemperamentMath
         case state
         when :initial
           state = :small
+#         start_bottom = @@third_4 + 1
+#         @@third_5,  third_edge_small = start_bottom, start_bottom
           @@third_5,  third_edge_small = @@third_4  + 1, @@third_4  + 1
+#         start_top = @@third_10 - 1
+#         @@third_11, third_edge_large = start_top, start_top
           @@third_11, third_edge_large = @@third_10 - 1, @@third_10 - 1
           break unless valid_level_2?
         when :small
@@ -810,6 +822,7 @@ module TemperamentMath
 
     def valid_level_1?
       true &&
+#         @@third_4 == third_4_calculated  &&
           @@third_10 >= [
               @@third_4 + octave_size - 1,
               third_10_min,
