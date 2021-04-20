@@ -311,7 +311,7 @@ module TemperamentMath
     end
 
     def prime_factors(n)
-      prime_factors_memo[n]
+      prime_factors_memo[n] # Method 'fetch' doesn't work, here.
     end
 
     def prime_factors_memo
@@ -407,22 +407,22 @@ module TemperamentMath
     end
 
     def third_build_1
-      @@third_1 = - @@third_5  - @@third_9
+      @@third_1 = - (@@third_5 + @@third_9)
       nil
     end
 
     def third_build_2
-      @@third_2 = - @@third_10 - @@third_6
+      @@third_2 = - (@@third_6 + @@third_10)
       nil
     end
 
     def third_build_7
-      @@third_7 = - @@third_11 - @@third_3
+      @@third_7 = - (@@third_3 + @@third_11)
       nil
     end
 
     def third_build_8
-      @@third_8 = - @@third_4 - @@third_12
+      @@third_8 = - (@@third_4 + @@third_12)
       nil
     end
 
