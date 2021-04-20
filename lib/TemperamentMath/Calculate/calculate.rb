@@ -818,11 +818,11 @@ module TemperamentMath
 
     def valid_level_1?
       true &&
-#         @@third_4 == third_4_calculated  &&
           @@third_10 >= [
               @@third_4 + octave_size - 1,
               third_10_min,
               ].max  &&
+#         @@third_4 == third_4_calculated  &&  # TODO: make this work.
           @@third_4 <= third_4_max
     end
 
