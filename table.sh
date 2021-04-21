@@ -21,14 +21,8 @@
 #--------------
 
 set -e
-#positive=66
-positive=$1
-start=`ruby -e "p (2.37 * $positive).floor"`
-end=`  ruby -e "p (2.42 * $positive).ceil"`
-echo Running from -$start through -$end
-for second in $(seq $start $end); do
-  negative=-$second
-  echo $negative $positive
-  date; nice ruby lib/TemperamentMath/Calculate/calculate.rb $positive $negative > /dev/null; date
+for positive in $(seq $1 $2); do
+  start=`ruby -e "p (2.37 * $positive).floor"`
+  end=`  ruby -e "p (2.42 * $positive).ceil"`
+  echo $positive : -$start through -$end
 done
-echo '            ' Done $positive
