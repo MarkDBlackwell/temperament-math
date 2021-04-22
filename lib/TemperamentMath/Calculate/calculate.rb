@@ -70,10 +70,6 @@ module TemperamentMath
       end
     end
 
-    def fifth_large_enough_1?(fifth_set)
-      fifth_set.first == third_smallest_fifths_max(fifth_set)
-    end
-
     def fifth_max
       @@fifth_max ||= ARGV.first.to_i
     end
@@ -131,9 +127,6 @@ module TemperamentMath
 
     def fifth_set_save(third_set, fifth_set)
       return unless fifths_justified? fifth_set
-      return unless fifth_large_enough_1? fifth_set
-      return unless fifth_similar_enough_2_3_4? fifth_set
-      return unless fifth_small_enough_11_12? fifth_set
       return if fifths_are_a_multiple? fifth_set
       minors = third_minor_set fifth_set
       return unless minors.uniq.length == octave_size
@@ -180,28 +173,6 @@ module TemperamentMath
       nil
     end
 
-    def fifth_similar_enough_2_3_4?(fifth_set)
-      values = fifth_set.values_at(*fifth_similar_enough_2_3_4_enum)
-      variance = values.max - values.min
-      variance <= fifth_similar_enough_2_3_4_target
-    end
-
-    def fifth_similar_enough_2_3_4_enum
-      @@fifth_similar_enough_2_3_4_enum ||= third_smallest_enum.drop(1).to_enum
-    end
-
-    def fifth_similar_enough_2_3_4_target
-      @@fifth_similar_enough_2_3_4_target ||= begin
-        fraction = 0.2
-        (fifth_min.abs * fraction).round.to_i
-      end
-    end
-
-    def fifth_small_enough_11_12?(fifth_set)
-      minimum = third_largest_fifths_min fifth_set
-      [11, 12].map(&:pred).all? {|i| fifth_set.at(i) <= minimum}
-    end
-
     def fifth_span
       @@fifth_span ||= fifth_max - fifth_min
     end
@@ -245,10 +216,6 @@ module TemperamentMath
 
     def octave_size
       12
-    end
-
-    def octave_size_half
-      @@octave_size_half ||= octave_size / 2
     end
 
     def open(name)
@@ -421,16 +388,6 @@ module TemperamentMath
       array = 5.times.map {|i| high - i}
       @@third_10, @@third_11, @@third_9, @@third_12, @@third_8 = array
       nil
-    end
-
-    def third_largest_enum
-      @@third_largest_enum ||= third_smallest_enum.map do |i|
-        (i + octave_size_half) % octave_size
-      end.to_enum
-    end
-
-    def third_largest_fifths_min(fifth_set)
-      fifth_set.values_at(*third_largest_enum).min
     end
 
     def third_major_enum
@@ -648,14 +605,6 @@ module TemperamentMath
         third_set_check_fifth_sets_build
       end
       nil
-    end
-
-    def third_smallest_enum
-      @@third_smallest_enum ||= third_major_enum
-    end
-
-    def third_smallest_fifths_max(fifth_set)
-      fifth_set.values_at(*third_smallest_enum).max
     end
 
     def third_span
