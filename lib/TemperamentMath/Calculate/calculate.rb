@@ -349,7 +349,7 @@ module TemperamentMath
     end
 
     def third_10_min
-      @@third_10_min ||= (fifth_max * 2.9).round
+      @@third_10_min ||= third_max - 1
     end
 
     def third_4_calculated
@@ -532,7 +532,7 @@ module TemperamentMath
         case state
         when :initial
           state = :large
-          third_build_largest third_max
+          third_build_largest third_max - 1
           third_build_4
           break unless valid_level_1?
           progress_track
