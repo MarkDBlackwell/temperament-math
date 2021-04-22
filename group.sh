@@ -29,6 +29,6 @@ echo Running from -$start through -$end
 for second in $(seq $start $end); do
   negative=-$second
   echo $negative $positive
-  date; nice ruby lib/TemperamentMath/Calculate/calculate.rb $positive $negative > /dev/null; date
+  nice ruby lib/TemperamentMath/Calculate/calculate.rb $positive $negative > /dev/null
 done
 echo '            ' Done $positive
