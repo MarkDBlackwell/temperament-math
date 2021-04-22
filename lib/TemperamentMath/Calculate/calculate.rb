@@ -284,7 +284,7 @@ module TemperamentMath
     end
 
     def progress_track
-      out_progress_raw.puts @@third_4
+      out_progress_raw.puts @@third_5
       out_progress_raw.flush
       nil
     end
@@ -348,15 +348,6 @@ module TemperamentMath
       end
     end
 
-    def third_10_min
-      @@third_10_min ||= third_max - 1
-    end
-
-    def third_4_calculated
-# Level 1 from 1:
-      - @@third_10 * 2 + 7
-    end
-
     def third_5_max
       @@third_5_max ||= (fifth_min * 2.4).round
     end
@@ -374,7 +365,8 @@ module TemperamentMath
     end
 
     def third_build_4
-      @@third_4 = third_4_calculated
+# Level 1 from 1:
+      @@third_4 = 7 - @@third_10 * 2
       nil
     end
 
@@ -527,23 +519,9 @@ module TemperamentMath
     end
 
     def third_sets_build_level_1
-      state = :initial
-      while true
-        case state
-        when :initial
-          state = :large
-          third_build_largest third_max - 1
-          third_build_4
-          break unless valid_level_1?
-          progress_track
-        when :large
-          third_build_largest @@third_10 - 1
-          third_build_4
-          break unless valid_level_1?
-          progress_track
-        end
-        third_sets_build_level_2
-      end
+      third_build_largest third_max - 1
+      third_build_4
+      third_sets_build_level_2
       nil
     end
 
@@ -556,9 +534,11 @@ module TemperamentMath
           start_bottom = @@third_4 + 1
           @@third_5 = start_bottom
           break unless valid_level_2?
+          progress_track
         when :small
           @@third_5 += 1
           break unless valid_level_2?
+          progress_track
         end
         third_sets_build_level_3_6
       end
@@ -641,12 +621,6 @@ module TemperamentMath
       indexes.map do |i|
         (i + offset) % octave_size
       end
-    end
-
-    def valid_level_1?
-      true &&
-          @@third_4 == third_4_calculated  &&
-          @@third_10 >= third_10_min
     end
 
     def valid_level_2?
