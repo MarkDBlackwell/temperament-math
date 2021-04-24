@@ -139,6 +139,7 @@ module TemperamentMath
       out_fifth.flush
       out_combined.puts "#{fifth_set}   #{third_set}"
       out_combined.flush
+      @@solution_found = true
       nil
     end
 
@@ -318,10 +319,12 @@ module TemperamentMath
         puts "Error: Invalid fifth range: #{fifth_range}."
         return
       end
+      @@solution_found = false
       out.puts "A range #{fifth_range} of fifths produces:"
       out.flush
       third_sets_build
       report
+      ::Kernel.exit 1 unless @@solution_found
       nil
     end
 
