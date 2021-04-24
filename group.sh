@@ -27,7 +27,7 @@ end=`  ruby -e "p (2.417 * $positive).floor"`
 echo $positive: Running from -$start through -$end
 for second in $(seq $start -1 $end); do
   negative=-$second
-  echo $negative $positive
+  echo $positive $negative
   if nice ruby lib/TemperamentMath/Calculate/calculate.rb $positive $negative > /dev/null
   then
     break
