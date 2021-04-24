@@ -143,6 +143,16 @@ module TemperamentMath
       nil
     end
 
+    def fifth_sets_build(third_set)
+      @@third_set_written = false
+      fifth_set = ::Array.new octave_size
+      tailored = fifth_range_tailored_construct third_set
+      offset = fifth_range_tailored_offset_optimum tailored
+      level = 0
+      fifth_sets_build_part level, offset, third_set, tailored, fifth_set
+      nil
+    end
+
     def fifth_sets_build_calculate(offset, third_set, tailored, fifth_set)
       i, j, k = transpose ring, offset + 3
 # Calculate three fifths:
@@ -471,12 +481,7 @@ module TemperamentMath
       return unless slope_good? third_set, thirds_half_top, thirds_half_bottom
       return unless third_set.uniq.length == octave_size
       return unless third_set_check third_set
-      @@third_set_written = false
-      fifth_set = ::Array.new octave_size
-      tailored = fifth_range_tailored_construct third_set
-      offset = fifth_range_tailored_offset_optimum tailored
-      level = 0
-      fifth_sets_build_part level, offset, third_set, tailored, fifth_set
+      fifth_sets_build third_set
       nil
     end
 
