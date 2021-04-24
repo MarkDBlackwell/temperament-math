@@ -441,10 +441,10 @@ module TemperamentMath
               2 * @@third_6 - @@third_3,
               ].max  &&
           @@third_7  >= [
-              @@third_8 - fifth_span,
+              @@third_10 - 4 - fifth_span,
               2 * @@third_2 - @@third_6,
               ].max  &&
-          @@third_1  >=  @@third_12 - fifth_span  &&
+          @@third_1  >=  @@third_10 - 3 - fifth_span  &&
 
           @@third_1  <= [
               @@third_2 + fifth_span,
@@ -458,15 +458,13 @@ module TemperamentMath
 
     def third_set_check_5_part
       difference_bottom = @@third_2  - @@third_6
-      difference_top    = @@third_12 - @@third_8
-      difference_max = [difference_bottom, difference_top].max
-      difference_obligated = difference_bottom + difference_top + difference_max
-      @@third_8 >= @@third_2 + difference_obligated
+      difference_obligated = 2 * difference_bottom + 5
+      @@third_2 <= @@third_10 - difference_obligated
     end
 
     def third_set_check_6_part
       difference_bottom = @@third_7  - @@third_2
-      difference_top    = @@third_8  - @@third_1
+      difference_top    = @@third_10 - @@third_1 - 4
       difference_obligated = [difference_bottom, difference_top].max
       @@third_1 >= @@third_7 + difference_obligated
     end
