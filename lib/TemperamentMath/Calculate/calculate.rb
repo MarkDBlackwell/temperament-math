@@ -434,16 +434,11 @@ module TemperamentMath
               @@third_8 - fifth_span,
               2 * @@third_2 - @@third_6,
               ].max  &&
-          @@third_8  >=  @@third_9  - fifth_span  &&
           @@third_1  >=  @@third_12 - fifth_span  &&
 
-          @@third_8  <= [
-              @@third_7 + fifth_span,
-              2 * @@third_12 - @@third_9,
-              ].min  &&
           @@third_1  <= [
               @@third_2 + fifth_span,
-              2 * @@third_8 - @@third_12,
+              @@third_10 - 5,
               ].min  &&
           @@third_2  <=  @@third_3  + fifth_span  &&
           @@third_7  <=  @@third_6  + fifth_span  &&
@@ -477,10 +472,10 @@ module TemperamentMath
       return unless third_set.uniq.length == octave_size
       return unless third_set_check third_set
       @@third_set_written = false
-      tailored = fifth_range_tailored_construct third_set
       fifth_set = ::Array.new octave_size
-      level = 0
+      tailored = fifth_range_tailored_construct third_set
       offset = fifth_range_tailored_offset_optimum tailored
+      level = 0
       fifth_sets_build_part level, offset, third_set, tailored, fifth_set
       nil
     end
