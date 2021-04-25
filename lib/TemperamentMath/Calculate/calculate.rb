@@ -137,7 +137,7 @@ module TemperamentMath
       out_third_minor.flush
       out_fifth.puts "#{@@fifth_sets_length} #{fifth_set}"
       out_fifth.flush
-      out_combined.puts "#{fifth_set}   #{third_set}"
+      out_combined.puts "#{fifth_max}   #{fifth_min}   #{fifth_set}   #{third_set}"
       out_combined.flush
       @@solution_found = true
       nil
