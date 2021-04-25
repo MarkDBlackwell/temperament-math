@@ -22,7 +22,7 @@
 
 set -e
 for positive in $(seq $1 $2); do
-  start=`ruby -e "p (2.421 * $positive).ceil"`
-  end=`  ruby -e "p (2.417 * $positive).floor"`
+  start=`ruby -e "p (2.425 * $positive).ceil"`
+  end=`  ruby -e "p (2.418 * $positive).floor"`
   echo $positive : -$start through -$end
 done
