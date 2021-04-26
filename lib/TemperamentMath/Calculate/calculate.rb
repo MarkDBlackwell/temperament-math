@@ -83,7 +83,7 @@ module TemperamentMath
     end
 
     def fifth_range_double
-      @@fifth_range_double ||= ::Range.new(- fifth_span, fifth_span)
+      @@fifth_range_double ||= ::Range.new(fifth_min - fifth_max, fifth_max - fifth_min)
     end
 
     def fifth_range_tailored_construct(third_set)
@@ -182,10 +182,6 @@ module TemperamentMath
         end
       end
       nil
-    end
-
-    def fifth_span
-      @@fifth_span ||= fifth_max - fifth_min
     end
 
     def fifths_are_a_multiple?(fifth_set)
@@ -417,21 +413,21 @@ module TemperamentMath
     def third_set_check_5_6
       true &&
           @@third_2  >= [
-              @@third_1 - fifth_span,
+              @@third_1 + fifth_min - fifth_max,
               2 * @@third_6 - @@third_3,
               ].max  &&
           @@third_7  >= [
-              4 * fifth_max - fifth_span - 5,
+              3 * fifth_max + fifth_min - 5,
               2 * @@third_2 - @@third_6,
               ].max  &&
-          @@third_1  >=  4 * fifth_max - fifth_span - 4  &&
+          @@third_1  >=  3 * fifth_max + fifth_min - 4  &&
 
           @@third_1  <= [
-              @@third_2 + fifth_span,
+              @@third_2 + fifth_max - fifth_min,
               4 * fifth_max - 6,
               ].min  &&
-          @@third_2  <=  @@third_3  + fifth_span  &&
-          @@third_7  <=  @@third_6  + fifth_span  &&
+          @@third_2  <=  @@third_3  + fifth_max - fifth_min  &&
+          @@third_7  <=  @@third_6  + fifth_max - fifth_min  &&
           third_set_check_5_part  &&
           third_set_check_6_part
     end
@@ -589,7 +585,7 @@ module TemperamentMath
     def valid_level_2?
       true &&
           @@third_5 <= [
-              - 8 * fifth_max + fifth_span + 9,
+              - 7 * fifth_max - fifth_min + 9,
               third_5_max,
               valid_level_2_third_5_max,
               ].min
@@ -604,7 +600,7 @@ module TemperamentMath
     def valid_level_3_6?
       true &&
           @@third_3 <= [
-              - 8 * fifth_max + fifth_span + 9,
+              - 7 * fifth_max - fifth_min + 9,
               (4 * fifth_max + 1) / -2,
               valid_level_3_third_3_max,
               ].min
@@ -619,8 +615,8 @@ module TemperamentMath
     def valid_level_4_5?
       true &&
           @@third_6 <= [
-              @@third_5 + fifth_span - 2,
-              - @@third_3 - 4 * fifth_max + fifth_span + 1,
+              @@third_5 + fifth_max - fifth_min - 2,
+              - @@third_3 - 3 * fifth_max - fifth_min + 1,
               - 2 * fifth_max,
               valid_level_4_third_6_max,
               ].min
