@@ -357,31 +357,19 @@ module TemperamentMath
 
     def third_build_1
 # Level 6 from 2 and 1:
-      @@third_1 = 2 - (@@third_5 + @@third_10)
+      @@third_1 = - @@third_5 - third_max + 3
       nil
     end
 
     def third_build_2
 # Level 5 from 4 and 1:
-      @@third_2 = - (@@third_6 + @@third_10)
-      nil
-    end
-
-    def third_build_4
-# Level 1 from 1:
-      @@third_4 = 7 - @@third_10 * 2
+      @@third_2 = - @@third_6 - third_max + 1
       nil
     end
 
     def third_build_7
 # Level 6 from 3 and 1:
-      @@third_7 = 1 - (@@third_3 + @@third_10)
-      nil
-    end
-
-    def third_build_largest(high)
-      array = 5.times.map {|i| high - i}
-      @@third_10, @@third_11, @@third_9, @@third_12, @@third_8 = array
+      @@third_7 = - @@third_3 - third_max + 2
       nil
     end
 
@@ -441,14 +429,14 @@ module TemperamentMath
               2 * @@third_6 - @@third_3,
               ].max  &&
           @@third_7  >= [
-              @@third_10 - 4 - fifth_span,
+              third_max - fifth_span - 5,
               2 * @@third_2 - @@third_6,
               ].max  &&
-          @@third_1  >=  @@third_10 - 3 - fifth_span  &&
+          @@third_1  >=  third_max - fifth_span - 4  &&
 
           @@third_1  <= [
               @@third_2 + fifth_span,
-              @@third_10 - 5,
+              third_max - 6,
               ].min  &&
           @@third_2  <=  @@third_3  + fifth_span  &&
           @@third_7  <=  @@third_6  + fifth_span  &&
@@ -458,13 +446,13 @@ module TemperamentMath
 
     def third_set_check_5_part
       difference_bottom = @@third_2  - @@third_6
-      difference_obligated = 2 * difference_bottom + 5
-      @@third_2 <= @@third_10 - difference_obligated
+      difference_obligated = 2 * difference_bottom + 6
+      @@third_2 <= third_max - difference_obligated
     end
 
     def third_set_check_6_part
       difference_bottom = @@third_7  - @@third_2
-      difference_top    = @@third_10 - @@third_1 - 4
+      difference_top    = - @@third_1 + third_max - 5
       difference_obligated = [difference_bottom, difference_top].max
       @@third_1 >= @@third_7 + difference_obligated
     end
@@ -472,9 +460,9 @@ module TemperamentMath
     def third_set_check_fifth_sets_build
       return unless third_set_check_5_6
       third_set = [
-          @@third_1,  @@third_2,  @@third_3,  @@third_4,
-          @@third_5,  @@third_6,  @@third_7,  @@third_8,
-          @@third_9,  @@third_10, @@third_11, @@third_12,
+          @@third_1,  @@third_2,  @@third_3, - 2 * third_max + 9,
+          @@third_5,  @@third_6,  @@third_7, third_max - 5,
+          third_max - 3,  third_max - 1, third_max - 2, third_max - 4,
           ]
       return unless slope_good? third_set, thirds_half_top, thirds_half_bottom
       return unless third_set.uniq.length == octave_size
@@ -504,15 +492,8 @@ module TemperamentMath
 #   n4 < n5 < n3 < n6 < n2 < n7 < n1 < n8 < n12 < n9 < n11 < n10
 #   E    B    A    F#   D    C#   G    G#   C     D#   F     A#
 #
-      third_sets_build_level_1
-      output_raw_delete
-      nil
-    end
-
-    def third_sets_build_level_1
-      third_build_largest third_max - 1
-      third_build_4
       third_sets_build_level_2
+      output_raw_delete
       nil
     end
 
@@ -522,7 +503,7 @@ module TemperamentMath
         case state
         when :initial
           state = :small
-          start_bottom = @@third_4 + 1
+          start_bottom = -2 * third_max + 10
           @@third_5 = start_bottom
           break unless valid_level_2?
         when :small
@@ -540,7 +521,7 @@ module TemperamentMath
         case state
         when :initial
           state = :small
-          start_bottom = 2 * @@third_5  - @@third_4
+          start_bottom = 2 * @@third_5 + 2 * third_max - 9
           @@third_3 = start_bottom
           third_build_7
           third_build_1
@@ -615,47 +596,47 @@ module TemperamentMath
     def valid_level_2?
       true &&
           @@third_5 <= [
-              @@third_4 + fifth_span,
+              - 2 * third_max + fifth_span + 9,
               third_5_max,
               valid_level_2_third_5_max,
               ].min
     end
 
     def valid_level_2_third_5_max
-      difference_bottom = @@third_5  - @@third_4
-      difference_obligated = 5 + difference_bottom * 5
-      @@third_10 - difference_obligated
+      difference_bottom = @@third_5 + 2 * third_max - 9
+      difference_obligated = 5 * difference_bottom + 6
+      third_max - difference_obligated
     end
 
     def valid_level_3_6?
       true &&
           @@third_3 <= [
-              @@third_4 + fifth_span,
-              - @@third_10 / 2 - 1,
+              - 2 * third_max + fifth_span + 9,
+              (third_max + 1) / -2,
               valid_level_3_third_3_max,
               ].min
     end
 
     def valid_level_3_third_3_max
       difference_bottom = @@third_3  - @@third_5
-      difference_obligated = 5 + difference_bottom * 4
-      @@third_10 - difference_obligated
+      difference_obligated = 4 * difference_bottom + 6
+      third_max - difference_obligated
     end
 
     def valid_level_4_5?
       true &&
           @@third_6 <= [
               @@third_5 + fifth_span - 2,
-              - @@third_10 - @@third_3 + fifth_span,
-              (-1 - @@third_10) / 2,
+              - @@third_3 - third_max + fifth_span + 1,
+              - third_max / 2,
               valid_level_4_third_6_max,
               ].min
     end
 
     def valid_level_4_third_6_max
       difference_bottom = @@third_6 - @@third_3
-      difference_obligated = 5 + difference_bottom * 3
-      @@third_10 - difference_obligated
+      difference_obligated = 3 * difference_bottom + 6
+      third_max - difference_obligated
     end
   end
 end
