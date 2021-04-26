@@ -347,26 +347,26 @@ module TemperamentMath
       end
     end
 
-    def third_5_max
-      @@third_5_max ||= (fifth_min * 2.4).round
-    end
-
-    def third_build_1
-# Level 6 from 2 and 1:
+    def third_build_1_from_5
+# Level 6 from 2:
       @@third_1 = - @@third_5 - 4 * fifth_max + 3
       nil
     end
 
-    def third_build_2
-# Level 5 from 4 and 1:
+    def third_build_2_from_6
+# Level 5 from 4:
       @@third_2 = - @@third_6 - 4 * fifth_max + 1
       nil
     end
 
-    def third_build_7
-# Level 6 from 3 and 1:
+    def third_build_7_from_3
+# Level 6 from 3:
       @@third_7 = - @@third_3 - 4 * fifth_max + 2
       nil
+    end
+
+    def third_cap_5
+      @@third_cap_5 ||= (fifth_min * 2.4).round
     end
 
     def third_major_enum
@@ -375,6 +375,25 @@ module TemperamentMath
 
     def third_major_size
       4
+    end
+
+    def third_max_1
+      @@third_max_1 ||= 3 * fifth_max + fifth_min - 4
+    end
+
+    def third_max_3
+      @@third_max_3 ||= [
+          - 7 * fifth_max - fifth_min + 9,
+          - (4 * fifth_max + 1) / 2,
+          ].min
+    end
+
+    def third_max_5
+      @@third_max_5 ||= [
+          - 7 * fifth_max - fifth_min + 9,
+          - 6 * fifth_max + 6,
+          third_cap_5,
+          ].min
     end
 
     def third_minor_enum
@@ -412,32 +431,27 @@ module TemperamentMath
 
     def third_set_check_5_6
       true &&
-          @@third_2  >= [
-              @@third_1 + fifth_min - fifth_max,
-              2 * @@third_6 - @@third_3,
-              ].max  &&
-          @@third_7  >= [
-              3 * fifth_max + fifth_min - 5,
+          @@third_2 >= 2 * @@third_6 - @@third_3  &&
+          @@third_7 >= [
               2 * @@third_2 - @@third_6,
+              3 * fifth_max + fifth_min - 5,
               ].max  &&
-          @@third_1  >=  3 * fifth_max + fifth_min - 4  &&
+          @@third_1 >= third_max_1  &&
 
-          @@third_1  <= [
+          @@third_2 <= [
+              @@third_3 + fifth_max - fifth_min,
+              (2 * @@third_6 + 4 * fifth_max) / 3 - 2,
+              ].min  &&
+          @@third_7 <= @@third_6 + fifth_max - fifth_min  &&
+          @@third_1 <= [
               @@third_2 + fifth_max - fifth_min,
               4 * fifth_max - 6,
               ].min  &&
-          @@third_2  <=  @@third_3  + fifth_max - fifth_min  &&
-          @@third_7  <=  @@third_6  + fifth_max - fifth_min  &&
-          third_set_check_5_part  &&
           third_set_check_6_part
     end
 
-    def third_set_check_5_part
-      @@third_2 <= 2 * (@@third_6  - @@third_2) + 4 * fifth_max - 6
-    end
-
     def third_set_check_6_part
-      difference_bottom = @@third_7  - @@third_2
+      difference_bottom = @@third_7 - @@third_2
       difference_top    = - @@third_1 + 4 * fifth_max - 5
       difference_obligated = [difference_bottom, difference_top].max
       @@third_1 >= @@third_7 + difference_obligated
@@ -490,11 +504,12 @@ module TemperamentMath
         case state
         when :initial
           state = :small
-          start_bottom = - 8 * fifth_max + 10
-          @@third_5 = start_bottom
+          @@third_5 = - 8 * fifth_max + 10
+          third_build_1_from_5
           break unless valid_level_2?
         when :small
           @@third_5 += 1
+          third_build_1_from_5
           break unless valid_level_2?
         end
         third_sets_build_level_3_6
@@ -508,14 +523,12 @@ module TemperamentMath
         case state
         when :initial
           state = :small
-          start_bottom = 2 * @@third_5 + 8 * fifth_max - 9
-          @@third_3 = start_bottom
-          third_build_7
-          third_build_1
+          @@third_3 = 2 * @@third_5 + 8 * fifth_max - 9
+          third_build_7_from_3
           break unless valid_level_3_6?
         when :small
           @@third_3 += 1
-          third_build_7
+          third_build_7_from_3
           break unless valid_level_3_6?
         end
         third_sets_build_level_4_5
@@ -529,14 +542,13 @@ module TemperamentMath
         case state
         when :initial
           state = :small
-          start_bottom = 2 * @@third_3 - @@third_5
-          @@third_6 = start_bottom
-          third_build_2
+          @@third_6 = 2 * @@third_3 - @@third_5
+          third_build_2_from_6
 # Levels 5 and 6 go in and out of validity.
           break unless valid_level_4_5?
         when :small
           @@third_6 += 1
-          third_build_2
+          third_build_2_from_6
           break unless valid_level_4_5?
         end
         third_set_check_fifth_sets_build
@@ -581,43 +593,23 @@ module TemperamentMath
     end
 
     def valid_level_2?
-      true &&
-          @@third_5 <= [
-              - 7 * fifth_max - fifth_min + 9,
-              third_5_max,
-              valid_level_2_third_5_max,
-              ].min
-    end
-
-    def valid_level_2_third_5_max
-      - 5 * @@third_5 - 36 * fifth_max + 39
+      @@third_5 <= third_max_5
     end
 
     def valid_level_3_6?
-      true &&
-          @@third_3 <= [
-              - 7 * fifth_max - fifth_min + 9,
-              (4 * fifth_max + 1) / -2,
-              valid_level_3_third_3_max,
-              ].min
-    end
-
-    def valid_level_3_third_3_max
-      4 * (@@third_5 - @@third_3) + 4 * fifth_max - 6
+      @@third_3 <= [
+          (@@third_5 + fifth_max + 1) * 4 / 5 - 2,
+          third_max_3,
+          ].min
     end
 
     def valid_level_4_5?
-      true &&
-          @@third_6 <= [
-              @@third_5 + fifth_max - fifth_min - 2,
-              - @@third_3 - 3 * fifth_max - fifth_min + 1,
-              - 2 * fifth_max,
-              valid_level_4_third_6_max,
-              ].min
-    end
-
-    def valid_level_4_third_6_max
-      3 * (@@third_3 - @@third_6) + 4 * fifth_max - 6
+      @@third_6 <= [
+          @@third_5 + fifth_max - fifth_min - 2,
+          - @@third_3 - 3 * fifth_max - fifth_min + 1,
+          (3 * @@third_3 + 2) / 4 + fifth_max - 2,
+          - 2 * fifth_max,
+          ].min
     end
   end
 end
