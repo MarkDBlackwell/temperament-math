@@ -433,9 +433,7 @@ module TemperamentMath
     end
 
     def third_set_check_5_part
-      difference_bottom = @@third_2  - @@third_6
-      difference_obligated = 2 * difference_bottom - 4 * fifth_max + 6
-      @@third_2 <= - difference_obligated
+      @@third_2 <= 2 * (@@third_6  - @@third_2) + 4 * fifth_max - 6
     end
 
     def third_set_check_6_part
@@ -592,9 +590,7 @@ module TemperamentMath
     end
 
     def valid_level_2_third_5_max
-      difference_bottom = @@third_5 + 8 * fifth_max - 9
-      difference_obligated = 5 * difference_bottom - 4 * fifth_max + 6
-      - difference_obligated
+      - 5 * @@third_5 - 36 * fifth_max + 39
     end
 
     def valid_level_3_6?
@@ -607,9 +603,7 @@ module TemperamentMath
     end
 
     def valid_level_3_third_3_max
-      difference_bottom = @@third_3  - @@third_5
-      difference_obligated = 4 * difference_bottom - 4 * fifth_max + 6
-      - difference_obligated
+      4 * (@@third_5 - @@third_3) + 4 * fifth_max - 6
     end
 
     def valid_level_4_5?
@@ -623,9 +617,7 @@ module TemperamentMath
     end
 
     def valid_level_4_third_6_max
-      difference_bottom = @@third_6 - @@third_3
-      difference_obligated = 3 * difference_bottom - 4 * fifth_max + 6
-      - difference_obligated
+      3 * (@@third_3 - @@third_6) + 4 * fifth_max - 6
     end
   end
 end
