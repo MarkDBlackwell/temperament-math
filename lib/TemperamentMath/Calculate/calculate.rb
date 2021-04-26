@@ -381,14 +381,6 @@ module TemperamentMath
       4
     end
 
-    def third_max
-      @@third_max ||= third_major_size * fifth_max
-    end
-
-    def third_min
-      @@third_min ||= third_major_size * fifth_min
-    end
-
     def third_minor_enum
       @@third_minor_enum ||= third_minor_size.times
     end
@@ -559,7 +551,7 @@ module TemperamentMath
     end
 
     def third_span
-      @@third_span ||= 4 * fifth_max - third_min
+      @@third_span ||= third_major_size * (fifth_max - fifth_min)
     end
 
     def thirds_half_bottom
