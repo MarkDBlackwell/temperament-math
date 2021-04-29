@@ -56,6 +56,14 @@ module TemperamentMath
       @@directory_output ||= "#{project_root}/out"
     end
 
+    def fifth_build_5_12
+      @@fifth_build_5_12 ||= begin
+        @@fifth_5, @@fifth_6, @@fifth_7, @@fifth_8, @@fifth_9, @@fifth_10, @@fifth_11, @@fifth_12 =
+            [2, 2, 1, 0, 0, 0, 2, 2].map {|e| fifth_max - e}
+        'guard'
+      end
+    end
+
     def fifth_extremes
       @@fifth_extremes ||= [fifth_min, fifth_max]
     end
@@ -144,7 +152,6 @@ module TemperamentMath
     end
 
     def fifth_sets_build(third_set)
-      @@third_set_written = false
       fifth_set = ::Array.new octave_size
       tailored = fifth_range_tailored_construct third_set
       offset = fifth_range_tailored_offset_optimum tailored
@@ -182,6 +189,10 @@ module TemperamentMath
         end
       end
       nil
+    end
+
+    def fifth_sum_5_12
+      @@fifth_sum_5_12 ||= [@@fifth_5, @@fifth_6, @@fifth_7, @@fifth_8, @@fifth_9, @@fifth_10, @@fifth_11, @@fifth_12].sum
     end
 
     def fifths_are_a_multiple?(fifth_set)
@@ -364,24 +375,22 @@ module TemperamentMath
     def third_build_1_from_5
 # Level 6 from 2:
       @@third_1 = - @@third_5 - 4 * fifth_max + 3
-#     @@fifth_1 = @@fifth_9 + @@third_1 - @@third_12
-      @@fifth_1 = @@fifth_9 + @@third_1 - 4 * fifth_max + 4
+      @@fifth_1 = @@third_1 + @@fifth_9 - 4 * fifth_max + 4
       nil
     end
 
     def third_build_2_from_6
 # Level 5 from 4:
       @@third_2 = - @@third_6 - 4 * fifth_max + 1
-      @@fifth_2 = @@fifth_10 + @@third_2  - @@third_1
-      @@fifth_3 = @@fifth_7  + @@third_6  - @@third_7
+      @@fifth_2 = @@third_2 - @@third_1 + @@fifth_10
+      @@fifth_3 = @@third_6 - @@third_7 + @@fifth_7
       nil
     end
 
     def third_build_7_from_3
 # Level 6 from 3:
       @@third_7 = - @@third_3 - 4 * fifth_max + 2
-#     @@fifth_4 = @@fifth_12 + @@third_4 - @@third_3
-      @@fifth_4 = @@fifth_12 - 8 * fifth_max - @@third_3 + 9
+      @@fifth_4 = - @@third_3 + @@fifth_12 - 8 * fifth_max + 9
       nil
     end
 
@@ -451,6 +460,7 @@ module TemperamentMath
 
     def third_set_check_5_6
       true &&
+          [@@fifth_1, @@fifth_2, @@fifth_3, @@fifth_4, fifth_sum_5_12].sum.zero?  &&
           @@third_2 >= 2 * @@third_6 - @@third_3  &&
           @@third_7 >= [
               2 * @@third_2 - @@third_6,
@@ -488,6 +498,7 @@ module TemperamentMath
       return unless slope_good? third_set, thirds_half_top, thirds_half_bottom
       return unless third_set.uniq.length == octave_size
       return unless third_set_check third_set
+      @@third_set_written = false
       fifth_sets_build third_set
       nil
     end
@@ -513,8 +524,7 @@ module TemperamentMath
 #   n4 < n5 < n3 < n6 < n2 < n7 < n1 < n8 < n12 < n9 < n11 < n10
 #   E    B    A    F#   D    C#   G    G#   C     D#   F     A#
 #
-      @@fifth_5, @@fifth_6, @@fifth_7, @@fifth_8, @@fifth_9, @@fifth_10, @@fifth_11, @@fifth_12 =
-          [2, 2, 1, 0, 0, 0, 2, 2].map {|e| fifth_max - e}
+      fifth_build_5_12
       third_sets_build_level_2
       output_raw_delete
       nil
