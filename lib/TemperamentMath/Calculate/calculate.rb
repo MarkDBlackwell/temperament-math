@@ -94,24 +94,6 @@ module TemperamentMath
       @@fifth_range_double ||= ::Range.new(fifth_min - fifth_max, fifth_max - fifth_min)
     end
 
-    def fifth_range_tailored_construct(third_set)
-      fifth_range_tailored_structure_indexes.map do |structure|
-        a, b, c, d = third_set.values_at(*structure)
-        smallest = [0, a - b, c - d].max + fifth_min
-        largest  = [0, a - b, c - d].min + fifth_max
-        ::Range.new smallest, largest
-      end
-    end
-
-    def fifth_range_tailored_offset_optimum(tailored)
-      triplet = 3
-      extra_length = triplet.pred
-      sizes = tailored.map &:size
-      padded = sizes + (sizes.take extra_length)
-      indexed = padded.each_cons(triplet).each_with_index.map &:push
-      indexed.sort.first.last
-    end
-
     def fifth_range_tailored_structure
       @@fifth_range_tailored_structure ||= [4, 5, 1, 12].map &:pred
     end
@@ -151,46 +133,6 @@ module TemperamentMath
       nil
     end
 
-    def fifth_sets_build(third_set)
-      fifth_set = ::Array.new octave_size
-      tailored = fifth_range_tailored_construct third_set
-      offset = fifth_range_tailored_offset_optimum tailored
-      level = 0
-      fifth_sets_build_part level, offset, third_set, tailored, fifth_set
-      nil
-    end
-
-    def fifth_sets_build_calculate(offset, third_set, tailored, fifth_set)
-      i, j, k = transpose ring, offset + 3
-# Calculate three fifths:
-      fifth_set[i] = third_set.at(i) - get_in_circle(fifth_set, i - 1) - get_in_circle(fifth_set, i - 2) - get_in_circle(fifth_set, i - 3)
-      fifth_set[j] = third_set.at(j) - get_in_circle(third_set, j - 1) + fifth_set.at(i)
-      fifth_set[k] = third_set.at(k) - get_in_circle(third_set, k - 1) + fifth_set.at(j)
-      [i, j, k].all? {|m| tailored.at(m).include? fifth_set.at m}
-    end
-
-    def fifth_sets_build_part(level, offset, third_set, tailored, fifth_set)
-      i, j, k = transpose ring, offset + level
-# Pick a fifth; calculate two other fifths:
-      tailored.at(i).each do |fifth|
-        fifth_set[i] = fifth
-        fifth_set[j] = third_set.at(j) - get_in_circle(third_set, j - 1) + fifth_set.at(i)
-        fifth_set[k] = third_set.at(k) - get_in_circle(third_set, k - 1) + fifth_set.at(j)
-        next unless [j, k].all? {|m| tailored.at(m).include? fifth_set.at m}
-        case level
-        when 0, 1
-          fifth_sets_build_part level + 1, offset, third_set, tailored, fifth_set
-        when 2
-          next unless fifth_sets_build_calculate offset, third_set, tailored, fifth_set
-          next unless fifths_make_thirds? fifth_set, third_set
-          fifth_set_save third_set, fifth_set
-        else
-          ::Kernel.fail
-        end
-      end
-      nil
-    end
-
     def fifth_sum_5_12
       @@fifth_sum_5_12 ||= [@@fifth_5, @@fifth_6, @@fifth_7, @@fifth_8, @@fifth_9, @@fifth_10, @@fifth_11, @@fifth_12].sum
     end
@@ -222,10 +164,6 @@ module TemperamentMath
           (highest - i) % octave_size
         end
       end
-    end
-
-    def get_in_circle(array, index)
-      array.at(index % octave_size)
     end
 
     def octave_enum
@@ -318,10 +256,6 @@ module TemperamentMath
       out.puts '* And corresponding tuning sets, indicating the positions of'
       out.puts '      C# D D# E F F# G G# A A# B C'
       nil
-    end
-
-    def ring
-      @@ring ||= [0, 4, 8]
     end
 
     def run_calculate
@@ -499,7 +433,13 @@ module TemperamentMath
       return unless third_set.uniq.length == octave_size
       return unless third_set_check third_set
       @@third_set_written = false
-      fifth_sets_build third_set
+      fifth_set = [
+          @@fifth_1,   @@fifth_2,   @@fifth_3,  @@fifth_4,
+          @@fifth_5,   @@fifth_6,   @@fifth_7,  @@fifth_8,
+          @@fifth_9,   @@fifth_10,  @@fifth_11, @@fifth_12,
+          ]
+      return unless fifths_make_thirds? fifth_set, third_set
+      fifth_set_save third_set, fifth_set
       nil
     end
 
@@ -616,12 +556,6 @@ module TemperamentMath
 
     def thirds_minor_half_top
       @@thirds_minor_half_top ||= [1, 12, 2, 11, 3, 10, 4].map &:pred
-    end
-
-    def transpose(indexes, offset)
-      indexes.map do |i|
-        (i + offset) % octave_size
-      end
     end
 
     def valid_level_2?
