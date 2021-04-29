@@ -347,21 +347,41 @@ module TemperamentMath
       end
     end
 
+# Fixed: f5 through f12; n8 through n12; and n4.
+# U=unused; H=have
+#   H   @@fifth_1  - @@fifth_9  == @@third_1  - @@third_12
+#   H   @@fifth_2  - @@fifth_10 == @@third_2  - @@third_1
+# U     @@fifth_3  - @@fifth_11 == @@third_3  - @@third_2
+#   H   @@fifth_4  - @@fifth_12 == @@third_4  - @@third_3
+# U     @@fifth_5  - @@fifth_1  == @@third_5  - @@third_4
+# U     @@fifth_6  - @@fifth_2  == @@third_6  - @@third_5
+#   H   @@fifth_7  - @@fifth_3  == @@third_7  - @@third_6
+# U     @@fifth_8  - @@fifth_4  == @@third_8  - @@third_7
+# U     @@fifth_9  - @@fifth_5  == @@third_9  - @@third_8
+# U     @@fifth_10 - @@fifth_6  == @@third_10 - @@third_9
+# U     @@fifth_11 - @@fifth_7  == @@third_11 - @@third_10
+# U     @@fifth_12 - @@fifth_8  == @@third_12 - @@third_11
     def third_build_1_from_5
 # Level 6 from 2:
       @@third_1 = - @@third_5 - 4 * fifth_max + 3
+#     @@fifth_1 = @@fifth_9 + @@third_1 - @@third_12
+      @@fifth_1 = @@fifth_9 + @@third_1 - 4 * fifth_max + 4
       nil
     end
 
     def third_build_2_from_6
 # Level 5 from 4:
       @@third_2 = - @@third_6 - 4 * fifth_max + 1
+      @@fifth_2 = @@fifth_10 + @@third_2  - @@third_1
+      @@fifth_3 = @@fifth_7  + @@third_6  - @@third_7
       nil
     end
 
     def third_build_7_from_3
 # Level 6 from 3:
       @@third_7 = - @@third_3 - 4 * fifth_max + 2
+#     @@fifth_4 = @@fifth_12 + @@third_4 - @@third_3
+      @@fifth_4 = @@fifth_12 - 8 * fifth_max - @@third_3 + 9
       nil
     end
 
@@ -493,6 +513,8 @@ module TemperamentMath
 #   n4 < n5 < n3 < n6 < n2 < n7 < n1 < n8 < n12 < n9 < n11 < n10
 #   E    B    A    F#   D    C#   G    G#   C     D#   F     A#
 #
+      @@fifth_5, @@fifth_6, @@fifth_7, @@fifth_8, @@fifth_9, @@fifth_10, @@fifth_11, @@fifth_12 =
+          [2, 2, 1, 0, 0, 0, 2, 2].map {|e| fifth_max - e}
       third_sets_build_level_2
       output_raw_delete
       nil
