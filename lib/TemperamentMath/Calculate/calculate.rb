@@ -60,6 +60,7 @@ module TemperamentMath
       @@fifth_build_5_12 ||= begin
         @@fifth_5, @@fifth_6, @@fifth_7, @@fifth_8, @@fifth_9, @@fifth_10, @@fifth_11, @@fifth_12 =
             [2, 2, 1, 0, 0, 0, 2, 2].map {|e| fifth_max - e}
+#           [0, 0, 0, 0, 0, 0, 0, 0].map {|e| fifth_max - e}
         'guard'
       end
     end
@@ -308,14 +309,14 @@ module TemperamentMath
 # U     @@fifth_12 - @@fifth_8  == @@third_12 - @@third_11
     def third_build_1_from_5
 # Level 6 from 2:
-      @@third_1 = - @@third_5 - 4 * fifth_max + 3
-      @@fifth_1 = @@third_1 + @@fifth_9 - 4 * fifth_max + 4
+      @@third_1 = - @@third_5 - @@third_9
+      @@fifth_1 = @@third_1 + @@fifth_9 - @@third_12
       nil
     end
 
     def third_build_2_from_6
 # Level 5 from 4:
-      @@third_2 = - @@third_6 - 4 * fifth_max + 1
+      @@third_2 = - @@third_6 - @@third_10
       @@fifth_2 = @@third_2 - @@third_1 + @@fifth_10
       @@fifth_3 = @@third_6 - @@third_7 + @@fifth_7
       nil
@@ -323,8 +324,8 @@ module TemperamentMath
 
     def third_build_7_from_3
 # Level 6 from 3:
-      @@third_7 = - @@third_3 - 4 * fifth_max + 2
-      @@fifth_4 = - @@third_3 + @@fifth_12 - 8 * fifth_max + 9
+      @@third_7 = - @@third_3 - @@third_11
+      @@fifth_4 = @@third_4 - @@third_3 + @@fifth_12
       nil
     end
 
@@ -423,11 +424,10 @@ module TemperamentMath
 
     def third_set_check_fifth_sets_build
       return unless third_set_check_5_6
-      four = 4 * fifth_max
       third_set = [
-          @@third_1,  @@third_2,  @@third_3, - 8 * fifth_max + 9,
-          @@third_5,  @@third_6,  @@third_7, four - 5,
-          four - 3, four - 1, four - 2, four - 4,
+          @@third_1,  @@third_2,  @@third_3,  @@third_4,
+          @@third_5,  @@third_6,  @@third_7,  @@third_8,
+          @@third_9,  @@third_10, @@third_11, @@third_12,
           ]
       return unless slope_good? third_set, thirds_half_top, thirds_half_bottom
       return unless third_set.uniq.length == octave_size
@@ -464,6 +464,10 @@ module TemperamentMath
 #   n4 < n5 < n3 < n6 < n2 < n7 < n1 < n8 < n12 < n9 < n11 < n10
 #   E    B    A    F#   D    C#   G    G#   C     D#   F     A#
 #
+
+      @@third_10, @@third_11, @@third_9, @@third_12, @@third_8 = (1..5).to_a.map {|e| 4 * fifth_max - e}
+#     @@third_10, @@third_11, @@third_9, @@third_12, @@third_8 = 5.times.map {|e| 4 * fifth_max}
+      @@third_4 = - @@third_12 - @@third_8
       fifth_build_5_12
       third_sets_build_level_2
       output_raw_delete
