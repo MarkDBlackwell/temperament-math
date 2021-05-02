@@ -56,14 +56,14 @@ module TemperamentMath
       @@directory_output ||= "#{project_root}/out"
     end
 
-    def fifth_build_5_12
-      @@fifth_build_5_12 ||= begin
-        @@fifth_5, @@fifth_6, @@fifth_7, @@fifth_8, @@fifth_9, @@fifth_10, @@fifth_11, @@fifth_12 =
-            [2, 2, 1, 0, 0, 0, 2, 2].map {|e| fifth_max - e}
-#           [0, 0, 0, 0, 0, 0, 0, 0].map {|e| fifth_max - e}
-        'guard'
-      end
-    end
+#   def fifth_build_5_12
+#     @@fifth_build_5_12 ||= begin
+#       @@fifth_5, @@fifth_6, @@fifth_7, @@fifth_8, @@fifth_9, @@fifth_10, @@fifth_11, @@fifth_12 =
+#           [2, 2, 1, 0, 0, 0, 2, 2].map {|e| fifth_max - e}
+##          [0, 0, 0, 0, 0, 0, 0, 0].map {|e| fifth_max - e}
+#       'guard'
+#     end
+#   end
 
     def fifth_extremes
       @@fifth_extremes ||= [fifth_min, fifth_max]
@@ -116,6 +116,52 @@ module TemperamentMath
       end
     end
 
+    def fifth_set_build(third_set)
+      r = fifth_min..fifth_max
+      for f1 in r do
+        for f2 in r do
+          for f3 in r do
+            for f4 in r do
+              next unless f1 + f2 + f3 + f4 == third_set.at(4)
+              for f5 in r do
+                next unless f2 + f3 + f4 + f5 == third_set.at(5)
+                for f6 in r do
+                  next unless f3 + f4 + f5 + f6 == third_set.at(6)
+                  for f7 in r do
+                    next unless f4 + f5 + f6 + f7 == third_set.at(7)
+                    for f8 in r do
+                      next unless f5 + f6 + f7 + f8 == third_set.at(8)
+                      for f9 in r do
+                        next unless f6 + f7 + f8 + f9 == third_set.at(9)
+                        for f10 in r do
+                          next unless f7 + f8 + f9 + f10 == third_set.at(10)
+                          for f11 in r do
+                            next unless f8 + f9 + f10 + f11 == third_set.at(11)
+                            for f12 in r do
+                              next unless f9 + f10 + f11 + f12 == third_set.at(12)
+                              next unless f10 + f11 + f12 + f1 == third_set.at(1)
+                              next unless f11 + f12 + f1 + f2 == third_set.at(2)
+                              next unless f12 + f1 + f2 + f3 == third_set.at(3)
+                              a = [f1, f2, f3, f4, f5, f6, f7, f8, f9, f10, f11, f12]
+                              next unless a.sum.zero?
+                              next unless fifths_justified? a
+                              next if fifths_are_a_multiple? a
+                              return a
+                            end
+                          end
+                        end
+                      end
+                    end
+                  end
+                end
+              end
+            end
+          end
+        end
+      end
+      nil
+    end
+
     def fifth_set_save(third_set, fifth_set)
       return unless fifths_justified? fifth_set
       return if fifths_are_a_multiple? fifth_set
@@ -135,7 +181,8 @@ module TemperamentMath
     end
 
     def fifth_sum_5_12
-      @@fifth_sum_5_12 ||= [@@fifth_5, @@fifth_6, @@fifth_7, @@fifth_8, @@fifth_9, @@fifth_10, @@fifth_11, @@fifth_12].sum
+#     @@fifth_sum_5_12 ||= [@@fifth_5, @@fifth_6, @@fifth_7, @@fifth_8, @@fifth_9, @@fifth_10, @@fifth_11, @@fifth_12].sum
+      [@@fifth_5, @@fifth_6, @@fifth_7, @@fifth_8, @@fifth_9, @@fifth_10, @@fifth_11, @@fifth_12].sum
     end
 
     def fifths_are_a_multiple?(fifth_set)
@@ -310,22 +357,22 @@ module TemperamentMath
     def third_build_1_from_5
 # Level 6 from 2:
       @@third_1 = - @@third_5 - @@third_9
-      @@fifth_1 = @@third_1 + @@fifth_9 - @@third_12
+#     @@fifth_1 = @@third_1 + @@fifth_9 - @@third_12
       nil
     end
 
     def third_build_2_from_6
 # Level 5 from 4:
       @@third_2 = - @@third_6 - @@third_10
-      @@fifth_2 = @@third_2 - @@third_1 + @@fifth_10
-      @@fifth_3 = @@third_6 - @@third_7 + @@fifth_7
+#     @@fifth_2 = @@third_2 - @@third_1 + @@fifth_10
+#     @@fifth_3 = @@third_6 - @@third_7 + @@fifth_7
       nil
     end
 
     def third_build_7_from_3
 # Level 6 from 3:
       @@third_7 = - @@third_3 - @@third_11
-      @@fifth_4 = @@third_4 - @@third_3 + @@fifth_12
+#     @@fifth_4 = @@third_4 - @@third_3 + @@fifth_12
       nil
     end
 
@@ -395,13 +442,12 @@ module TemperamentMath
 
     def third_set_check_5_6
       true &&
-          [@@fifth_1, @@fifth_2, @@fifth_3, @@fifth_4, fifth_sum_5_12].sum.zero?  &&
           @@third_2 >= 2 * @@third_6 - @@third_3  &&
           @@third_7 >= [
               2 * @@third_2 - @@third_6,
               3 * fifth_max + fifth_min - 5,
               ].max  &&
-          @@third_1 >= third_max_1  &&
+#         @@third_1 >= third_max_1  &&
 
           @@third_2 <= [
               @@third_3 + fifth_max - fifth_min,
@@ -432,13 +478,14 @@ module TemperamentMath
       return unless slope_good? third_set, thirds_half_top, thirds_half_bottom
       return unless third_set.uniq.length == octave_size
       return unless third_set_check third_set
+      fifth_set = fifth_set_build third_set
+      return unless fifth_set
+      @@fifth_1,      @@fifth_2,   @@fifth_3,  @@fifth_4,
+         @@fifth_5,   @@fifth_6,   @@fifth_7,  @@fifth_8,
+         @@fifth_9,   @@fifth_10,  @@fifth_11, @@fifth_12 = fifth_set
       @@third_set_written = false
-      fifth_set = [
-          @@fifth_1,   @@fifth_2,   @@fifth_3,  @@fifth_4,
-          @@fifth_5,   @@fifth_6,   @@fifth_7,  @@fifth_8,
-          @@fifth_9,   @@fifth_10,  @@fifth_11, @@fifth_12,
-          ]
       return unless fifths_make_thirds? fifth_set, third_set
+      return unless [@@fifth_1, @@fifth_2, @@fifth_3, @@fifth_4, fifth_sum_5_12].sum.zero?
       fifth_set_save third_set, fifth_set
       nil
     end
@@ -465,10 +512,12 @@ module TemperamentMath
 #   E    B    A    F#   D    C#   G    G#   C     D#   F     A#
 #
 
-      @@third_10, @@third_11, @@third_9, @@third_12, @@third_8 = (1..5).to_a.map {|e| 4 * fifth_max - e}
-#     @@third_10, @@third_11, @@third_9, @@third_12, @@third_8 = 5.times.map {|e| 4 * fifth_max}
+#     @@third_10, @@third_11, @@third_9, @@third_12, @@third_8 = (1..5).to_a.map {|e| 4 * fifth_max - e}
+#     @@third_10, @@third_11, @@third_9, @@third_12, @@third_8 = 5.times.map {4 * fifth_max - 3}
+      @@third_10, @@third_11, @@third_9, @@third_12, @@third_8 =
+          [1, 2, 3, 4, 5].map {|e| 4 * fifth_max - e}
       @@third_4 = - @@third_12 - @@third_8
-      fifth_build_5_12
+#     fifth_build_5_12
       third_sets_build_level_2
       output_raw_delete
       nil
@@ -480,7 +529,8 @@ module TemperamentMath
         case state
         when :initial
           state = :small
-          @@third_5 = - 8 * fifth_max + 10
+#         @@third_5 = - 8 * fifth_max + 10
+          @@third_5 = @@third_4 + 1
           third_build_1_from_5
           break unless valid_level_2?
         when :small
@@ -499,7 +549,8 @@ module TemperamentMath
         case state
         when :initial
           state = :small
-          @@third_3 = 2 * @@third_5 + 8 * fifth_max - 9
+#         @@third_3 = 2 * @@third_5 + 8 * fifth_max - 9
+          @@third_3 = @@third_5 + 1
           third_build_7_from_3
           break unless valid_level_3_6?
         when :small
@@ -518,7 +569,8 @@ module TemperamentMath
         case state
         when :initial
           state = :small
-          @@third_6 = 2 * @@third_3 - @@third_5
+#         @@third_6 = 2 * @@third_3 - @@third_5
+          @@third_6 = @@third_3 + 1
           third_build_2_from_6
 # Levels 5 and 6 go in and out of validity.
           break unless valid_level_4_5?
@@ -563,22 +615,25 @@ module TemperamentMath
     end
 
     def valid_level_2?
-      @@third_5 <= third_max_5
+#     @@third_5 <= third_max_5
+      @@third_5 <= @@third_11 - 6
     end
 
     def valid_level_3_6?
       @@third_3 <= [
-          (@@third_5 + fifth_max + 1) * 4 / 5 - 2,
-          third_max_3,
+#         (@@third_5 + fifth_max + 1) * 4 / 5 - 2,
+#         third_max_3,
+          @@third_9 - 5,
           ].min
     end
 
     def valid_level_4_5?
       @@third_6 <= [
-          @@third_5 + fifth_max - fifth_min - 2,
-          - @@third_3 - 3 * fifth_max - fifth_min + 1,
-          (3 * @@third_3 + 2) / 4 + fifth_max - 2,
-          - 2 * fifth_max,
+#         @@third_5 + fifth_max - fifth_min - 2,
+#         - @@third_3 - 3 * fifth_max - fifth_min + 1,
+#         (3 * @@third_3 + 2) / 4 + fifth_max - 2,
+#         - 2 * fifth_max,
+          @@third_12 - 4,
           ].min
     end
   end

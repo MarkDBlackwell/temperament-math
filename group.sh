@@ -22,8 +22,10 @@
 
 set -e
 positive=$1
-start=`ruby -e "p (2.425 * $positive).ceil"`
-end=`  ruby -e "p (2.418 * $positive).floor"`
+#start=`ruby -e "p (2.425 * $positive).ceil"`
+#end=`  ruby -e "p (2.418 * $positive).floor"`
+start=90
+end=30
 echo $positive: Running from -$start through -$end
 for second in $(seq $start -1 $end); do
   negative=-$second
