@@ -144,7 +144,7 @@ module TemperamentMath
       out_third_minor.flush
       out_fifth.puts "#{@@fifth_sets_length} #{fifth_set}"
       out_fifth.flush
-      out_combined.puts "#{fifth_set}   #{third_set}"
+      out_combined.puts "#{fifth_max}   #{fifth_min}   #{fifth_set}   #{third_set}"
       out_combined.flush
       nil
     end
@@ -398,6 +398,10 @@ module TemperamentMath
       @@third_10_min ||= (fifth_max * 2.9).round
     end
 
+    def third_11_min
+      @@third_11_min ||= (fifth_max * 2.7).round
+    end
+
     def third_4_max
       @@third_4_max ||= (fifth_min * 2.9).round
     end
@@ -407,22 +411,26 @@ module TemperamentMath
     end
 
     def third_build_1
-      @@third_1 = - (@@third_5 + @@third_9)
+# Level 6 from 3 (and 2):
+      @@third_1 = - @@third_9 - @@third_5
       nil
     end
 
     def third_build_2
-      @@third_2 = - (@@third_6 + @@third_10)
+# Level 5 from 4 (and 1):
+      @@third_2 = - @@third_6 - @@third_10
       nil
     end
 
     def third_build_7
-      @@third_7 = - (@@third_3 + @@third_11)
+# Level 6 from 3 (and 2):
+      @@third_7 = - @@third_3 - @@third_11
       nil
     end
 
     def third_build_8
-      @@third_8 = - (@@third_4 + @@third_12)
+# Level 5 from 4 (and 1):
+      @@third_8 = - @@third_12 - @@third_4
       nil
     end
 
@@ -621,7 +629,8 @@ module TemperamentMath
         when :initial
           state = :small
           @@third_5,  third_edge_small = @@third_4  + 1, @@third_4  + 1
-          @@third_11, third_edge_large = @@third_10 - 1, @@third_10 - 1
+#         @@third_11, third_edge_large = @@third_10 - 1, @@third_10 - 1
+          @@third_11, third_edge_large = @@third_10, @@third_10
           break unless valid_level_2?
         when :small
           @@third_5 += 1
@@ -662,7 +671,8 @@ module TemperamentMath
         when :initial
           state = :small
           start_bottom = 2 * @@third_5  - @@third_4
-          start_top    = 2 * @@third_11 - @@third_10
+#         start_top    = 2 * @@third_11 - @@third_10
+          start_top = @@third_11
           @@third_3, third_edge_small = start_bottom, start_bottom
           @@third_9, third_edge_large = start_top, start_top
           third_build_7
@@ -715,7 +725,8 @@ module TemperamentMath
         when :initial
           state = :small
           start_bottom = 2 * @@third_3 - @@third_5
-          start_top    = 2 * @@third_9 - @@third_11
+#         start_top    = 2 * @@third_9 - @@third_11
+          start_top = @@third_9
           @@third_6,  third_edge_small = start_bottom, start_bottom
           @@third_12, third_edge_large = start_top, start_top
           third_build_2
@@ -819,7 +830,11 @@ module TemperamentMath
 
     def valid_level_2?
       true &&
-          @@third_11 == @@third_10 - 1  &&
+#         @@third_11 == @@third_10 - 1  &&
+          @@third_11 >= [
+              @@third_10 - fifth_span,
+              third_11_min,
+              ].max  &&
           @@third_5 <= [
               @@third_4 + fifth_span,
               third_5_max,
@@ -837,7 +852,11 @@ module TemperamentMath
 
     def valid_level_3_6?
       true &&
-          @@third_9 == @@third_11 - 1  &&
+#         @@third_9 == @@third_11 - 1  &&
+          @@third_9 >= [
+              @@third_10 - fifth_span,
+              (3 - @@third_5) / 2,
+              ].max  &&
           @@third_3 <= [
               @@third_4 + fifth_span,
               (-3 - @@third_11) / 2,
@@ -855,8 +874,15 @@ module TemperamentMath
 
     def valid_level_4_5?
       true &&
-          @@third_12 == @@third_9 - 1  &&
-          @@third_8 == @@third_12 - 1  &&
+#         @@third_12 == @@third_9 - 1  &&
+#         @@third_8 == @@third_12 - 1  &&
+          @@third_12 >= [
+              @@third_11 - fifth_span,
+              - @@third_4 - @@third_9 - fifth_span,
+              - @@third_5 - @@third_9 - fifth_span,
+              @@third_11 + @@third_3 - @@third_4 - fifth_span,
+              (1 - @@third_4) / 2,
+              ].max  &&
           @@third_6 <= [
               @@third_5 + fifth_span,
               - @@third_11 - @@third_3 + fifth_span,
