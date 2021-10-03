@@ -37,15 +37,19 @@ module TemperamentMath
       end
     end
 
+    def eccentricity_fifth_c_g
+      @@eccentricity_fifth_c_g ||= fifth_c_g - 700
+    end
+
     def fifth_c_g
       @@fifth_c_g ||= ARGV.at(1).to_f
     end
 
     def fifth_set
       @@fifth_set ||= begin
-        three = (eccentricity_c_e - fifth_c_g) / 3
+        three = (eccentricity_c_e - eccentricity_fifth_c_g) / 3
         eight = - eccentricity_c_e / 8
-        [fifth_c_g] + [three] * 3 + [eight] * 8
+        [eccentricity_fifth_c_g] + [three] * 3 + [eight] * 8
       end
     end
 
