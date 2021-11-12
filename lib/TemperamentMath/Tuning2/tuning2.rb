@@ -25,10 +25,6 @@ module TemperamentMath
 
     extend self
 
-    def deciles
-      @@deciles ||= 11.times.to_a
-    end
-
     def eccentricity_c_e
       @@eccentricity_c_e ||= begin
         pure_major_third = 5 / 4.0
@@ -59,14 +55,9 @@ module TemperamentMath
         puts "Error: two arguments are required."
         return
       end
-      unless third_major_flavor_strength_step_valid?
-        puts
-        puts "Error: Invalid flavor strength '#{third_major_flavor_strength_step}'."
-        return
-      end
 
       rounded = tuning_set.map{|e| e.round 5}
-      puts "#{rounded} #{third_major_flavor_strength_step * 10}% #{fifth_c_g}"
+      puts "#{rounded} #{third_major_flavor_strength} #{fifth_c_g}"
       nil
     end
 
@@ -90,15 +81,7 @@ module TemperamentMath
     end
 
     def third_major_flavor_strength
-      @@third_major_flavor_strength ||= third_major_flavor_strength_step / 10.0
-    end
-
-    def third_major_flavor_strength_step
-      @@third_major_flavor_strength_step ||= ARGV.at(0).to_i
-    end
-
-    def third_major_flavor_strength_step_valid?
-      @@third_major_flavor_strength_step_valid ||= deciles.include? third_major_flavor_strength_step
+      @@third_major_flavor_strength ||= ARGV.at(0).to_f
     end
 
     def tuning_set
